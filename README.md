@@ -9,7 +9,7 @@ Colin Worf
 EM-Pro
 
 ### Project’s Purpose or Goal: (What will it do for users?)
-A full featured equipment management platform for multi-location Pro Audio companies, with inventory management, conflict notifications, event lifecycle tracking, and more. 
+A full featured equipment management platform for multi-location Pro Audio companies, with inventory management, conflict notifications, event lifecycle tracking, and more.
 
 ### List the absolute minimum features the project requires to meet this purpose or goal:
 - user can click a date on a calendar and fill out a pull sheet (event details and equipment needs)
@@ -32,7 +32,6 @@ A full featured equipment management platform for multi-location Pro Audio compa
 - crew hours and performance ratings can be managed
 
 ### What additional tools, frameworks, libraries, APIs, or other resources will these additional features require?
-
 None
 
 ### Is there anything else you’d like your instructor to know?
