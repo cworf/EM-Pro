@@ -27,9 +27,10 @@ A full featured equipment management platform for multi-location Pro Audio compa
 ### If you finish developing the minimum viable product (MVP) with time to spare, what will you work on next? Describe these features here: Be specific.
 - user can set to return the equipment to a different location (during the final return stage of the process)
 - user can note problems and fixes on specific pieces of equipment and view repair history of each item
-- user can track purchase dates and warantee status through serial numbers of all purchased equipment
+- user can track purchase dates and warrantee status through serial numbers of all purchased equipment
 - user can keep track of crew requirements (Prep Crew, Load Crew, Show Crew, Strike Crew, QC Crew)
 - crew hours and performance ratings can be managed
+- switch between light and dark theme for use in various environments (possibly auto detect the ambient light level and adjust theme automatically)
 
 ### What additional tools, frameworks, libraries, APIs, or other resources will these additional features require?
 None
