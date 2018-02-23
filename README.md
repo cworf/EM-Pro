@@ -23,6 +23,8 @@ A full featured equipment management platform for multi-location Pro Audio compa
 - React JavaScript framework
 - FireBase user authentication
 - FireStore NoSQL database
+- Material-UI
+- react-big-calendar (npm module)
 
 ### If you finish developing the minimum viable product (MVP) with time to spare, what will you work on next? Describe these features here: Be specific.
 - user can set to return the equipment to a different location (during the final return stage of the process)
@@ -31,8 +33,11 @@ A full featured equipment management platform for multi-location Pro Audio compa
 - user can keep track of crew requirements (Prep Crew, Load Crew, Show Crew, Strike Crew, QC Crew)
 - crew hours and performance ratings can be managed
 - switch between light and dark theme for use in various environments (possibly auto detect the ambient light level and adjust theme automatically)
+- Get total weight and volume of equipment list
 
 ### What additional tools, frameworks, libraries, APIs, or other resources will these additional features require?
 None
 
 ### Is there anything else you’d like your instructor to know?
+
+I need to confirm some questions about the structure of my app, specifically related to placing a switch area within a component that is already being routed to in App
