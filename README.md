@@ -44,4 +44,4 @@ I need to confirm some questions about the structure of my app, specifically rel
 
 ## Component Flow Chart
 
-![alt text](src\assets\images\MProFlow.jpg)
+![alt text](src/assets/images/MProFlow.jpg)
