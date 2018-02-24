@@ -41,3 +41,7 @@ None
 ### Is there anything else you’d like your instructor to know?
 
 I need to confirm some questions about the structure of my app, specifically related to placing a switch area within a component that is already being routed to in App
+
+## Component Flow Chart
+
+![alt text](src\assets\images\MPro Flow.jpg)
