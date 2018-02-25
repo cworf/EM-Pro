@@ -11,15 +11,15 @@ import Hidden from 'material-ui/Hidden';
 import Divider from 'material-ui/Divider';
 import MenuIcon from 'material-ui-icons/Menu';
 import { mailFolderListItems, otherMailFolderListItems } from './tileData';
+import { MuiThemeProvider, createMuiTheme } from 'material-ui/styles';
+import Calendar from './pages/Calendar';
 
 const drawerWidth = 240;
 
 const styles = theme => ({
   root: {
     width: '100%',
-    height: 430,
-    marginTop: theme.spacing.unit * 3,
-    zIndex: 1,
+    minHeight: '100vh',
     overflow: 'hidden',
   },
   appFrame: {
@@ -46,7 +46,7 @@ const styles = theme => ({
     [theme.breakpoints.up('md')]: {
       width: drawerWidth,
       position: 'relative',
-      height: '100%',
+      minHeight: '100vh',
     },
   },
   content: {
@@ -59,6 +59,24 @@ const styles = theme => ({
       height: 'calc(100% - 64px)',
       marginTop: 64,
     },
+  },
+});
+
+const darkTheme = createMuiTheme({
+  palette: {
+    type: 'dark',
+    primary: {
+      light: '#439889',
+      main: '#00695c',
+      dark: '#003d33',
+      contrastText: '#fff',
+    },
+    secondary: {
+      light: '#9fffe0',
+      main: '#69f0ae',
+      dark: '#2bbd7e',
+      contrastText: '#000',
+    }, // Switching the dark mode on is a single property value change.
   },
 });
 
@@ -85,55 +103,57 @@ class App extends React.Component {
     );
 
     return (
-      <div className={classes.root}>
-        <div className={classes.appFrame}>
-          <AppBar className={classes.appBar}>
-            <Toolbar>
-              <IconButton
-                color="inherit"
-                aria-label="open drawer"
-                onClick={this.handleDrawerToggle}
-                className={classes.navIconHide}
+      <MuiThemeProvider theme={darkTheme}>
+        <div className={classes.root}>
+          <div className={classes.appFrame}>
+            <AppBar className={classes.appBar}>
+              <Toolbar>
+                <IconButton
+                  color="inherit"
+                  aria-label="open drawer"
+                  onClick={this.handleDrawerToggle}
+                  className={classes.navIconHide}
+                >
+                  <MenuIcon />
+                </IconButton>
+                <Typography variant="title" color="inherit" noWrap>
+                  E.M. Pro
+                </Typography>
+              </Toolbar>
+            </AppBar>
+            <Hidden mdUp>
+              <Drawer
+                variant="temporary"
+                anchor={theme.direction === 'rtl' ? 'right' : 'left'}
+                open={this.state.mobileOpen}
+                classes={{
+                  paper: classes.drawerPaper,
+                }}
+                onClose={this.handleDrawerToggle}
+                ModalProps={{
+                  keepMounted: true, // Better open performance on mobile.
+                }}
               >
-                <MenuIcon />
-              </IconButton>
-              <Typography variant="title" color="inherit" noWrap>
-                Responsive drawer
-              </Typography>
-            </Toolbar>
-          </AppBar>
-          <Hidden mdUp>
-            <Drawer
-              variant="temporary"
-              anchor={theme.direction === 'rtl' ? 'right' : 'left'}
-              open={this.state.mobileOpen}
-              classes={{
-                paper: classes.drawerPaper,
-              }}
-              onClose={this.handleDrawerToggle}
-              ModalProps={{
-                keepMounted: true, // Better open performance on mobile.
-              }}
-            >
-              {drawer}
-            </Drawer>
-          </Hidden>
-          <Hidden smDown implementation="css">
-            <Drawer
-              variant="permanent"
-              open
-              classes={{
-                paper: classes.drawerPaper,
-              }}
-            >
-              {drawer}
-            </Drawer>
-          </Hidden>
-          <main className={classes.content}>
-            <Typography noWrap>{'You think water moves fast? You should see ice.'}</Typography>
-          </main>
+                {drawer}
+              </Drawer>
+            </Hidden>
+            <Hidden smDown implementation="css">
+              <Drawer
+                variant="permanent"
+                open
+                classes={{
+                  paper: classes.drawerPaper,
+                }}
+              >
+                {drawer}
+              </Drawer>
+            </Hidden>
+            <main className={classes.content}>
+              <Calendar />
+            </main>
+          </div>
         </div>
-      </div>
+      </MuiThemeProvider>
     );
   }
 }

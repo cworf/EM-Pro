@@ -9,7 +9,7 @@ BigCalendar.setLocalizer(BigCalendar.momentLocalizer(moment))
 function Calendar(props){
 
   return (
-    <div>
+    <div style={{height: '80vh'}}>
       <BigCalendar
         selectable
         events={events}
