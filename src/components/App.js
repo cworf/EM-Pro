@@ -10,9 +10,18 @@ import IconButton from 'material-ui/IconButton';
 import Hidden from 'material-ui/Hidden';
 import Divider from 'material-ui/Divider';
 import MenuIcon from 'material-ui-icons/Menu';
-import { mailFolderListItems, otherMailFolderListItems } from './tileData';
+import { mailFolderListItems, otherMailFolderListItems } from '../assets/data/menuData';
 import { MuiThemeProvider, createMuiTheme } from 'material-ui/styles';
+import Reboot from 'material-ui/Reboot';
+import { Switch, Route } from 'react-router-dom';
+
 import Calendar from './pages/Calendar';
+import Inventory from './pages/Inventory';
+import Events from './pages/Events';
+import Clients from './pages/Clients';
+import Venues from './pages/Venues';
+import Conflicts from './pages/Conflicts';
+
 
 const drawerWidth = 240;
 
@@ -21,6 +30,7 @@ const styles = theme => ({
     width: '100%',
     minHeight: '100vh',
     overflow: 'hidden',
+    background: '#283429',
   },
   appFrame: {
     position: 'relative',
@@ -65,6 +75,9 @@ const styles = theme => ({
 const darkTheme = createMuiTheme({
   palette: {
     type: 'dark',
+    background: {
+      default: '#212b22',
+    },
     primary: {
       light: '#439889',
       main: '#00695c',
@@ -76,7 +89,7 @@ const darkTheme = createMuiTheme({
       main: '#69f0ae',
       dark: '#2bbd7e',
       contrastText: '#000',
-    }, // Switching the dark mode on is a single property value change.
+    },
   },
 });
 
@@ -104,6 +117,7 @@ class App extends React.Component {
 
     return (
       <MuiThemeProvider theme={darkTheme}>
+        <Reboot />
         <div className={classes.root}>
           <div className={classes.appFrame}>
             <AppBar className={classes.appBar}>
@@ -131,7 +145,7 @@ class App extends React.Component {
                 }}
                 onClose={this.handleDrawerToggle}
                 ModalProps={{
-                  keepMounted: true, // Better open performance on mobile.
+                  keepMounted: true,
                 }}
               >
                 {drawer}
@@ -149,7 +163,14 @@ class App extends React.Component {
               </Drawer>
             </Hidden>
             <main className={classes.content}>
-              <Calendar />
+              <Switch>
+                <Route exact path='/' component={Calendar} />
+                <Route path='/inventory' component={Inventory} />
+                <Route path='/events' component={Events} />
+                <Route path='/clients' component={Clients} />
+                <Route path='/venues' component={Venues} />
+                <Route path='/conflicts' component={Conflicts} />
+              </Switch>
             </main>
           </div>
         </div>

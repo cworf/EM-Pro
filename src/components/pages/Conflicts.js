@@ -4,7 +4,7 @@ function Conflicts(props){
 
   return (
     <div>
-
+      <h1>Conflicts</h1>
     </div>
   );
 }
