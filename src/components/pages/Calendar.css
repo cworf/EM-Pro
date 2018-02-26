@@ -1,0 +1,31 @@
+.rbc-time-view, .rbc-month-view, .rbc-agenda-view {
+    background: #212b22;
+    border-color: #3c453d;
+}
+.rbc-day-bg + .rbc-day-bg, .rbc-month-row + .rbc-month-row, .rbc-month-view .rbc-header + .rbc-header, .rbc-month-view .rbc-header, .rbc-toolbar button, .rbc-time-content > * + * > *, .rbc-timeslot-group, .rbc-time-header > .rbc-row > * + *, .rbc-time-header > .rbc-row:first-child, .rbc-time-content, .rbc-day-slot .rbc-time-slot {
+    border-color: #3c453d;
+}
+.rbc-event {
+  background-color: #69f0ae;
+  color: #212b22;
+}
+.rbc-day-bg.rbc-off-range-bg {
+    background: #000;
+}
+.rbc-day-slot .rbc-event {
+  border-color: #0c100d
+}
+
+span.rbc-btn-group button {
+    background: #00695c;
+    color: #e0e0e0;
+}
+.rbc-today {
+    background-color: #ffffff3b;
+}
+.rbc-calendar {
+    color: #acbbae;
+}
+button.rbc-active {
+    color: #000!important;
+}

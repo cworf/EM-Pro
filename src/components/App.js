@@ -14,6 +14,7 @@ import { mailFolderListItems, otherMailFolderListItems } from '../assets/data/me
 import { MuiThemeProvider, createMuiTheme } from 'material-ui/styles';
 import Reboot from 'material-ui/Reboot';
 import { Switch, Route } from 'react-router-dom';
+import './App.css';
 
 import Calendar from './pages/Calendar';
 import Inventory from './pages/Inventory';
@@ -30,7 +31,7 @@ const styles = theme => ({
     width: '100%',
     minHeight: '100vh',
     overflow: 'hidden',
-    background: '#283429',
+    background: '#0c100d',
   },
   appFrame: {
     position: 'relative',
@@ -57,10 +58,11 @@ const styles = theme => ({
       width: drawerWidth,
       position: 'relative',
       minHeight: '100vh',
+      background: '#212b22'
     },
   },
   content: {
-    backgroundColor: theme.palette.background.default,
+    backgroundColor: darkTheme.palette.background.default,
     width: '100%',
     padding: theme.spacing.unit * 3,
     height: 'calc(100% - 56px)',
@@ -76,7 +78,7 @@ const darkTheme = createMuiTheme({
   palette: {
     type: 'dark',
     background: {
-      default: '#212b22',
+      default: '#0c100d',
     },
     primary: {
       light: '#439889',
