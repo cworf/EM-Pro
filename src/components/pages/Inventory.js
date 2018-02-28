@@ -5,7 +5,11 @@ import SwipeableViews from 'react-swipeable-views';
 import AppBar from 'material-ui/AppBar';
 import Tabs, { Tab } from 'material-ui/Tabs';
 import Typography from 'material-ui/Typography';
-import inventory from '../../assets/data/inventory';
+
+import {inventoryCategories} from '../../assets/data/taxonomies';
+
+import Category from '../ui/Category';
+
 
 function TabContainer({ children, dir }) {
   return (
@@ -52,11 +56,9 @@ class Inventory extends React.Component {
             textColor="primary"
             centered
           >
-            <Tab label="Audio" />
-            <Tab label="Cables" />
-            <Tab label="Lighting" />
-            <Tab label="Video" />
-            <Tab label="Backline" />
+          {Object.keys(inventoryCategories).map(function(key, i) {
+            return <Tab key={i} label={key} />
+          })}
           </Tabs>
         </AppBar>
         <SwipeableViews
@@ -64,11 +66,9 @@ class Inventory extends React.Component {
           index={this.state.value}
           onChangeIndex={this.handleChangeIndex}
         >
-          <TabContainer dir={theme.direction}>Item One</TabContainer>
-          <TabContainer dir={theme.direction}>Item Two</TabContainer>
-          <TabContainer dir={theme.direction}>Item Three</TabContainer>
-          <TabContainer dir={theme.direction}>Item Four</TabContainer>
-          <TabContainer dir={theme.direction}>Item Five</TabContainer>
+          {Object.keys(inventoryCategories).map(function(key, i) {
+            return <TabContainer key={i} dir={theme.direction}><Category category={key} types={inventoryCategories[key]} /></TabContainer>
+          })}
         </SwipeableViews>
       </div>
     );

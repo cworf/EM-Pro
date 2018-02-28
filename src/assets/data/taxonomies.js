@@ -7,14 +7,14 @@ export const inventoryCategories = {
     'Microphone'
   ],
   Cables : [
-    'Audio AC',
-    'Audio Signal',
-    'Speaker',
-    'Lighting AC',
-    'Lighting Signal',
-    'Video AC',
-    'Video Signal',
-    'Rigging',
+    'Audio AC Cables',
+    'Audio Signal Cables',
+    'Speaker Cables',
+    'Lighting AC Cables',
+    'Lighting Signal Cables',
+    'Video AC Cables',
+    'Video Signal Cables',
+    'Rigging Cables',
   ],
   Lighting : [
     'Dimmers',
