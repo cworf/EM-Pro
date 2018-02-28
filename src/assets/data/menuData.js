@@ -11,58 +11,49 @@ import { Link } from 'react-router-dom';
 
 export const mailFolderListItems = (
   <div>
-    <Link to='/' color='primary'>
-      <ListItem button>
+      <ListItem button  component={Link} to="/">
         <ListItemIcon>
           <CalendarIcon />
         </ListItemIcon>
         <ListItemText primary="Calendar" />
       </ListItem>
-    </Link>
-    <Link to='/inventory'>
-      <ListItem button>
+      <ListItem button  component={Link} to="/Inventory">
         <ListItemIcon>
           <EqualizerIcon />
         </ListItemIcon>
         <ListItemText primary="Inventory" />
       </ListItem>
-    </Link>
-    <Link to='/events'>
-      <ListItem button>
+      <ListItem button  component={Link} to="/Events">
         <ListItemIcon>
           <EventIcon />
         </ListItemIcon>
         <ListItemText primary="Events" />
       </ListItem>
-    </Link>
+
   </div>
 );
 
 export const otherMailFolderListItems = (
   <div>
-    <Link to='/venues'>
-      <ListItem button>
+
+      <ListItem button  component={Link} to="/Venues">
         <ListItemIcon>
           <MailIcon color="secondary" />
         </ListItemIcon>
         <ListItemText primary="Venues" />
       </ListItem>
-    </Link>
-    <Link to='/clients'>
-      <ListItem button>
+      <ListItem button  component={Link} to="/Clients">
         <ListItemIcon>
           <DeleteIcon />
         </ListItemIcon>
         <ListItemText primary="Clients" />
       </ListItem>
-    </Link>
-    <Link to='/conflicts'>
-      <ListItem button>
+      <ListItem button  component={Link} to="/Conflicts">
         <ListItemIcon>
           <ErrorIcon />
         </ListItemIcon>
         <ListItemText primary="Conflicts" />
       </ListItem>
-    </Link>
+
   </div>
 );
