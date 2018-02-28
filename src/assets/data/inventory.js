@@ -49,7 +49,7 @@ export const inventory = {
     series : 'VerTec',
     name : 'Crown Amp Rack',
     category : 'Audio',
-    type : 'Amp-Rack',
+    type : 'Amp Rack',
     inventory : 15,
     inStock : 15,
     weight : 80
