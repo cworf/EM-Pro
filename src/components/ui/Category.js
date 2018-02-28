@@ -27,24 +27,25 @@ function Category(props) {
   return (
     <div className={classes.root}>
       {props.types.map(function(type, i){
-        return <ExpansionPanel key={i}>
-          <ExpansionPanelSummary expandIcon={<ExpandMoreIcon />}>
-            <Typography className={classes.heading}>{type}</Typography>
-          </ExpansionPanelSummary>
-          <ExpansionPanelDetails>
-            <Grid container spacing={24}>
-              {Object.keys(inventory).map(function(modelName, i){
-                return inventory[modelName].type === type
-                  ? <Grid key={i} item xs={6} sm={3}>
-                      <InventoryCard item={inventory[modelName]} />
-                    </Grid>
-                  : null
-              })}
-            </Grid>
-          </ExpansionPanelDetails>
-        </ExpansionPanel>
+        return (
+          <ExpansionPanel key={i}>
+            <ExpansionPanelSummary expandIcon={<ExpandMoreIcon />}>
+              <Typography className={classes.heading}>{type}</Typography>
+            </ExpansionPanelSummary>
+            <ExpansionPanelDetails>
+              <Grid container spacing={24}>
+                {Object.keys(inventory).map(function(modelName, i){
+                  return inventory[modelName].type === type
+                    ? <Grid key={i} item xs={6} sm={3}>
+                        <InventoryCard item={inventory[modelName]} />
+                      </Grid>
+                    : null
+                })}
+              </Grid>
+            </ExpansionPanelDetails>
+          </ExpansionPanel>
+        )
       })}
-
     </div>
   );
 }
