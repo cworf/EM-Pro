@@ -5,6 +5,7 @@ import SwipeableViews from 'react-swipeable-views';
 import AppBar from 'material-ui/AppBar';
 import Tabs, { Tab } from 'material-ui/Tabs';
 import Typography from 'material-ui/Typography';
+import inventory from '../../assets/data/inventory';
 
 function TabContainer({ children, dir }) {
   return (
@@ -21,8 +22,7 @@ TabContainer.propTypes = {
 
 const styles = theme => ({
   root: {
-    backgroundColor: theme.palette.background.paper,
-    width: 500,
+    backgroundColor: theme.palette.background.paper
   },
 });
 
@@ -50,11 +50,13 @@ class Inventory extends React.Component {
             onChange={this.handleChange}
             indicatorColor="primary"
             textColor="primary"
-            fullWidth
+            centered
           >
-            <Tab label="Item One" />
-            <Tab label="Item Two" />
-            <Tab label="Item Three" />
+            <Tab label="Audio" />
+            <Tab label="Cables" />
+            <Tab label="Lighting" />
+            <Tab label="Video" />
+            <Tab label="Backline" />
           </Tabs>
         </AppBar>
         <SwipeableViews
@@ -65,6 +67,8 @@ class Inventory extends React.Component {
           <TabContainer dir={theme.direction}>Item One</TabContainer>
           <TabContainer dir={theme.direction}>Item Two</TabContainer>
           <TabContainer dir={theme.direction}>Item Three</TabContainer>
+          <TabContainer dir={theme.direction}>Item Four</TabContainer>
+          <TabContainer dir={theme.direction}>Item Five</TabContainer>
         </SwipeableViews>
       </div>
     );
