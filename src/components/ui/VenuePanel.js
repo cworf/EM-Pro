@@ -58,6 +58,8 @@ function handleClick() {
 
 function Venues(props) {
   const { classes } = props;
+  const { physical_address, contact_info, stages } = props.venue;
+  const { street, street2, city, state, zip } = contact_info.mailing_address;
   return (
     <div className={classes.root}>
       <ExpansionPanel defaultExpanded>
@@ -75,7 +77,16 @@ function Venues(props) {
               Contact Info
             </Typography>
             <Typography variant="body1">
-              lorem ipsum
+              Liaison: {contact_info.liaison}
+              <br/>
+              Phone Numbers:
+              <br />
+              {Object.keys(contact_info.phoneNumbers).map(type =>
+                `${type}: ${contact_info.phoneNumbers[type]}`
+              )}
+              Email: {contact_info.email}
+              <br />
+              Mailing Address: {street} {city}, {state} {zip}
             </Typography>
           </div>
           <div className={classes.column}>
@@ -97,7 +108,7 @@ function Venues(props) {
         <ExpansionPanelActions>
           <Button size="small">Cancel</Button>
           <Button size="small" color="primary">
-            Save
+            Edit
           </Button>
         </ExpansionPanelActions>
       </ExpansionPanel>
@@ -107,6 +118,7 @@ function Venues(props) {
 
 Venues.propTypes = {
   classes: PropTypes.object.isRequired,
+  venue: PropTypes.object.isRequired,
 };
 
 export default withStyles(styles)(Venues);

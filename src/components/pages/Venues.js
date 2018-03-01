@@ -1,11 +1,13 @@
 import React from 'react';
 import VenuePanel from '../ui/VenuePanel';
+import {venues} from '../../assets/data/venues';
 
 function Venues(props){
 
   return (
     <div>
-      <VenuePanel />
+      {Object.keys(venues).map(venueId => <VenuePanel venue={venues[venueId]} />)}
+
     </div>
   );
 }

@@ -2,7 +2,7 @@ export const venues = {
   the_wilma : {
     name : 'The Wilma',
     website: 'http://thewilmatheater.com',
-    physicalAddress : {
+    physical_address : {
       street: '131 S Higgins Ave',
       street2: '',
       city: 'Missoula',
@@ -12,9 +12,9 @@ export const venues = {
     contact_info : {
       liaison : 'Bob Sagget',
       phoneNumbers : {
-        bobs_personal : '123-123-5432',
-        frontDesk : '123-123-1234',
-        booking : '341-456-2451',
+        'Bobs Personal' : '123-123-5432',
+        'Front Desk' : '123-123-1234',
+        'Booking' : '341-456-2451',
       },
       mailing_address : {
         street: '131 S Higgins Ave',
@@ -78,9 +78,9 @@ export const venues = {
     contact_info : {
       liaison : 'Vince Vaughan',
       phoneNumbers : {
-        bobs_personal : '123-123-5432',
-        frontDesk : '123-123-1234',
-        booking : '341-456-2451',
+        'Bobs Personal' : '123-123-5432',
+        'Front Desk' : '123-123-1234',
+        'Booking' : '341-456-2451',
       },
       mailing_address : {
         street: '123 Carousel Dr',
