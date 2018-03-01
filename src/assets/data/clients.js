@@ -14,11 +14,11 @@ export const clients = {
     "email": "jocelyn.simpson@nikuda.io",
     "website": "https://nikuda.ca",
     "company": "NIKUDA",
-    "name": {
+    "name": { 
       "last": "Simpson",
       "first": "Jocelyn"
     },
-    "picture": "http://placehold.it/32x32"
+    "picture": "https://loremflickr.com/320/240"
   },
   "fQyvOdhktq": {
     "billing_info": {
@@ -39,7 +39,7 @@ export const clients = {
       "last": "Bryant",
       "first": "Gloria"
     },
-    "picture": "http://placehold.it/32x32"
+    "picture": "https://loremflickr.com/320/240"
   },
   "VFafoFGHPC": {
     "billing_info": {
@@ -60,7 +60,7 @@ export const clients = {
       "last": "Moses",
       "first": "Cleveland"
     },
-    "picture": "http://placehold.it/32x32"
+    "picture": "https://loremflickr.com/320/240"
   },
   "OOHYG82dDn": {
     "billing_info": {
@@ -81,7 +81,7 @@ export const clients = {
       "last": "Frederick",
       "first": "Catalina"
     },
-    "picture": "http://placehold.it/32x32"
+    "picture": "https://loremflickr.com/320/240"
   },
   "BuNTziFgeZ": {
     "billing_info": {
@@ -102,7 +102,7 @@ export const clients = {
       "last": "Hooper",
       "first": "Perkins"
     },
-    "picture": "http://placehold.it/32x32"
+    "picture": "https://loremflickr.com/320/240"
   },
   "gmWSlpeNKP": {
     "billing_info": {
@@ -123,7 +123,7 @@ export const clients = {
       "last": "Cervantes",
       "first": "Salinas"
     },
-    "picture": "http://placehold.it/32x32"
+    "picture": "https://loremflickr.com/320/240"
   },
   "ZelJVzTTuo": {
     "billing_info": {
@@ -144,7 +144,7 @@ export const clients = {
       "last": "Freeman",
       "first": "Debora"
     },
-    "picture": "http://placehold.it/32x32"
+    "picture": "https://loremflickr.com/320/240"
   },
   "5oOl8AUQO6": {
     "billing_info": {
@@ -165,7 +165,7 @@ export const clients = {
       "last": "Valenzuela",
       "first": "Brandy"
     },
-    "picture": "http://placehold.it/32x32"
+    "picture": "https://loremflickr.com/320/240"
   },
   "TfeMASkxby": {
     "billing_info": {
@@ -186,7 +186,7 @@ export const clients = {
       "last": "Dickerson",
       "first": "Sims"
     },
-    "picture": "http://placehold.it/32x32"
+    "picture": "https://loremflickr.com/320/240"
   },
   "LMuBWbuiKJ": {
     "billing_info": {
@@ -207,7 +207,7 @@ export const clients = {
       "last": "William",
       "first": "Valdez"
     },
-    "picture": "http://placehold.it/32x32"
+    "picture": "https://loremflickr.com/320/240"
   },
   "rHbYjrKslk": {
     "billing_info": {
@@ -228,7 +228,7 @@ export const clients = {
       "last": "Shaw",
       "first": "Coleman"
     },
-    "picture": "http://placehold.it/32x32"
+    "picture": "https://loremflickr.com/320/240"
   },
   "hDvK9wCOiT": {
     "billing_info": {
@@ -249,7 +249,7 @@ export const clients = {
       "last": "Adams",
       "first": "Kelly"
     },
-    "picture": "http://placehold.it/32x32"
+    "picture": "https://loremflickr.com/320/240"
   },
   "sKrvxQ3Mdi": {
     "billing_info": {
@@ -270,7 +270,7 @@ export const clients = {
       "last": "Duran",
       "first": "Sanford"
     },
-    "picture": "http://placehold.it/32x32"
+    "picture": "https://loremflickr.com/320/240"
   },
   "nO1VzHw8PM": {
     "billing_info": {
@@ -291,7 +291,7 @@ export const clients = {
       "last": "Clemons",
       "first": "Kaufman"
     },
-    "picture": "http://placehold.it/32x32"
+    "picture": "https://loremflickr.com/320/240"
   },
   "st3FBX6dT9": {
     "billing_info": {
@@ -312,7 +312,7 @@ export const clients = {
       "last": "James",
       "first": "Mia"
     },
-    "picture": "http://placehold.it/32x32"
+    "picture": "https://loremflickr.com/320/240"
   },
   "hHsTCKGe9V": {
     "billing_info": {
@@ -333,7 +333,7 @@ export const clients = {
       "last": "Bowers",
       "first": "Hoffman"
     },
-    "picture": "http://placehold.it/32x32"
+    "picture": "https://loremflickr.com/320/240"
   },
   "kfIUdc2ai8": {
     "billing_info": {
@@ -354,7 +354,7 @@ export const clients = {
       "last": "Spears",
       "first": "Darlene"
     },
-    "picture": "http://placehold.it/32x32"
+    "picture": "https://loremflickr.com/320/240"
   },
   "hQ53I4hRbi": {
     "billing_info": {
@@ -375,7 +375,7 @@ export const clients = {
       "last": "Wheeler",
       "first": "Mills"
     },
-    "picture": "http://placehold.it/32x32"
+    "picture": "https://loremflickr.com/320/240"
   },
   "3LMCHMkV9D": {
     "billing_info": {
@@ -396,7 +396,7 @@ export const clients = {
       "last": "Michael",
       "first": "Jo"
     },
-    "picture": "http://placehold.it/32x32"
+    "picture": "https://loremflickr.com/320/240"
   },
   "n4TeHxV7L8": {
     "billing_info": {
@@ -417,7 +417,7 @@ export const clients = {
       "last": "Collins",
       "first": "Maryann"
     },
-    "picture": "http://placehold.it/32x32"
+    "picture": "https://loremflickr.com/320/240"
   },
   "n9B31fdsoR": {
     "billing_info": {
@@ -438,7 +438,7 @@ export const clients = {
       "last": "Jacobson",
       "first": "Chrystal"
     },
-    "picture": "http://placehold.it/32x32"
+    "picture": "https://loremflickr.com/320/240"
   },
   "qSrrgVTyNg": {
     "billing_info": {
@@ -459,7 +459,7 @@ export const clients = {
       "last": "Powell",
       "first": "Ronda"
     },
-    "picture": "http://placehold.it/32x32"
+    "picture": "https://loremflickr.com/320/240"
   },
   "Ob3cq6qPWz": {
     "billing_info": {
@@ -480,7 +480,7 @@ export const clients = {
       "last": "Larsen",
       "first": "Tamera"
     },
-    "picture": "http://placehold.it/32x32"
+    "picture": "https://loremflickr.com/320/240"
   },
   "uubPYJBi9y": {
     "billing_info": {
@@ -501,7 +501,7 @@ export const clients = {
       "last": "Velazquez",
       "first": "Casey"
     },
-    "picture": "http://placehold.it/32x32"
+    "picture": "https://loremflickr.com/320/240"
   },
   "EqYZF1apDE": {
     "billing_info": {
@@ -522,7 +522,7 @@ export const clients = {
       "last": "Henry",
       "first": "Rosales"
     },
-    "picture": "http://placehold.it/32x32"
+    "picture": "https://loremflickr.com/320/240"
   },
   "8H5eYQsqke": {
     "billing_info": {
@@ -543,7 +543,7 @@ export const clients = {
       "last": "Compton",
       "first": "Kinney"
     },
-    "picture": "http://placehold.it/32x32"
+    "picture": "https://loremflickr.com/320/240"
   },
   "nw1ufbquab": {
     "billing_info": {
@@ -564,7 +564,7 @@ export const clients = {
       "last": "Bird",
       "first": "Knox"
     },
-    "picture": "http://placehold.it/32x32"
+    "picture": "https://loremflickr.com/320/240"
   },
   "mUzTwZZ8DO": {
     "billing_info": {
@@ -585,7 +585,7 @@ export const clients = {
       "last": "Mcfadden",
       "first": "Wendi"
     },
-    "picture": "http://placehold.it/32x32"
+    "picture": "https://loremflickr.com/320/240"
   },
   "87d3N6jVf6": {
     "billing_info": {
@@ -606,7 +606,7 @@ export const clients = {
       "last": "Perry",
       "first": "Huff"
     },
-    "picture": "http://placehold.it/32x32"
+    "picture": "https://loremflickr.com/320/240"
   },
   "YerhdGREaU": {
     "billing_info": {
@@ -627,7 +627,7 @@ export const clients = {
       "last": "Harris",
       "first": "Mcmahon"
     },
-    "picture": "http://placehold.it/32x32"
+    "picture": "https://loremflickr.com/320/240"
   },
   "PnuYuDu08q": {
     "billing_info": {
@@ -648,6 +648,6 @@ export const clients = {
       "last": "Huber",
       "first": "Saunders"
     },
-    "picture": "http://placehold.it/32x32"
+    "picture": "https://loremflickr.com/320/240"
   }
 }
