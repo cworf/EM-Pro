@@ -1,12 +1,39 @@
 import React from 'react';
 
-function Clients(props){
+import ClientDetail from '../ui/ClientDetail';
+import ClientList from '../ui/ClientList';
 
-  return (
-    <div>
-      <h1>Clients</h1>
-    </div>
-  );
+
+class Clients extends React.Component {
+
+  constructor(props){
+    super(props)
+    this.state = {
+      selectedClient : null
+    }
+  }
+
+  setClickedClient = client => () => {
+    this.setState({...this.state, selectedClient:client})
+  }
+
+  // getClass = client => () => {
+  //   return this.state.selectedClient === client
+  //     ? 'selected'
+  //     : ''
+  // }
+
+  render() {
+    return (
+      <div style={{display:'flex'}}>
+
+        <ClientList onClientClick={this.setClickedClient} />
+
+        {this.state.selectedClient ? <ClientDetail client={this.state.selectedClient} /> : 'no client selected'}
+
+      </div>
+    );
+  }
 }
 
 export default Clients;
