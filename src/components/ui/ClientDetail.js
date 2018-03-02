@@ -9,6 +9,7 @@ const styles = theme => ({
     paddingTop: 16,
     paddingBottom: 16,
     marginLeft: 20,
+    height: 'calc(100vh - 104px)',
   }),
   outer: {
     flexGrow: 1

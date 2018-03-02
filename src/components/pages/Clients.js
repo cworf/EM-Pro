@@ -1,10 +1,11 @@
 import React from 'react';
 import Slide from 'material-ui/transitions/Slide';
 import Fade from 'material-ui/transitions/Fade';
+import Sticky from 'react-sticky-el';
+import './Clients.css'
 
 import ClientDetail from '../ui/ClientDetail';
 import ClientList from '../ui/ClientList';
-
 
 class Clients extends React.Component {
 
@@ -30,11 +31,13 @@ class Clients extends React.Component {
       <div style={{display:'flex'}}>
 
         <ClientList onClientClick={this.setClickedClient} />
-        <Slide direction="up" in={this.state.selectedClient} mountOnEnter unmountOnExit>
-          <Fade in={this.state.selectedClient}>
-            <ClientDetail client={this.state.selectedClient} />
-          </Fade>
-        </Slide>
+        <div className='scrollarea' style={{flexGrow:1}}>
+          <Sticky topOffset={-88} stickyClassName='sticks'>
+            <Slide direction="up" in={this.state.selectedClient ? true : false} mountOnEnter unmountOnExit>
+              <ClientDetail client={this.state.selectedClient} />
+            </Slide>
+          </Sticky>
+        </div>
       </div>
     );
   }
