@@ -18,7 +18,6 @@ function InventoryCard(props) {
   const { classes } = props;
   return (
     <div>
-      {console.log(props.item)}
       <Card className={classes.card}>
         <CardMedia
           className={classes.media}
