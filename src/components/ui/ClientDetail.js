@@ -1,17 +1,40 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { withStyles } from 'material-ui/styles';
+import Paper from 'material-ui/Paper';
+import Typography from 'material-ui/Typography';
 
-function ClientDetail(props){
+const styles = theme => ({
+  root: theme.mixins.gutters({
+    paddingTop: 16,
+    paddingBottom: 16,
+    marginLeft: 20,
+  }),
+  outer: {
+    flexGrow: 1
+  },
+});
 
+function ClientDetail(props) {
+  const { classes } = props;
+  const { company, name } = props.client;
   return (
-    <div>
-      <h1>Client Details for {props.client.company}</h1>
+    <div className={classes.outer}>
+      <Paper className={classes.root} elevation={4}>
+        <Typography variant="headline" component="h3">
+          details about {company}
+        </Typography>
+        <Typography variant="caption">
+          {`${name.first} ${name.last}`}
+        </Typography>
+      </Paper>
     </div>
   );
 }
 
 ClientDetail.propTypes = {
-  client: PropTypes.object,
+  classes: PropTypes.object.isRequired,
+  client: PropTypes.object.isRequired
 };
 
-export default ClientDetail;
+export default withStyles(styles)(ClientDetail);
