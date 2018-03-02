@@ -1,15 +1,17 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { withStyles } from 'material-ui/styles';
+import classNames from 'classnames';
 import Drawer from 'material-ui/Drawer';
 import AppBar from 'material-ui/AppBar';
 import Toolbar from 'material-ui/Toolbar';
 import List from 'material-ui/List';
 import Typography from 'material-ui/Typography';
-import IconButton from 'material-ui/IconButton';
-import Hidden from 'material-ui/Hidden';
 import Divider from 'material-ui/Divider';
+import IconButton from 'material-ui/IconButton';
 import MenuIcon from 'material-ui-icons/Menu';
+import ChevronLeftIcon from 'material-ui-icons/ChevronLeft';
+import ChevronRightIcon from 'material-ui-icons/ChevronRight';
 import { mailFolderListItems, otherMailFolderListItems } from '../assets/data/menuData';
 import { MuiThemeProvider, createMuiTheme } from 'material-ui/styles';
 import Reboot from 'material-ui/Reboot';
@@ -23,54 +25,82 @@ import Clients from './pages/Clients';
 import Venues from './pages/Venues';
 import Conflicts from './pages/Conflicts';
 
-
 const drawerWidth = 240;
 
 const styles = theme => ({
   root: {
-    width: '100%',
-    minHeight: '100vh',
-    overflow: 'hidden',
-    background: '#0c100d',
+    flexGrow: 1,
   },
   appFrame: {
+    zIndex: 1,
+    overflow: 'hidden',
     position: 'relative',
     display: 'flex',
     width: '100%',
-    height: '100%',
   },
   appBar: {
-    position: 'absolute',
+    position: 'fixed',
+    transition: theme.transitions.create(['margin', 'width'], {
+      easing: theme.transitions.easing.sharp,
+      duration: theme.transitions.duration.leavingScreen,
+    }),
+  },
+  appBarShift: {
+    width: `calc(100% - ${drawerWidth}px)`,
+    transition: theme.transitions.create(['margin', 'width'], {
+      easing: theme.transitions.easing.easeOut,
+      duration: theme.transitions.duration.enteringScreen,
+    }),
+  },
+  'appBarShift-left': {
     marginLeft: drawerWidth,
-    [theme.breakpoints.up('md')]: {
-      width: `calc(100% - ${drawerWidth}px)`,
-    },
   },
-  navIconHide: {
-    [theme.breakpoints.up('md')]: {
-      display: 'none',
-    },
+  menuButton: {
+    marginLeft: 12,
+    marginRight: 20,
   },
-  drawerHeader: theme.mixins.toolbar,
+  hide: {
+    display: 'none',
+  },
   drawerPaper: {
-    width: 250,
-    [theme.breakpoints.up('md')]: {
-      width: drawerWidth,
-      position: 'relative',
-      minHeight: '100vh',
-      background: '#212b22'
-    },
+    position: 'fixed',
+    width: drawerWidth,
+    display: 'block',
+  },
+  drawerHeader: {
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'flex-end',
+    padding: '0 8px',
+    ...theme.mixins.toolbar,
   },
   content: {
+    flexGrow: 1,
     backgroundColor: darkTheme.palette.background.default,
-    width: '100%',
     padding: theme.spacing.unit * 3,
-    height: 'calc(100% - 56px)',
-    marginTop: 56,
-    [theme.breakpoints.up('sm')]: {
-      height: 'calc(100% - 64px)',
-      marginTop: 64,
-    },
+    transition: theme.transitions.create('margin', {
+      easing: theme.transitions.easing.sharp,
+      duration: theme.transitions.duration.leavingScreen,
+    }),
+  },
+  'content-left': {
+    marginLeft: 0,
+    marginTop: 64,
+  },
+  'content-right': {
+    marginRight: -drawerWidth,
+  },
+  contentShift: {
+    transition: theme.transitions.create('margin', {
+      easing: theme.transitions.easing.easeOut,
+      duration: theme.transitions.duration.enteringScreen,
+    }),
+  },
+  'contentShift-left': {
+    marginLeft: drawerWidth,
+  },
+  'contentShift-right': {
+    marginRight: 0,
   },
 });
 
@@ -78,7 +108,7 @@ const darkTheme = createMuiTheme({
   palette: {
     type: 'dark',
     background: {
-      default: '#0c100d',
+      default: '#21252b',
     },
     primary: {
       light: '#439889',
@@ -97,38 +127,45 @@ const darkTheme = createMuiTheme({
 
 class App extends React.Component {
   state = {
-    mobileOpen: false,
+    open: true,
+    anchor: 'left',
   };
 
-  handleDrawerToggle = () => {
-    this.setState({ mobileOpen: !this.state.mobileOpen });
+  handleDrawerOpen = () => {
+    this.setState({ open: true });
+  };
+
+  handleDrawerClose = () => {
+    this.setState({ open: false });
+  };
+
+  handleChangeAnchor = event => {
+    this.setState({
+      anchor: event.target.value,
+    });
   };
 
   render() {
     const { classes, theme } = this.props;
-
-    const drawer = (
-      <div>
-        <div className={classes.drawerHeader} />
-        <Divider />
-        <List>{mailFolderListItems}</List>
-        <Divider />
-        <List>{otherMailFolderListItems}</List>
-      </div>
-    );
+    const { anchor, open } = this.state;
 
     return (
       <MuiThemeProvider theme={darkTheme}>
         <Reboot />
-        <div className={classes.root}>
+          <div className={classes.root}>
           <div className={classes.appFrame}>
-            <AppBar className={classes.appBar}>
-              <Toolbar>
+            <AppBar
+              className={classNames(classes.appBar, {
+                [classes.appBarShift]: open,
+                [classes[`appBarShift-${anchor}`]]: open,
+              })}
+            >
+              <Toolbar disableGutters={!open}>
                 <IconButton
                   color="inherit"
                   aria-label="open drawer"
-                  onClick={this.handleDrawerToggle}
-                  className={classes.navIconHide}
+                  onClick={this.handleDrawerOpen}
+                  className={classNames(classes.menuButton, open && classes.hide)}
                 >
                   <MenuIcon />
                 </IconButton>
@@ -137,34 +174,30 @@ class App extends React.Component {
                 </Typography>
               </Toolbar>
             </AppBar>
-            <Hidden mdUp>
-              <Drawer
-                variant="temporary"
-                anchor={theme.direction === 'rtl' ? 'right' : 'left'}
-                open={this.state.mobileOpen}
-                classes={{
-                  paper: classes.drawerPaper,
-                }}
-                onClose={this.handleDrawerToggle}
-                ModalProps={{
-                  keepMounted: true,
-                }}
-              >
-                {drawer}
-              </Drawer>
-            </Hidden>
-            <Hidden smDown implementation="css">
-              <Drawer
-                variant="permanent"
-                open
-                classes={{
-                  paper: classes.drawerPaper,
-                }}
-              >
-                {drawer}
-              </Drawer>
-            </Hidden>
-            <main className={classes.content}>
+            <Drawer
+              variant="persistent"
+              anchor={anchor}
+              open={open}
+              classes={{
+                paper: classes.drawerPaper,
+              }}
+            >
+              <div className={classes.drawerHeader}>
+                <IconButton onClick={this.handleDrawerClose}>
+                  {theme.direction === 'rtl' ? <ChevronRightIcon /> : <ChevronLeftIcon />}
+                </IconButton>
+              </div>
+              <Divider />
+              <List>{mailFolderListItems}</List>
+              <Divider />
+              <List>{otherMailFolderListItems}</List>
+            </Drawer>
+            <main
+              className={classNames(classes.content, classes[`content-${anchor}`], {
+                [classes.contentShift]: open,
+                [classes[`contentShift-${anchor}`]]: open,
+              })}
+            >
               <Switch>
                 <Route exact path='/' component={Calendar} />
                 <Route path='/inventory' component={Inventory} />
