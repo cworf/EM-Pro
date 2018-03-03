@@ -43,15 +43,25 @@ class Calendar extends React.Component{
     this.setState({ ...this.state, open: false });
   };
 
+  eventsParse = (events) => {
+    const parsed = Object.keys(events).map(id => (
+      {...events[id], id : id}
+    ))
+    console.log(parsed);
+    return parsed
+  }
+
+
   render(){
+    console.log(events.q);
     return (
-      <div style={{height: '80vh'}}>
+      <div style={{height: 'calc(100vh - 112px)'}}>
         <BigCalendar
           selectable
-          events={events}
+          events={this.eventsParse(events)}
           defaultView="month"
           scrollToTime={new Date(1970, 1, 1, 6)}
-          defaultDate={new Date(2015, 3, 12)}
+          defaultDate={new Date(2016, 4, 12)}
           onSelectEvent={event => this.handleClickOpen(event)}
           onSelectSlot={slotInfo =>
             alert(
