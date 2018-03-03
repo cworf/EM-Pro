@@ -48,12 +48,12 @@ class Inventory extends React.Component {
 
     return (
       <div className={classes.root}>
-        <AppBar position="static" color="default">
+        <AppBar position="static" color='default' style={{backgroundColor: '#1b1d23'}}>
           <Tabs
             value={this.state.value}
             onChange={this.handleChange}
-            indicatorColor="primary"
-            textColor="primary"
+            indicatorColor="secondary"
+            textColor="secondary"
             centered
           >
           {Object.keys(inventoryCategories).map(function(key, i) {

@@ -13,7 +13,6 @@ import MenuIcon from 'material-ui-icons/Menu';
 import ChevronLeftIcon from 'material-ui-icons/ChevronLeft';
 import ChevronRightIcon from 'material-ui-icons/ChevronRight';
 import { mailFolderListItems, otherMailFolderListItems } from '../assets/data/menuData';
-import { MuiThemeProvider, createMuiTheme } from 'material-ui/styles';
 import Reboot from 'material-ui/Reboot';
 import { Switch, Route } from 'react-router-dom';
 import './App.css';
@@ -38,6 +37,8 @@ const styles = theme => ({
     width: '100%',
   },
   appBar: {
+    backgroundColor: '#1b1d23',
+    color: '#fff',
     position: 'fixed',
     transition: theme.transitions.create(['margin', 'width'], {
       easing: theme.transitions.easing.sharp,
@@ -65,6 +66,7 @@ const styles = theme => ({
     position: 'fixed',
     width: drawerWidth,
     display: 'block',
+
   },
   drawerHeader: {
     display: 'flex',
@@ -75,7 +77,7 @@ const styles = theme => ({
   },
   content: {
     flexGrow: 1,
-    backgroundColor: darkTheme.palette.background.default,
+
     padding: theme.spacing.unit * 3,
     transition: theme.transitions.create('margin', {
       easing: theme.transitions.easing.sharp,
@@ -103,26 +105,6 @@ const styles = theme => ({
   },
 });
 
-const darkTheme = createMuiTheme({
-  palette: {
-    type: 'dark',
-    background: {
-      default: '#21252b',
-    },
-    primary: {
-      light: '#439889',
-      main: '#00695c',
-      dark: '#003d33',
-      contrastText: '#fff',
-    },
-    secondary: {
-      light: '#9fffe0',
-      main: '#69f0ae',
-      dark: '#2bbd7e',
-      contrastText: '#000',
-    },
-  },
-});
 
 class App extends React.Component {
   state = {
@@ -149,9 +131,9 @@ class App extends React.Component {
     const { anchor, open } = this.state;
 
     return (
-      <MuiThemeProvider theme={darkTheme}>
-        <Reboot />
+
           <div className={classes.root}>
+            <Reboot />
           <div className={classes.appFrame}>
             <AppBar
               className={classNames(classes.appBar, {
@@ -207,7 +189,6 @@ class App extends React.Component {
             </main>
           </div>
         </div>
-      </MuiThemeProvider>
     );
   }
 }
