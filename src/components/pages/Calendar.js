@@ -9,7 +9,7 @@ import PropTypes from 'prop-types';
 import Dialog from 'material-ui/Dialog';
 import Slide from 'material-ui/transitions/Slide';
 
-import EventDetail from '../ui/EventDetail'
+import EventDetail from './EventDetail'
 
 const styles = {
   appBar: {

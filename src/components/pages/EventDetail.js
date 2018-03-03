@@ -12,7 +12,7 @@ import Tabs, { Tab } from 'material-ui/Tabs';
 const styles = theme => ({
   root: {
     backgroundColor: theme.palette.background.paper,
-    width: 500,
+    flexGrow: 1
   },
   appBar: {
     position: 'relative',
@@ -72,11 +72,12 @@ class EventDetail extends React.Component {
               onChange={this.handleChange}
               indicatorColor="primary"
               textColor="primary"
-              fullWidth
+              centered
             >
-              <Tab label="Item One" />
-              <Tab label="Item Two" />
-              <Tab label="Item Three" />
+              <Tab label="Client" />
+              <Tab label="Venue" />
+              <Tab label="Details" />
+              <Tab label="Equipment Needs" />
             </Tabs>
           </AppBar>
           <SwipeableViews

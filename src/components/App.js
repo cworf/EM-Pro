@@ -20,7 +20,6 @@ import './App.css';
 
 import Calendar from './pages/Calendar';
 import Inventory from './pages/Inventory';
-import Events from './pages/Events';
 import Clients from './pages/Clients';
 import Venues from './pages/Venues';
 import Conflicts from './pages/Conflicts';
@@ -201,7 +200,6 @@ class App extends React.Component {
               <Switch>
                 <Route exact path='/' component={Calendar} />
                 <Route path='/inventory' component={Inventory} />
-                <Route path='/events' component={Events} />
                 <Route path='/clients' component={Clients} />
                 <Route path='/venues' component={Venues} />
                 <Route path='/conflicts' component={Conflicts} />

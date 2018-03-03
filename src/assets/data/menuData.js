@@ -23,12 +23,6 @@ export const mailFolderListItems = (
         </ListItemIcon>
         <ListItemText primary="Inventory" />
       </ListItem>
-      <ListItem button  component={Link} to="/Events">
-        <ListItemIcon>
-          <EventIcon />
-        </ListItemIcon>
-        <ListItemText primary="Events" />
-      </ListItem>
 
   </div>
 );
