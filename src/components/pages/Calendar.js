@@ -35,21 +35,18 @@ class Calendar extends React.Component{
     clickedEvent: null,
   };
 
-  handleClickOpen = (event) => {
+  handleClickOpen = (event) => 
     this.setState({ open: true, clickedEvent: event });
-  };
 
-  handleClose = () => {
+
+  handleClose = () =>
     this.setState({ ...this.state, open: false });
-  };
 
-  eventsParse = (events) => {
-    const parsed = Object.keys(events).map(id => (
-      {...events[id], id : id}
-    ))
-    console.log(parsed);
-    return parsed
-  }
+
+  eventsParse = (events) =>
+    Object.keys(events).map(id =>
+      ({...events[id], id : id})
+    );
 
 
   render(){
