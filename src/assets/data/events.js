@@ -6,8 +6,8 @@ export default {
   q : {
       title: 'Bernie Sanders Rally',
       allDay: true,
-      start: new Date(2016, 4, 9),
-      end: moment("may 10 2016 11:30 PM"),
+      start: "may 9 2016 11:30 AM",
+      end: "may 10 2016 11:30 PM",
       desc: 'Political Rally',
       schedule : {
         'doors Open': '10am',

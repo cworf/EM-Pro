@@ -1,4 +1,4 @@
-export const inventory = {
+export default {
   vt4888 : {
     model: 'VT4888',
     Series : 'Vertec',
