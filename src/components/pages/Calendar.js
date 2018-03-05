@@ -3,11 +3,12 @@ import 'react-big-calendar/lib/css/react-big-calendar.css';
 import './Calendar.css'
 import BigCalendar from 'react-big-calendar';
 import moment from 'moment';
-import events from '../../assets/data/events.js';
+// import events from '../../assets/data/events.js';
 import { withStyles } from 'material-ui/styles';
 import PropTypes from 'prop-types';
 import Dialog from 'material-ui/Dialog';
 import Slide from 'material-ui/transitions/Slide';
+import {events} from '../appStore';
 
 import EventDetail from './EventDetail'
 
@@ -35,7 +36,7 @@ class Calendar extends React.Component{
     clickedEvent: null,
   };
 
-  handleClickOpen = (event) => 
+  handleClickOpen = (event) =>
     this.setState({ open: true, clickedEvent: event });
 
 
@@ -50,7 +51,6 @@ class Calendar extends React.Component{
 
 
   render(){
-    console.log(events.q);
     return (
       <div style={{height: 'calc(100vh - 112px)'}}>
         <BigCalendar
