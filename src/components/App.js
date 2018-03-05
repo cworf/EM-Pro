@@ -16,6 +16,10 @@ import { mailFolderListItems, otherMailFolderListItems } from '../assets/data/me
 import Reboot from 'material-ui/Reboot';
 import { Switch, Route } from 'react-router-dom';
 import './App.css';
+import DummyEvents from '../assets/data/events';
+import DummyInventory from '../assets/data/inventory';
+import DummyClients from '../assets/data/clients';
+import {events, inventory, clients} from './appStore';
 
 import Calendar from './pages/Calendar';
 import Inventory from './pages/Inventory';
@@ -126,69 +130,83 @@ class App extends React.Component {
     });
   };
 
+  handleAdd = async() => {
+    try {
+      await events.add({...DummyEvents.q});
+      await Object.keys(DummyInventory).map(id =>
+        inventory.add(DummyInventory[id]));
+      await Object.keys(DummyClients).map(id =>
+        clients.add(DummyClients[id]));
+    }
+    catch (err) {
+      console.log(err);
+    }
+  }
+
   render() {
     const { classes, theme } = this.props;
     const { anchor, open } = this.state;
 
     return (
 
-          <div className={classes.root}>
-            <Reboot />
-          <div className={classes.appFrame}>
-            <AppBar
-              className={classNames(classes.appBar, {
-                [classes.appBarShift]: open,
-                [classes[`appBarShift-${anchor}`]]: open,
-              })}
-            >
-              <Toolbar disableGutters={!open}>
-                <IconButton
-                  color="inherit"
-                  aria-label="open drawer"
-                  onClick={this.handleDrawerOpen}
-                  className={classNames(classes.menuButton, open && classes.hide)}
-                >
-                  <MenuIcon />
-                </IconButton>
-                <Typography variant="title" color="inherit" noWrap>
-                  E.M. Pro
-                </Typography>
-              </Toolbar>
-            </AppBar>
-            <Drawer
-              variant="persistent"
-              anchor={anchor}
-              open={open}
-              classes={{
-                paper: classes.drawerPaper,
-              }}
-            >
-              <div className={classes.drawerHeader}>
-                <IconButton onClick={this.handleDrawerClose}>
-                  {theme.direction === 'rtl' ? <ChevronRightIcon /> : <ChevronLeftIcon />}
-                </IconButton>
-              </div>
-              <Divider />
-              <List>{mailFolderListItems}</List>
-              <Divider />
-              <List>{otherMailFolderListItems}</List>
-            </Drawer>
-            <main
-              className={classNames(classes.content, classes[`content-${anchor}`], {
-                [classes.contentShift]: open,
-                [classes[`contentShift-${anchor}`]]: open,
-              })}
-            >
-              <Switch>
-                <Route exact path='/' component={Calendar} />
-                <Route path='/inventory' component={Inventory} />
-                <Route path='/clients' component={Clients} />
-                <Route path='/venues' component={Venues} />
-                <Route path='/conflicts' component={Conflicts} />
-              </Switch>
-            </main>
-          </div>
+        <div className={classes.root}>
+          <Reboot />
+        <div className={classes.appFrame}>
+          <AppBar
+            className={classNames(classes.appBar, {
+              [classes.appBarShift]: open,
+              [classes[`appBarShift-${anchor}`]]: open,
+            })}
+          >
+            <Toolbar disableGutters={!open}>
+              <IconButton
+                color="inherit"
+                aria-label="open drawer"
+                onClick={this.handleDrawerOpen}
+                className={classNames(classes.menuButton, open && classes.hide)}
+              >
+                <MenuIcon />
+              </IconButton>
+              <Typography variant="title" color="inherit" noWrap>
+                E.M. Pro
+              </Typography>
+            </Toolbar>
+          </AppBar>
+          <Drawer
+            variant="persistent"
+            anchor={anchor}
+            open={open}
+            classes={{
+              paper: classes.drawerPaper,
+            }}
+          >
+            <div className={classes.drawerHeader}>
+              <div onClick={this.handleAdd}>Add Dummy Data</div>
+              <IconButton onClick={this.handleDrawerClose}>
+                {theme.direction === 'rtl' ? <ChevronRightIcon /> : <ChevronLeftIcon />}
+              </IconButton>
+            </div>
+            <Divider />
+            <List>{mailFolderListItems}</List>
+            <Divider />
+            <List>{otherMailFolderListItems}</List>
+          </Drawer>
+          <main
+            className={classNames(classes.content, classes[`content-${anchor}`], {
+              [classes.contentShift]: open,
+              [classes[`contentShift-${anchor}`]]: open,
+            })}
+          >
+            <Switch>
+              <Route exact path='/' component={Calendar} />
+              <Route path='/inventory' component={Inventory} />
+              <Route path='/clients' component={Clients} />
+              <Route path='/venues' component={Venues} />
+              <Route path='/conflicts' component={Conflicts} />
+            </Switch>
+          </main>
         </div>
+      </div>
     );
   }
 }
