@@ -3,7 +3,9 @@ import PropTypes from 'prop-types';
 import { withStyles } from 'material-ui/styles';
 import List, { ListItem, ListItemText } from 'material-ui/List';
 import Avatar from 'material-ui/Avatar';
-import {clients} from '../../assets/data/clients';
+// import {clients} from '../../assets/data/clients';
+import {observer} from 'mobx-react';
+import {clients} from '../appStore';
 
 const styles = theme => ({
   root: {
@@ -13,17 +15,16 @@ const styles = theme => ({
   },
 });
 
-function ClientList(props) {
+const ClientList = observer(function ClientList(props) {
 
   const { classes } = props;
   return (
     <div className={classes.root}>
       <List>
-        {Object.keys(clients).map((clientId, i) => {
-          const client = clients[clientId]
-          const {name, company, picture} = client
+        {clients.docs.map((client, i) => {
+          const {name, company, picture} = client.data;
           return (
-            <ListItem key={i} button divider onClick={props.onClientClick(client)}>
+            <ListItem key={i} button divider onClick={props.onClientClick(client.data)}>
               <Avatar  src={picture} />
               <ListItemText primary={company} secondary={name.last + ', ' + name.first} />
             </ListItem>
@@ -32,7 +33,7 @@ function ClientList(props) {
       </List>
     </div>
   );
-}
+});
 
 ClientList.propTypes = {
   classes: PropTypes.object.isRequired,

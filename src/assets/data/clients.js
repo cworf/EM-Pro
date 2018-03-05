@@ -1,4 +1,4 @@
-export const clients = {
+export default {
   "pNjdFyiwN8": {
     "billing_info": {
       "address": "931 Ocean Parkway, Stagecoach, California, 2482",
@@ -14,7 +14,7 @@ export const clients = {
     "email": "jocelyn.simpson@nikuda.io",
     "website": "https://nikuda.ca",
     "company": "NIKUDA",
-    "name": { 
+    "name": {
       "last": "Simpson",
       "first": "Jocelyn"
     },

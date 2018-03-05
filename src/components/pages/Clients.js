@@ -1,6 +1,5 @@
 import React from 'react';
 import Slide from 'material-ui/transitions/Slide';
-import Fade from 'material-ui/transitions/Fade';
 import Sticky from 'react-sticky-el';
 import './Clients.css'
 
@@ -19,12 +18,6 @@ class Clients extends React.Component {
   setClickedClient = client => () => {
     this.setState({...this.state, selectedClient:client})
   }
-
-  // getClass = client => () => {
-  //   return this.state.selectedClient === client
-  //     ? 'selected'
-  //     : ''
-  // }
 
   render() {
     return (
