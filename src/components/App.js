@@ -19,7 +19,8 @@ import './App.css';
 import DummyEvents from '../assets/data/events';
 import DummyInventory from '../assets/data/inventory';
 import DummyClients from '../assets/data/clients';
-import {events, inventory, clients} from './appStore';
+import DummyVenues from '../assets/data/venues';
+import {events, inventory, clients, venues} from './appStore';
 
 import Calendar from './pages/Calendar';
 import Inventory from './pages/Inventory';
@@ -137,6 +138,8 @@ class App extends React.Component {
         inventory.add(DummyInventory[id]));
       await Object.keys(DummyClients).map(id =>
         clients.add(DummyClients[id]));
+      await Object.keys(DummyVenues).map(id =>
+        venues.add(DummyVenues[id]));
     }
     catch (err) {
       console.log(err);

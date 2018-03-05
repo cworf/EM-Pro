@@ -1,4 +1,4 @@
-export const venues = {
+export default {
   the_wilma : {
     name : 'The Wilma',
     website: 'http://thewilmatheater.com',

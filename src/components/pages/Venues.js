@@ -1,15 +1,18 @@
 import React from 'react';
 import VenuePanel from '../ui/VenuePanel';
-import {venues} from '../../assets/data/venues';
+// import venues from '../../assets/data/venues';
+import {venues} from '../appStore'
+import {observer} from 'mobx-react';
 
-function Venues(props){
+const Venues = observer(function Venues(props){
 
   return (
     <div>
-      {Object.keys(venues).map(venueId => <VenuePanel venue={venues[venueId]} />)}
+      {venues.docs.map(venue =>
+        <VenuePanel venue={venue.data} />)}
 
     </div>
   );
-}
+});
 
 export default Venues;
