@@ -7,8 +7,10 @@ import ExpansionPanel, {
 } from 'material-ui/ExpansionPanel';
 import Typography from 'material-ui/Typography';
 import ExpandMoreIcon from 'material-ui-icons/ExpandMore';
-import {inventory} from '../../assets/data/inventory';
+// import inventory from '../../assets/data/inventory';
 import Grid from 'material-ui/Grid';
+import {observer} from 'mobx-react';
+import {inventory} from '../appStore';
 
 import InventoryCard from './InventoryCard';
 
@@ -22,7 +24,7 @@ const styles = theme => ({
   },
 });
 
-function Category(props) {
+const Category = observer(function Category(props) {
   const { classes } = props;
   return (
     <div className={classes.root}>
@@ -34,13 +36,13 @@ function Category(props) {
             </ExpansionPanelSummary>
             <ExpansionPanelDetails>
               <Grid container spacing={24}>
-                {Object.keys(inventory).map(function(modelName, i){
-                  return inventory[modelName].type === type
-                    ? <Grid key={i} item xs={6} sm={3}>
-                        <InventoryCard item={inventory[modelName]} />
-                      </Grid>
-                    : null
-                })}
+                {inventory.docs.map((item) =>
+                  item.data.type === type
+                  ? <Grid key={item.id} item xs={6} sm={3}>
+                      <InventoryCard item={item.data} />
+                    </Grid>
+                  : null
+                )}
               </Grid>
             </ExpansionPanelDetails>
           </ExpansionPanel>
@@ -48,7 +50,7 @@ function Category(props) {
       })}
     </div>
   );
-}
+});
 
 Category.propTypes = {
   classes: PropTypes.object.isRequired,
