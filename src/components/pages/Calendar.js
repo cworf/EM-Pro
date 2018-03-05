@@ -9,6 +9,7 @@ import PropTypes from 'prop-types';
 import Dialog from 'material-ui/Dialog';
 import Slide from 'material-ui/transitions/Slide';
 import {events} from '../appStore';
+import {observer} from 'mobx-react';
 
 import EventDetail from './EventDetail'
 
@@ -29,7 +30,7 @@ BigCalendar.setLocalizer(BigCalendar.momentLocalizer(moment))
 
 
 
-class Calendar extends React.Component{
+const Calendar = observer(class Calendar extends React.Component{
 
   state = {
     open: false,
@@ -45,9 +46,9 @@ class Calendar extends React.Component{
 
 
   eventsParse = (events) =>
-    Object.keys(events).map(id =>
-      ({...events[id], id : id})
-    );
+    events.docs.map(event =>
+      event.data
+    )
 
 
   render(){
@@ -81,7 +82,7 @@ class Calendar extends React.Component{
       </div>
     );
   }
-}
+})
 
 Calendar.propTypes = {
   classes: PropTypes.object.isRequired,
