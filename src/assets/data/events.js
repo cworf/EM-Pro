@@ -1,13 +1,9 @@
-import {clients} from './clients'
-import {venues} from './venues'
-import moment from 'moment'
-
 export default {
   q : {
       title: 'Bernie Sanders Rally',
-      allDay: true,
-      start: "may 9 2016 11:30 AM",
-      end: "may 10 2016 11:30 PM",
+      allDay: false,
+      start: "2016-05-09T11:36:02-07:00",
+      end: "2016-05-09T23:36:02-07:00",
       desc: 'Political Rally',
       schedule : {
         'doors Open': '10am',
@@ -22,14 +18,14 @@ export default {
         stage: '',
       },
       client : '',
-      'production info' : {
+      'production' : {
         'Band/production/performers contact': 'Bernie Sanders',
         'Traveling with Crew or Engineers?': 'no',
         'Event attendance expected': '800-10,000',
         'Description of sound coverage needed': '',
         'Description of musical acts, performers': 'not sure yet',
       },
-      'audio notes' : {
+      'audio' : {
         'Set up notes, drawings': '',
         'Rigging description, drawing': 'geni towers for line array',
         'Main PA description desired': '6 x MSL-4 for zone 1, 12 x 4888 for zone 2',
@@ -48,7 +44,7 @@ export default {
         'Other audio feeds required': '???',
         'Power distro/service': 'Lighting power will be from the edison outlets on stage and from the edison outlets in the pavillion for the dimmers',
       },
-      'lighting notes' : {
+      'lighting' : {
         'Description of lighting coverage area(s)': 'BERNIE!!!',
         'Main lighting rig description': 'up lighting on stage with LEDs and front light from the media riser with JR zooms',
         'Main lighting rig placement': 'stage fixtures will be floor mounted and shine up at the gazebo for reflected light. JR zooms on booms with diffusion gel on the media riser',
@@ -62,7 +58,7 @@ export default {
         'Lighting Subcontractors needed': 'none',
         'Lighting Subrentals needed': 'none',
       },
-      'video notes' : {
+      'video' : {
         'Main video surface(s) description': '9\'x14\' 7mm LED wall',
         'Other video zones/fill/confidence description': 'none',
         'Projector(s) placement/format description': 'none',
@@ -74,12 +70,12 @@ export default {
         'Video Subcontractors needed': '',
         'Video Subrentals needed': '',
       },
-      'backline notes' : {
+      'backline' : {
         'Backline description/needs': '',
         'Backline Subcontractors needed': '',
         'Backline Subrentals needed': '',
       },
-      'crew notes' : {
+      'crew' : {
         'MPA Sales Rep': 'Alex',
         'MPA Show Lead': 'Alex',
         'On Site Lead': 'Alex',
@@ -90,7 +86,7 @@ export default {
         'Lighting Designer/Engineer': 'Alex',
         'Video Producer/Engineer': '',
       },
-      'other notes' : {
+      'other' : {
         'Soft goods/deco description': '',
         'Hospitality description': '',
         'Stagehands/Techs needs description': '',
@@ -98,77 +94,5 @@ export default {
         'Banner or advertising available': '',
         'Rain/Weather Backup Plan': '',
       },
-    },
-  w : {
-      title: 'Long Event',
-      start: new Date(2016, 4, 7),
-      end: new Date(2016, 4, 10),
-    },
-
-  e : {
-      title: 'DTS STARTS',
-      start: new Date(2016, 4, 13, 0, 0, 0),
-      end: new Date(2016, 4, 20, 0, 0, 0),
-    },
-
-  r : {
-      title: 'DTS ENDS',
-      start: new Date(2016, 10, 6, 0, 0, 0),
-      end: new Date(2016, 10, 13, 0, 0, 0),
-    },
-
-  t : {
-      title: 'Some Event',
-      start: new Date(2016, 4, 9, 0, 0, 0),
-      end: new Date(2016, 4, 9, 0, 0, 0),
-    },
-  y : {
-      title: 'Conference',
-      start: new Date(2016, 4, 11),
-      end: new Date(2016, 4, 13),
-      desc: 'Big conference for important people',
-    },
-  u : {
-      title: 'Meeting',
-      start: new Date(2016, 4, 12, 10, 30, 0, 0),
-      end: new Date(2016, 4, 12, 12, 30, 0, 0),
-      desc: 'Pre-meeting meeting, to prepare for the meeting',
-    },
-  i : {
-      title: 'Lunch',
-      start: new Date(2016, 4, 12, 12, 0, 0, 0),
-      end: new Date(2016, 4, 12, 13, 0, 0, 0),
-      desc: 'Power lunch',
-    },
-  o : {
-      title: 'Meeting',
-      start: new Date(2016, 4, 12, 14, 0, 0, 0),
-      end: new Date(2016, 4, 12, 15, 0, 0, 0),
-    },
-  p : {
-      title: 'Happy Hour',
-      start: new Date(2016, 4, 12, 17, 0, 0, 0),
-      end: new Date(2016, 4, 12, 17, 30, 0, 0),
-      desc: 'Most important meal of the day',
-    },
-  a : {
-      title: 'Dinner',
-      start: new Date(2016, 4, 12, 20, 0, 0, 0),
-      end: new Date(2016, 4, 12, 21, 0, 0, 0),
-    },
-  s : {
-      title: 'Birthday Party',
-      start: new Date(2016, 4, 13, 7, 0, 0),
-      end: new Date(2016, 4, 13, 10, 30, 0),
-    },
-  d : {
-      title: 'Late Night Event',
-      start: new Date(2016, 4, 17, 19, 30, 0),
-      end: new Date(2016, 4, 18, 2, 0, 0),
-    },
-  f : {
-    title: 'Multi-day Event',
-    start: new Date(2016, 4, 20, 19, 30, 0),
-    end: new Date(2016, 4, 22, 2, 0, 0),
+    }
   }
-}

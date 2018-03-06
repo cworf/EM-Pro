@@ -12,6 +12,8 @@ import './EventDetail.css';
 import Tabs, { Tab } from 'material-ui/Tabs';
 import SwipeableViews from 'react-swipeable-views';
 import Paper from 'material-ui/Paper';
+import {observer} from 'mobx-react';
+import TextField from 'material-ui/TextField';
 
 import DetailBox from '../ui/DetailBox';
 import SelectedVenue from '../ui/SelectedVenue';
@@ -55,6 +57,7 @@ class EventDetail extends React.Component {
 
   state = {
     value: 0,
+    editingField: null,
   };
 
   handleChange = (event, value) => {
@@ -65,8 +68,44 @@ class EventDetail extends React.Component {
     this.setState({ value: index });
   };
 
+  handleEditClick = field => {
+    this.setState({...this.state, editingField: field})
+  }
+
+  handleSaveClick = field => {
+    this.setState({...this.state, editingField: null})
+  }
+
   dateFormat = (date) =>
     moment(date).format('MMMM Do YYYY, h:mm:ss a');
+
+  renderOrEdit = (section, field) => {
+    const { classes, event } = this.props;
+    let newText;
+    if ( this.state.editingField === field ) {
+      return (
+        <div>
+          <TextField
+            id={field}
+            label={field}
+            defaultValue={event[section][field]}
+            className={classes.textField}
+            margin="normal"
+          />
+        <button onClick={this.handleSaveClick.bind(null, field)}>s</button>
+      </div>
+      )
+    } else {
+      return (<div><Typography variant="body1" gutterBottom>
+        {field}
+      </Typography>
+      <div className='light-box'>
+        {event[section][field]}
+        <button onClick={this.handleEditClick.bind(null, field)}>e</button>
+      </div>
+      </div>)
+    }
+  }
 
   render() {
     const { classes, event, theme } = this.props;
@@ -110,12 +149,7 @@ class EventDetail extends React.Component {
               <Grid container spacing={16}>
                 {Object.keys(event.schedule).map((fieldName, i) =>
                 <Grid key={i} item xs={12} sm={6}>
-                  <Typography variant="body1" gutterBottom>
-                    {fieldName}
-                  </Typography>
-                  <div className='light-box'>
-                    {event.schedule[fieldName]}
-                  </div>
+                  {this.renderOrEdit('schedule', fieldName)}
                 </Grid>)}
               </Grid>
             </Paper>
@@ -145,8 +179,7 @@ class EventDetail extends React.Component {
               index={this.state.value}
               onChangeIndex={this.handleChangeIndex}
             >
-            {Object.keys(event)
-              .filter(title => /^(production|audio|lighting|video|backline|crew|other)/g.test(title))
+            {['production','audio','lighting','video','backline','crew','other']
               .map((key, i) =>
               <TabContainer key={i} dir={theme.direction}>
                 <DetailBox section={event[key]} />
@@ -167,4 +200,4 @@ EventDetail.propTypes = {
   theme: PropTypes.object.isRequired,
 };
 
-export default withStyles(styles, { withTheme: true })(EventDetail);
+export default observer(withStyles(styles, { withTheme: true })(EventDetail));

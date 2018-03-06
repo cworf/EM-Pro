@@ -64,9 +64,9 @@ const Calendar = observer(class Calendar extends React.Component{
           onSelectSlot={slotInfo =>
             alert(
               `selected slot:
-              start ${slotInfo.start.toLocaleString()}
-              end: ${slotInfo.end.toLocaleString()}
-              action: ${slotInfo.action}`
+                start ${slotInfo.start.toLocaleString()}
+                end: ${slotInfo.end.toLocaleString()}
+                action: ${slotInfo.action}`
             )
 
           }

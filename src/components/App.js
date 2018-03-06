@@ -131,13 +131,34 @@ class App extends React.Component {
     });
   };
 
-  handleAdd = async() => {
+  handleClientsAdd = async() => {
     try {
-      await events.add({...DummyEvents.q});
-      await Object.keys(DummyInventory).map(id =>
-        inventory.add(DummyInventory[id]));
       await Object.keys(DummyClients).map(id =>
         clients.add(DummyClients[id]));
+    }
+    catch (err) {
+      console.log(err);
+    }
+  }
+  handleEventsAdd = async() => {
+    try {
+      await events.add({...DummyEvents.q});
+    }
+    catch (err) {
+      console.log(err);
+    }
+  }
+  handleInventoryAdd = async() => {
+    try {
+      await Object.keys(DummyInventory).map(id =>
+        inventory.add(DummyInventory[id]));
+      }
+    catch (err) {
+      console.log(err);
+    }
+  }
+  handleVenuesAdd = async() => {
+    try {
       await Object.keys(DummyVenues).map(id =>
         venues.add(DummyVenues[id]));
     }
@@ -151,7 +172,6 @@ class App extends React.Component {
     const { anchor, open } = this.state;
 
     return (
-
         <div className={classes.root}>
           <Reboot />
         <div className={classes.appFrame}>
@@ -184,7 +204,6 @@ class App extends React.Component {
             }}
           >
             <div className={classes.drawerHeader}>
-              <div onClick={this.handleAdd}>Add Dummy Data</div>
               <IconButton onClick={this.handleDrawerClose}>
                 {theme.direction === 'rtl' ? <ChevronRightIcon /> : <ChevronLeftIcon />}
               </IconButton>
@@ -193,6 +212,11 @@ class App extends React.Component {
             <List>{mailFolderListItems}</List>
             <Divider />
             <List>{otherMailFolderListItems}</List>
+            <Divider />
+            <div onClick={this.handleEventsAdd}>Add Event Data</div>
+            <div onClick={this.handleVenuesAdd}>Add Venue Data</div>
+            <div onClick={this.handleClientsAdd}>Add Clients Data</div>
+            <div onClick={this.handleInventoryAdd}>Add Inventory Data</div>
           </Drawer>
           <main
             className={classNames(classes.content, classes[`content-${anchor}`], {

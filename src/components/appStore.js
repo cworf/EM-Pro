@@ -4,12 +4,12 @@ import {initFirestorter, Collection} from 'firestorter';
 
 // Initialize firebase app
 firebase.initializeApp({
-  apiKey: "AIzaSyA3R14Pq8XBuaUv9cu3O_d8ekrk_fN3tpQ",
-  authDomain: "mpro-df1b9.firebaseapp.com",
-  databaseURL: "https://mpro-df1b9.firebaseio.com",
-  projectId: "mpro-df1b9",
-  storageBucket: "mpro-df1b9.appspot.com",
-  messagingSenderId: "171467531023"
+  apiKey: "AIzaSyDsoxi8jDn5Nh2-rJBxrOQPmZQQJkCzqeM",
+  authDomain: "em-pro-audio-88747.firebaseapp.com",
+  databaseURL: "https://em-pro-audio-88747.firebaseio.com",
+  projectId: "em-pro-audio",
+  storageBucket: "em-pro-audio.appspot.com",
+  messagingSenderId: "484148208454"
 });
 
 // Initialize `firestorter`
