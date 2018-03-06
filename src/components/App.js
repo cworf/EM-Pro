@@ -20,7 +20,7 @@ import DummyEvents from '../assets/data/events';
 import DummyInventory from '../assets/data/inventory';
 import DummyClients from '../assets/data/clients';
 import DummyVenues from '../assets/data/venues';
-import {events, inventory, clients, venues} from './appStore';
+import {eventsCol, inventory, clients, venues} from './appStore';
 
 import Calendar from './pages/Calendar';
 import Inventory from './pages/Inventory';
@@ -142,7 +142,7 @@ class App extends React.Component {
   }
   handleEventsAdd = async() => {
     try {
-      await events.add({...DummyEvents.q});
+      await eventsCol.add({...DummyEvents.q});
     }
     catch (err) {
       console.log(err);

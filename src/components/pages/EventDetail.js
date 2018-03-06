@@ -50,7 +50,10 @@ const styles = theme => ({
   typeContainer: {
     width: '90%',
     margin: 'auto'
-  }
+  },
+  textField: {
+    flex: 1,
+  },
 });
 
 class EventDetail extends React.Component {
@@ -58,49 +61,60 @@ class EventDetail extends React.Component {
   state = {
     value: 0,
     editingField: null,
+    newValue: null,
   };
 
+
+
   handleChange = (event, value) => {
-    this.setState({ value });
+    this.setState({...this.state, value });
+  };
+  handleInputChange = (event) => {
+    this.setState({ ...this.state, newValue: event.target.value });
   };
 
   handleChangeIndex = index => {
-    this.setState({ value: index });
+    this.setState({...this.state, value: index });
   };
 
   handleEditClick = field => {
     this.setState({...this.state, editingField: field})
   }
 
-  handleSaveClick = field => {
+  handleSaveClick = async(section, field) => {
+    await this.props.eventDoc.set({
+      [section] : {
+        [field] : this.state.newValue
+      }
+    }, {merge: true});
     this.setState({...this.state, editingField: null})
   }
 
   dateFormat = (date) =>
     moment(date).format('MMMM Do YYYY, h:mm:ss a');
 
-  renderOrEdit = (section, field) => {
-    const { classes, event } = this.props;
-    let newText;
+  renderOrEdit = (eventDoc, section, field) => {
+    const {classes} = this.props;
     if ( this.state.editingField === field ) {
       return (
-        <div>
+        <form style={{display:'flex'}}>
           <TextField
             id={field}
             label={field}
-            defaultValue={event[section][field]}
+            defaultValue={eventDoc[section][field]}
             className={classes.textField}
             margin="normal"
+            onChange={this.handleInputChange}
           />
-        <button onClick={this.handleSaveClick.bind(null, field)}>s</button>
-      </div>
+        <button type="button" onClick={this.handleSaveClick.bind(null, section, field)}>s</button>
+      </form>
       )
     } else {
       return (<div><Typography variant="body1" gutterBottom>
         {field}
       </Typography>
       <div className='light-box'>
-        {event[section][field]}
+        {eventDoc[section][field]}
         <button onClick={this.handleEditClick.bind(null, field)}>e</button>
       </div>
       </div>)
@@ -108,13 +122,13 @@ class EventDetail extends React.Component {
   }
 
   render() {
-    const { classes, event, theme } = this.props;
+    const { classes, eventDoc, theme } = this.props;
     return (
       <div>
         <AppBar className={classes.appBar}>
           <Toolbar>
             <Typography variant="title" color="inherit" className={classes.flex}>
-              {event.title} | {this.dateFormat(event.start)} - {this.dateFormat(event.end)}
+              {eventDoc.data.title} | {this.dateFormat(eventDoc.data.start)} - {this.dateFormat(eventDoc.data.end)}
             </Typography>
             <IconButton color="inherit" onClick={this.props.onClickClose} aria-label="Close">
               <CloseIcon />
@@ -147,9 +161,9 @@ class EventDetail extends React.Component {
                 Details
               </Typography>
               <Grid container spacing={16}>
-                {Object.keys(event.schedule).map((fieldName, i) =>
+                {Object.keys(eventDoc.data.schedule).map((fieldName, i) =>
                 <Grid key={i} item xs={12} sm={6}>
-                  {this.renderOrEdit('schedule', fieldName)}
+                  {this.renderOrEdit(eventDoc.data, 'schedule', fieldName)}
                 </Grid>)}
               </Grid>
             </Paper>
@@ -158,8 +172,8 @@ class EventDetail extends React.Component {
               <Typography variant="subheading" align="center" gutterBottom>
                 Venue Info
               </Typography>
-              {event.venue.venue
-                ? <SelectedVenue venue={event.venue} />
+              {eventDoc.data.venue.venue
+                ? <SelectedVenue venue={eventDoc.data.venue} />
                 : 'no venue selected, insert venue select box here'}
             </Paper>
 
@@ -167,8 +181,8 @@ class EventDetail extends React.Component {
               <Typography variant="subheading" align="center" gutterBottom>
                 Client Info
               </Typography>
-              {event.client
-                ? <SelectedClient client={event.client} />
+              {eventDoc.data.client
+                ? <SelectedClient client={eventDoc.data.client} />
               : 'no client selected, insert client select box here'}
             </Paper>
           </Grid>
@@ -182,7 +196,7 @@ class EventDetail extends React.Component {
             {['production','audio','lighting','video','backline','crew','other']
               .map((key, i) =>
               <TabContainer key={i} dir={theme.direction}>
-                <DetailBox section={event[key]} />
+                <DetailBox onRenderOrEdit={this.renderOrEdit} event={eventDoc.data} sectionName={key} section={eventDoc.data[key]} />
               </TabContainer>
             )}
             </SwipeableViews>
@@ -196,7 +210,7 @@ class EventDetail extends React.Component {
 EventDetail.propTypes = {
   classes: PropTypes.object.isRequired,
   onClickClose: PropTypes.func.isRequired,
-  event: PropTypes.object,
+  eventDoc: PropTypes.any,
   theme: PropTypes.object.isRequired,
 };
 

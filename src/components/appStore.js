@@ -16,7 +16,7 @@ firebase.initializeApp({
 initFirestorter({firebase: firebase});
 
 // Define collection
-export const events = new Collection('events');
+export const eventsCol = new Collection('events');
 export const clients = new Collection('clients');
 export const venues = new Collection('venues');
 export const inventory = new Collection('inventory');
