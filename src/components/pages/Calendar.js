@@ -11,7 +11,8 @@ import Slide from 'material-ui/transitions/Slide';
 import {eventsCol} from '../appStore';
 import {observer} from 'mobx-react';
 
-import EventDetail from './EventDetail'
+import EventDetail from './EventDetail';
+import EventAddPrompt from '../ui/EventAddPrompt';
 
 const styles = {
   appBar: {
@@ -35,6 +36,8 @@ const Calendar = observer(class Calendar extends React.Component{
   state = {
     open: false,
     clickedEvent: null,
+    slotInfo: null,
+    promptOpen: false,
   };
 
   handleClickOpen = (clickedEvent) => {
@@ -43,12 +46,20 @@ const Calendar = observer(class Calendar extends React.Component{
         ? item : null
     ).filter(item => item)
 
-    this.setState({ open: true, clickedEvent: eventDoc[0] });
+    this.setState({ ...this.state, open: true, clickedEvent: eventDoc[0] });
 
   }
 
   handleClose = () =>
     this.setState({ ...this.state, open: false });
+
+  handlePromptOpen = (slotInfo) => {
+    this.setState({ ...this.state, promptOpen: true, slotInfo });
+  };
+
+  handlePromptClose = () => {
+    this.setState({ ...this.state, promptOpen: false, slotInfo:null });
+  };
 
 
   eventsParse = (events) =>
@@ -67,13 +78,7 @@ const Calendar = observer(class Calendar extends React.Component{
           scrollToTime={new Date(1970, 1, 1, 6)}
           defaultDate={new Date(2016, 4, 12)}
           onSelectEvent={event => this.handleClickOpen(event)}
-          onSelectSlot={slotInfo =>
-            alert(
-              `selected slot:
-                start ${slotInfo.start.toLocaleString()}
-                end: ${slotInfo.end.toLocaleString()}
-                action: ${slotInfo.action}`
-            )
+          onSelectSlot={slotInfo => this.handlePromptOpen(slotInfo)
 
           }
         />
@@ -85,6 +90,14 @@ const Calendar = observer(class Calendar extends React.Component{
         >
           <EventDetail onClickClose={this.handleClose} eventDoc={this.state.clickedEvent} />
         </Dialog>
+        {this.state.promptOpen
+          ? <EventAddPrompt
+            slotInfo={this.state.slotInfo}
+            open={this.state.promptOpen}
+            onClickClose={this.handlePromptClose} />
+          : null
+        }
+
       </div>
     );
   }
