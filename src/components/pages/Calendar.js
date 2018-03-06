@@ -8,7 +8,7 @@ import { withStyles } from 'material-ui/styles';
 import PropTypes from 'prop-types';
 import Dialog from 'material-ui/Dialog';
 import Slide from 'material-ui/transitions/Slide';
-import {events} from '../appStore';
+import {eventsCol} from '../appStore';
 import {observer} from 'mobx-react';
 
 import EventDetail from './EventDetail'
@@ -37,18 +37,24 @@ const Calendar = observer(class Calendar extends React.Component{
     clickedEvent: null,
   };
 
-  handleClickOpen = (event) =>
-    this.setState({ open: true, clickedEvent: event });
+  handleClickOpen = (clickedEvent) => {
+    const eventDoc = eventsCol.docs.map(item =>
+      item.id === clickedEvent.id
+        ? item : null
+    ).filter(item => item)
 
+    this.setState({ open: true, clickedEvent: eventDoc[0] });
+
+  }
 
   handleClose = () =>
     this.setState({ ...this.state, open: false });
 
 
   eventsParse = (events) =>
-    events.docs.map(event =>
-      event.data
-    )
+    events.docs.map(eventDoc =>{
+      return {...eventDoc.data, id:eventDoc.id}
+    })
 
 
   render(){
@@ -56,7 +62,7 @@ const Calendar = observer(class Calendar extends React.Component{
       <div style={{height: 'calc(100vh - 112px)'}}>
         <BigCalendar
           selectable
-          events={this.eventsParse(events)}
+          events={this.eventsParse(eventsCol)}
           defaultView="month"
           scrollToTime={new Date(1970, 1, 1, 6)}
           defaultDate={new Date(2016, 4, 12)}
@@ -64,9 +70,9 @@ const Calendar = observer(class Calendar extends React.Component{
           onSelectSlot={slotInfo =>
             alert(
               `selected slot:
-              start ${slotInfo.start.toLocaleString()}
-              end: ${slotInfo.end.toLocaleString()}
-              action: ${slotInfo.action}`
+                start ${slotInfo.start.toLocaleString()}
+                end: ${slotInfo.end.toLocaleString()}
+                action: ${slotInfo.action}`
             )
 
           }
@@ -77,7 +83,7 @@ const Calendar = observer(class Calendar extends React.Component{
           onClose={this.handleClose}
           transition={Transition}
         >
-          <EventDetail onClickClose={this.handleClose} event={this.state.clickedEvent} />
+          <EventDetail onClickClose={this.handleClose} eventDoc={this.state.clickedEvent} />
         </Dialog>
       </div>
     );
