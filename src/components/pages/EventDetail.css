@@ -7,3 +7,45 @@
   display: flex;
   justify-content: space-between;
 }
+.light-box:hover .edit-btn {
+  opacity: 1;
+}
+
+button.edit-btn {
+    background: transparent;
+    border: none;
+    position: relative;
+    right: -8px;
+    top: -3px;
+    margin-left: auto;
+    opacity: 0;
+    transition: .2s ease;
+}
+
+button.edit-btn svg {
+    height: 22px;
+    margin-bottom: -9px;
+}
+
+button.edit-btn:hover svg {
+    color: #fff;
+}
+
+
+button {
+    cursor: pointer;
+}
+
+button.save-btn {
+    background: transparent;
+    border-color: #98c362;
+    border-radius: 4px 0 0 4px;
+}
+
+button.save-btn:hover {
+    background: #98c362;
+}
+
+button.save-btn:hover svg {
+    color: #fff;
+}

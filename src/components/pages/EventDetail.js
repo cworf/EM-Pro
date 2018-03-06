@@ -14,6 +14,8 @@ import SwipeableViews from 'react-swipeable-views';
 import Paper from 'material-ui/Paper';
 import {observer} from 'mobx-react';
 import TextField from 'material-ui/TextField';
+import EditIcon from 'material-ui-icons/ModeEdit';
+import SaveIcon from 'material-ui-icons/Done';
 
 import DetailBox from '../ui/DetailBox';
 import SelectedVenue from '../ui/SelectedVenue';
@@ -61,10 +63,9 @@ class EventDetail extends React.Component {
   state = {
     value: 0,
     editingField: null,
+    currentValue: null,
     newValue: null,
   };
-
-
 
   handleChange = (event, value) => {
     this.setState({...this.state, value });
@@ -77,8 +78,8 @@ class EventDetail extends React.Component {
     this.setState({...this.state, value: index });
   };
 
-  handleEditClick = field => {
-    this.setState({...this.state, editingField: field})
+  handleEditClick = (field, value) => {
+    this.setState({...this.state, editingField: field, newValue: value })
   }
 
   handleSaveClick = async(section, field) => {
@@ -97,7 +98,7 @@ class EventDetail extends React.Component {
     const {classes} = this.props;
     if ( this.state.editingField === field ) {
       return (
-        <form style={{display:'flex'}}>
+        <form style={{display:'flex', position: 'relative', alignItems: 'center'}}>
           <TextField
             id={field}
             label={field}
@@ -106,16 +107,21 @@ class EventDetail extends React.Component {
             margin="normal"
             onChange={this.handleInputChange}
           />
-        <button type="button" onClick={this.handleSaveClick.bind(null, section, field)}>s</button>
+        <button className='save-btn' type="button" onClick={this.handleSaveClick.bind(null, section, field)}>
+          <SaveIcon color='secondary'/>
+        </button>
       </form>
       )
     } else {
+      let thisValue = eventDoc[section][field]
       return (<div><Typography variant="body1" gutterBottom>
         {field}
       </Typography>
       <div className='light-box'>
         {eventDoc[section][field]}
-        <button onClick={this.handleEditClick.bind(null, field)}>e</button>
+        <button className='edit-btn' onClick={this.handleEditClick.bind(null, field, thisValue)}>
+          <EditIcon color='primary' />
+        </button>
       </div>
       </div>)
     }
