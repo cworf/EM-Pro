@@ -14,6 +14,7 @@ import Checkbox from 'material-ui/Checkbox';
 import {eventsCol} from '../appStore';
 import {observer} from 'mobx-react';
 import defaultEvent from '../../assets/data/defaultEvent';
+import Typography from 'material-ui/Typography';
 
 function Transition(props) {
   return <Slide direction="up" {...props} />;
@@ -23,8 +24,8 @@ const EventAddPrompt = observer(class EventAddPrompt extends React.Component {
 
   state = {
     eventName : null,
-    eventTimeStart : moment(this.props.slotInfo.start).format('YYYY-MM-DDTHH:mm'),
-    eventTimeEnd : moment(this.props.slotInfo.end).format('YYYY-MM-DDTHH:mm'),
+    eventTimeStart : moment(this.props.slotInfo.start).add(30, 'm').format('YYYY-MM-DDTHH:mm'),
+    eventTimeEnd : moment(this.props.slotInfo.end).add(30, 'm').format('YYYY-MM-DDTHH:mm'),
     isAllDay : false,
   }
 
@@ -37,7 +38,7 @@ const EventAddPrompt = observer(class EventAddPrompt extends React.Component {
 
   handleEventAdd = async() => {
     const {eventName, eventTimeStart, eventTimeEnd, isAllDay} = this.state
-    this.props.onClickClose();
+    this.props.onClickClose('new');
     try {
       await eventsCol.add({
         ...defaultEvent,
@@ -72,7 +73,7 @@ const EventAddPrompt = observer(class EventAddPrompt extends React.Component {
             </DialogTitle>
             <DialogContent>
               <form noValidate>
-                <FormGroup row>
+                <FormGroup style={{marginBottom:'20px'}} row>
                   <TextField
                     required
                     fullWidth
@@ -82,21 +83,24 @@ const EventAddPrompt = observer(class EventAddPrompt extends React.Component {
                     onChange={this.handleChange('eventName')}
                   />
                 </FormGroup>
-                <FormGroup row>
+                <Typography variant="body2" gutterBottom >
+                  How long will you need the equipment?
+                </Typography>
+                <FormGroup style={{marginBottom:'20px'}} row>
                   <TextField
-                    id="start-datetime-local" label="Start Time"
+                    id="start-datetime-local" label="From"
                     type="datetime-local" defaultValue={eventTimeStart}
                     InputLabelProps={{shrink: true,}}
                     onChange={this.handleChange('eventTimeStart')}
                   />
                   <TextField
-                    id="end-datetime-local" label="End Time"
+                    id="end-datetime-local" label="To"
                     type="datetime-local" defaultValue={eventTimeEnd}
                     InputLabelProps={{shrink: true,}}
                     onChange={this.handleChange('eventTimeEnd')}
                   />
                 </FormGroup>
-                <FormGroup row>
+                <FormGroup style={{marginBottom:'20px'}} row>
                   <FormControlLabel
                     control={
                       <Checkbox
