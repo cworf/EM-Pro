@@ -1,5 +1,7 @@
 # EM-Pro
 
+project build viewable in current state at https://em-pro-audio-88747.firebaseapp.com
+
 ## Project Proposal
 
 ### Name of Student:

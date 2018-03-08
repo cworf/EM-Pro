@@ -213,10 +213,10 @@ class App extends React.Component {
             <Divider />
             <List>{otherMailFolderListItems}</List>
             <Divider />
-            <div onClick={this.handleEventsAdd}>Add Event Data</div>
+            {/*<div onClick={this.handleEventsAdd}>Add Event Data</div>
             <div onClick={this.handleVenuesAdd}>Add Venue Data</div>
             <div onClick={this.handleClientsAdd}>Add Clients Data</div>
-            <div onClick={this.handleInventoryAdd}>Add Inventory Data</div>
+            <div onClick={this.handleInventoryAdd}>Add Inventory Data</div>*/}
           </Drawer>
           <main
             className={classNames(classes.content, classes[`content-${anchor}`], {

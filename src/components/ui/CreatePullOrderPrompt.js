@@ -6,8 +6,7 @@ import Button from 'material-ui/Button';
 import Popover from 'material-ui/Popover';
 import TextField from 'material-ui/TextField';
 import {observer} from 'mobx-react';
-import {orders} from '../appStore';
-import { Document, Collection } from 'firestorter';
+import { Collection } from 'firestorter';
 
 const styles = theme => ({
   container: {
@@ -62,7 +61,6 @@ const CreatePullOrderPrompt = observer(class CreatePullOrderPrompt extends React
   button = null;
 
   render() {
-    console.log(this.props.eventDoc.data.createTime);
     const { classes } = this.props;
     const {
       open,
@@ -140,6 +138,9 @@ const CreatePullOrderPrompt = observer(class CreatePullOrderPrompt extends React
             />
             <Button type='submit' variant='raised' color='secondary' component='button' size="small" className={classes.button}>
               Create Pull Order
+            </Button>
+            <Button onClick={this.handleClose} variant='raised' color='primary' size="small" className={classes.button}>
+              Cancel
             </Button>
           </form>
         </Popover>

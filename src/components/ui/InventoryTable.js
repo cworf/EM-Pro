@@ -22,8 +22,7 @@ const styles = theme => ({
 const InventoryTable = observer(class InventoryTable extends React.Component{
 
   render(){
-    const {items, type, classes, eventDoc} = this.props
-    console.log(items);
+    const {type, classes, eventDoc} = this.props
     return (
       <Paper className={classes.root}>
         <Table className={classes.table}>
@@ -36,6 +35,7 @@ const InventoryTable = observer(class InventoryTable extends React.Component{
             </TableRow>
           </TableHead>
           <TableBody>
+            {console.log(inventory.docs)}
             {inventory.docs.map(item => {
               const {id, data} = item,
               {model, manufacturer, series, inStock, name} = data;

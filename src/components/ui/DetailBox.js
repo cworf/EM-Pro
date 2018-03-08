@@ -26,6 +26,10 @@ const styles = theme => ({
     boxShadow: theme.shadows[5],
     padding: theme.spacing.unit * 4,
   },
+  button: {
+    float: 'right',
+    marginBottom: 20,
+  },
 });
 
 class DetailBox extends React.Component{
@@ -48,7 +52,7 @@ class DetailBox extends React.Component{
       <div>
         {
           inventoryCategories[sectionName]
-          ? <Button variant='raised' color='secondary' onClick={this.handleOpen}>Pull {sectionName} equipment</Button>
+          ? <Button variant='raised' color='secondary' className={classes.button} onClick={this.handleOpen}>Pull {sectionName} equipment</Button>
           : null
         }
 

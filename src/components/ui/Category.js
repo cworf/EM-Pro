@@ -25,7 +25,10 @@ const styles = theme => ({
   },
   paper: {
     background: '#292e35',
-  }
+  },
+  details: {
+    padding: 0,
+  },
 });
 
 const Category = observer(function Category(props) {
@@ -39,7 +42,7 @@ const Category = observer(function Category(props) {
               <ExpansionPanelSummary expandIcon={<ExpandMoreIcon />}>
                 <Typography className={classes.heading}>{type}</Typography>
               </ExpansionPanelSummary>
-              <ExpansionPanelDetails>
+              <ExpansionPanelDetails className={picker ? classes.details : classes.notDetails}>
                 { picker //render picker table
                   ? <InventoryTable type={type} eventDoc={eventDoc} />
                   : /* else render cards */ <Grid container spacing={24}>
