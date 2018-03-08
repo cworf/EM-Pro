@@ -10,12 +10,6 @@ import Paper from 'material-ui/Paper';
 import Category from './Category';
 import {inventoryCategories} from '../../assets/data/taxonomies';
 
-const modalStyle = {
-    top: `50%`,
-    left: `50%`,
-    transform: `translate(-50%, -50%)`,
-  };
-
 const styles = theme => ({
   root: {
     justifyContent: 'center',
@@ -48,7 +42,7 @@ class DetailBox extends React.Component{
   };
 
   render() {
-    const { classes, section, sectionName, event } = this.props;
+    const { classes, section, sectionName, eventDoc } = this.props;
     return (
       <div>
         {
@@ -67,14 +61,14 @@ class DetailBox extends React.Component{
             <Typography variant="title" id="modal-title" gutterBottom>
               Pull Form
             </Typography>
-            <Category picker category={sectionName} types={inventoryCategories[sectionName]}/>
+            <Category picker eventDoc={eventDoc} category={sectionName} types={inventoryCategories[sectionName]}/>
           </div>
         </Modal>
         <Paper className={classes.paper}>
           <Grid container spacing={16}>
             {Object.keys(section).map((fieldName, i) =>
             <Grid key={i} item xs={12} sm={6}>
-              {this.props.onRenderOrEdit(event, sectionName, fieldName)}
+              {this.props.onRenderOrEdit(eventDoc.data, sectionName, fieldName)}
             </Grid>)}
           </Grid>
         </Paper>
@@ -86,7 +80,7 @@ class DetailBox extends React.Component{
 
 DetailBox.propTypes = {
   section: PropTypes.object,
-  event: PropTypes.object,
+  eventDoc: PropTypes.any,
   onRenderOrEdit: PropTypes.func.isRequired,
   sectionName: PropTypes.string.isRequired,
 }

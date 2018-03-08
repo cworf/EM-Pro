@@ -29,7 +29,7 @@ const styles = theme => ({
 });
 
 const Category = observer(function Category(props) {
-  const { classes, types, picker } = props;
+  const { classes, types, picker, eventDoc } = props;
   if (types) {
     return (
       <div className={classes.root}>
@@ -41,7 +41,7 @@ const Category = observer(function Category(props) {
               </ExpansionPanelSummary>
               <ExpansionPanelDetails>
                 { picker //render picker table
-                  ? <InventoryTable type={type} />
+                  ? <InventoryTable type={type} eventDoc={eventDoc} />
                   : /* else render cards */ <Grid container spacing={24}>
                     {inventory.docs.map((item) =>
                       item.data.type === type
@@ -69,6 +69,7 @@ Category.propTypes = {
   category: PropTypes.string,
   types: PropTypes.array,
   picker: PropTypes.bool,
+  eventDoc: PropTypes.any,
 };
 
 export default withStyles(styles)(Category);

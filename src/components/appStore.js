@@ -20,4 +20,4 @@ export const eventsCol = new Collection('events');
 export const clients = new Collection('clients');
 export const venues = new Collection('venues');
 export const inventory = new Collection('inventory');
-export const requests = new Collection('requests');
+export const orders = new Collection('orders');

@@ -2,11 +2,11 @@ import React from 'react';
 import {observer} from 'mobx-react';
 import PropTypes from 'prop-types';
 import { withStyles } from 'material-ui/styles';
-import Tooltip from 'material-ui/Tooltip';
 import Table, { TableBody, TableCell, TableHead, TableRow } from 'material-ui/Table';
 import Paper from 'material-ui/Paper';
 import {inventory} from '../appStore';
-import Button from 'material-ui/Button';
+
+import CreatePullOrderPrompt from './CreatePullOrderPrompt';
 
 const styles = theme => ({
   root: {
@@ -22,7 +22,7 @@ const styles = theme => ({
 const InventoryTable = observer(class InventoryTable extends React.Component{
 
   render(){
-    const {items, type, classes} = this.props
+    const {items, type, classes, eventDoc} = this.props
     console.log(items);
     return (
         <Paper className={classes.root}>
@@ -44,9 +44,7 @@ const InventoryTable = observer(class InventoryTable extends React.Component{
                       <TableCell>{manufacturer} {series} {model}</TableCell>
                       <TableCell>{name}</TableCell>
                       <TableCell numeric>{inStock}</TableCell>
-                      <TableCell padding='checkbox'><Button size="small" variant='raised' color="primary">
-                        Select Qty
-                      </Button></TableCell>
+                      <TableCell padding='checkbox'><CreatePullOrderPrompt item={item} eventDoc={eventDoc} /></TableCell>
                     </TableRow>
                   : null
                 );
@@ -61,6 +59,7 @@ const InventoryTable = observer(class InventoryTable extends React.Component{
 InventoryTable.propTypes = {
   type: PropTypes.string,
   classes: PropTypes.object.isRequired,
+  eventDoc: PropTypes.any,
 }
 
 export default withStyles(styles)(InventoryTable);

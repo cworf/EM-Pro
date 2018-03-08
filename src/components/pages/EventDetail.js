@@ -202,7 +202,7 @@ class EventDetail extends React.Component {
             {['production','audio','lighting','video','backline','crew','other']
               .map((key, i) =>
               <TabContainer key={i} dir={theme.direction}>
-                <DetailBox onRenderOrEdit={this.renderOrEdit} event={eventDoc.data} sectionName={key} section={eventDoc.data[key]} />
+                <DetailBox onRenderOrEdit={this.renderOrEdit} eventDoc={eventDoc} sectionName={key} section={eventDoc.data[key]} />
               </TabContainer>
             )}
             </SwipeableViews>
