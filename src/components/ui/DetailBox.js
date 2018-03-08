@@ -17,6 +17,10 @@ const modalStyle = {
   };
 
 const styles = theme => ({
+  root: {
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
   paper: {
     padding: theme.spacing.unit * 2,
     color: theme.palette.text.secondary,
@@ -57,9 +61,10 @@ class DetailBox extends React.Component{
           aria-labelledby="simple-modal-title"
           open={this.state.open}
           onClose={this.handleClose}
+          className={classes.root}
         >
-          <div style={modalStyle} className={classes.paper2}>
-            <Typography variant="title" id="modal-title">
+          <div className={classes.paper2}>
+            <Typography variant="title" id="modal-title" gutterBottom>
               Pull Form
             </Typography>
             <Category picker category={sectionName} types={inventoryCategories[sectionName]}/>
