@@ -25,33 +25,33 @@ const InventoryTable = observer(class InventoryTable extends React.Component{
     const {items, type, classes, eventDoc} = this.props
     console.log(items);
     return (
-        <Paper className={classes.root}>
-          <Table className={classes.table}>
-            <TableHead>
-              <TableRow>
-                <TableCell>Item</TableCell>
-                <TableCell>Name</TableCell>
-                <TableCell numeric>Total in Stock</TableCell>
-                <TableCell>Pull</TableCell>
-              </TableRow>
-            </TableHead>
-            <TableBody>
-              {inventory.docs.map(item => {
-                const {id, data} = item,
-                {model, manufacturer, series, inStock, name} = data;
-                return ( data.type === type
-                  ?<TableRow key={id}>
-                      <TableCell>{manufacturer} {series} {model}</TableCell>
-                      <TableCell>{name}</TableCell>
-                      <TableCell numeric>{inStock}</TableCell>
-                      <TableCell padding='checkbox'><CreatePullOrderPrompt item={item} eventDoc={eventDoc} /></TableCell>
-                    </TableRow>
-                  : null
-                );
-              })}
-            </TableBody>
-          </Table>
-        </Paper>
+      <Paper className={classes.root}>
+        <Table className={classes.table}>
+          <TableHead>
+            <TableRow>
+              <TableCell>Item</TableCell>
+              <TableCell>Name</TableCell>
+              <TableCell numeric>Total in Stock</TableCell>
+              <TableCell>Pull</TableCell>
+            </TableRow>
+          </TableHead>
+          <TableBody>
+            {inventory.docs.map(item => {
+              const {id, data} = item,
+              {model, manufacturer, series, inStock, name} = data;
+              return ( data.type === type
+                ?<TableRow key={id}>
+                    <TableCell>{manufacturer} {series} {model}</TableCell>
+                    <TableCell>{name}</TableCell>
+                    <TableCell numeric>{inStock}</TableCell>
+                    <TableCell padding='checkbox'><CreatePullOrderPrompt item={item} eventDoc={eventDoc} /></TableCell>
+                  </TableRow>
+                : null
+              );
+            })}
+          </TableBody>
+        </Table>
+      </Paper>
     );
   }
 })

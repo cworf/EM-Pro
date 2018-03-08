@@ -8,6 +8,7 @@ import Grid from 'material-ui/Grid';
 import Paper from 'material-ui/Paper';
 
 import Category from './Category';
+import EventInventoryTable from './EventInventoryTable';
 import {inventoryCategories} from '../../assets/data/taxonomies';
 
 const styles = theme => ({
@@ -64,6 +65,11 @@ class DetailBox extends React.Component{
             <Category picker eventDoc={eventDoc} category={sectionName} types={inventoryCategories[sectionName]}/>
           </div>
         </Modal>
+        {
+          inventoryCategories[sectionName]
+          ? <EventInventoryTable eventDoc={eventDoc} category={sectionName}/>
+          : null
+        }
         <Paper className={classes.paper}>
           <Grid container spacing={16}>
             {Object.keys(section).map((fieldName, i) =>

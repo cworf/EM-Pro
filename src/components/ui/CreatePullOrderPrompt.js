@@ -160,13 +160,17 @@ const CreatePullOrderPrompt = observer(class CreatePullOrderPrompt extends React
       this.handleClose()
       try {
         await itemOrdersCol.add({
-          item_ref: item.id,
-          event_ref: eventDoc.id,
+          item_name: `${item.data.manufacturer} ${item.data.series} ${item.data.model}`,
+          item_ref: item.path,
+          event_ref: eventDoc.path,
           start: dateTimeStart,
           end: dateTimeEnd,
           qty: qtyInt,
           req_by: '',
           pulled_by: '',
+          loaded_by: '',
+          returned_by: '',
+          category: item.data.category
         })
         .then(async(response) => {
           await eventOrdersCol.add({
@@ -178,7 +182,10 @@ const CreatePullOrderPrompt = observer(class CreatePullOrderPrompt extends React
         alert('Error adding order: ', err);
       }
     } else {
-      alert('Error: invalid order quantity')
+      alert(`Error: invalid order quantity:
+        ${qtyInt <= 0
+          ? 'Order Quantity must be a number higher than zero'
+          : 'Order Quantity exceeds total in stock'}`)
     }
 
   }
