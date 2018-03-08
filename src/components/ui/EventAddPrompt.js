@@ -55,7 +55,7 @@ const EventAddPrompt = observer(class EventAddPrompt extends React.Component {
 
   render(){
     const {slotInfo} = this.props;
-    const {eventName, eventTimeEnd, eventTimeStart, isAllDay} = this.state
+    const {eventTimeEnd, eventTimeStart} = this.state
     if (slotInfo) {
       console.log(moment(slotInfo.start).format('YYYY-MM-DDTHH:mm'));
       return (

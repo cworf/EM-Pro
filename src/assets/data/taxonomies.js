@@ -1,12 +1,12 @@
 export const inventoryCategories = {
-  Audio : [
+  audio : [
     'Speaker',
     'Amp Rack',
     'Distro',
     'Mixer',
     'Microphone'
   ],
-  Cables : [
+  cables : [
     'Audio AC Cables',
     'Audio Signal Cables',
     'Speaker Cables',
@@ -16,7 +16,7 @@ export const inventoryCategories = {
     'Video Signal Cables',
     'Rigging Cables',
   ],
-  Lighting : [
+  lighting : [
     'Dimmers',
     'Conventional Fixtures',
     'LED Fixtures',
@@ -26,7 +26,7 @@ export const inventoryCategories = {
     'Scenic / Deco',
     'Other'
   ],
-  Video : [
+  video : [
     'Projectors',
     'Screens/Displays',
     'Cameras/Media devices',
@@ -34,7 +34,7 @@ export const inventoryCategories = {
     'Rigging',
     'Other'
   ],
-  Backline : [
+  backline : [
     'Drums',
     'Percussion',
     'Guitar Amps',

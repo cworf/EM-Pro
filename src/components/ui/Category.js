@@ -25,37 +25,43 @@ const styles = theme => ({
 });
 
 const Category = observer(function Category(props) {
-  const { classes } = props;
-  return (
-    <div className={classes.root}>
-      {props.types.map(function(type, i){
-        return (
-          <ExpansionPanel key={i}>
-            <ExpansionPanelSummary expandIcon={<ExpandMoreIcon />}>
-              <Typography className={classes.heading}>{type}</Typography>
-            </ExpansionPanelSummary>
-            <ExpansionPanelDetails>
-              <Grid container spacing={24}>
-                {inventory.docs.map((item) =>
-                  item.data.type === type
-                  ? <Grid key={item.id} item xs={6} sm={3}>
-                      <InventoryCard item={item.data} />
-                    </Grid>
-                  : null
-                )}
-              </Grid>
-            </ExpansionPanelDetails>
-          </ExpansionPanel>
-        )
-      })}
-    </div>
-  );
+  const { classes, types } = props;
+  if (types) {
+    return (
+      <div className={classes.root}>
+        {types.map(function(type, i){
+          return (
+            <ExpansionPanel key={i}>
+              <ExpansionPanelSummary expandIcon={<ExpandMoreIcon />}>
+                <Typography className={classes.heading}>{type}</Typography>
+              </ExpansionPanelSummary>
+              <ExpansionPanelDetails>
+                <Grid container spacing={24}>
+                  {inventory.docs.map((item) =>
+                    item.data.type === type
+                    ? <Grid key={item.id} item xs={6} sm={3}>
+                        <InventoryCard item={item.data} />
+                      </Grid>
+                    : null
+                  )}
+                </Grid>
+              </ExpansionPanelDetails>
+            </ExpansionPanel>
+          )
+        })}
+      </div>
+    );
+  } else {
+    return null
+  }
+
 });
 
 Category.propTypes = {
   classes: PropTypes.object.isRequired,
   category: PropTypes.string,
   types: PropTypes.array,
+  picker: PropTypes.bool,
 };
 
 export default withStyles(styles)(Category);
