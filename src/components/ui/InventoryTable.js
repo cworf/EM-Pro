@@ -36,7 +36,6 @@ const InventoryTable = observer(class InventoryTable extends React.Component{
             </TableRow>
           </TableHead>
           <TableBody>
-            {console.log(inventory.docs)}
             {inventory.docs.map(item => {
               const {id, data} = item,
               {model, manufacturer, series, inStock, name} = data;

@@ -57,7 +57,6 @@ const EventAddPrompt = observer(class EventAddPrompt extends React.Component {
     const {slotInfo} = this.props;
     const {eventTimeEnd, eventTimeStart} = this.state
     if (slotInfo) {
-      console.log(moment(slotInfo.start).format('YYYY-MM-DDTHH:mm'));
       return (
         <div>
           <Dialog

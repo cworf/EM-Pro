@@ -42,7 +42,6 @@ const EventInventoryTable = observer(class EventInventoryTable extends Component
 
   render(){
     const { classes, category } = this.props;
-    console.log(this.eventOrdersColRef.docs.length);
     return (
       <Paper className={classes.root}>
         <Table className={classes.table}>

@@ -63,7 +63,6 @@ function handleClick() {
 }
 
 function Venues(props) {
-  console.log(props.venue);
   const { classes } = props;
   const { contact_info, stages, name } = props.venue;
   const { street, street2, city, state, zip } = contact_info.mailing_address;

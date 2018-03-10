@@ -21,7 +21,6 @@ const EventInventoryTableRow = observer(class EventInventoryTableRow extends Com
   constructor(props){
     super(props);
     this.ItemOrderDoc = new Document(props.order_ref);
-    console.log(this.itemOrderDoc);
   }
 
   componentWillReceiveProps(newProps) {
@@ -32,7 +31,6 @@ const EventInventoryTableRow = observer(class EventInventoryTableRow extends Com
 
 
   render(){
-    console.log(this.itemOrderDoc);
     const { category } = this.props;
     const { item_name, pulled_by, loaded_by, returned_by, qty } = this.ItemOrderDoc.data
     if (this.ItemOrderDoc.data.category === category) {
