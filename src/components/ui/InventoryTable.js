@@ -21,6 +21,7 @@ const styles = theme => ({
 
 const InventoryTable = observer(class InventoryTable extends React.Component{
 
+
   render(){
     const {type, classes, eventDoc} = this.props
     return (

@@ -52,7 +52,10 @@ class DetailBox extends React.Component{
       <div>
         {
           inventoryCategories[sectionName]
-          ? <Button variant='raised' color='secondary' className={classes.button} onClick={this.handleOpen}>Pull {sectionName} equipment</Button>
+          ? <div>
+              <Button variant='raised' color='secondary' className={classes.button} onClick={this.handleOpen}>Pull {sectionName} equipment</Button>
+              <EventInventoryTable eventDoc={eventDoc} category={sectionName}/>
+            </div>
           : null
         }
 
@@ -69,11 +72,6 @@ class DetailBox extends React.Component{
             <Category picker eventDoc={eventDoc} category={sectionName} types={inventoryCategories[sectionName]}/>
           </div>
         </Modal>
-        {
-          inventoryCategories[sectionName]
-          ? <EventInventoryTable eventDoc={eventDoc} category={sectionName}/>
-          : null
-        }
         <Paper className={classes.paper}>
           <Grid container spacing={16}>
             {Object.keys(section).map((fieldName, i) =>

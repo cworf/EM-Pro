@@ -8,6 +8,8 @@ import Paper from 'material-ui/Paper';
 import { Collection } from 'firestorter';
 import firebase from 'firebase';
 
+import EventInventoryTableRow from './EventInventoryTableRow'
+
 
 const styles = theme => ({
   root: {
@@ -20,66 +22,62 @@ const styles = theme => ({
   },
 });
 
-class EventInventoryTable extends Component {
+const EventInventoryTable = observer(class EventInventoryTable extends Component {
 
-  constructor(props){
-    super(props)
-    this.eventOrdersColRef = new Collection(
-    	firebase  //<---- btw this is written as "firebase()" in the docs, but only works without the parentheses
-    		.firestore()
-    		.collection(`${this.props.eventDoc.path}/orders`)
-      );
+  eventOrdersColRef = new Collection(`${this.props.eventDoc.path}/orders`);
+  state = {
+    hasOrders: false
   }
 
-  componentWillReceiveProps(newProps) {
-    this.eventOrdersColRef = new Collection(
-    	firebase  //<---- btw this is written as "firebase()" in the docs, but only works without the parentheses
-    		.firestore()
-    		.collection(`${this.props.eventDoc.path}/orders`)
-      );
+  // componentWillReceiveProps(newProps) {
+  //   if (newProps.eventDoc !== this.props.eventDoc) {
+  //     this.eventOrdersColRef.path = `${newProps.eventDoc.path}/orders`;
+  //   }
+  // }
+
+  handleHasOrders = () => {
+    this.setState({hasOrders: true})
   }
+
 
   render(){
     const { classes, category } = this.props;
+    console.log(this.eventOrdersColRef.docs.length);
     return (
       <Paper className={classes.root}>
         <Table className={classes.table}>
-          <TableHead>
-            <TableRow>
-              <TableCell>Item</TableCell>
-              <TableCell>Pulled</TableCell>
-              <TableCell>Loaded</TableCell>
-              <TableCell>Returned</TableCell>
-            </TableRow>
-          </TableHead>
-          <TableBody>
-            {console.log(this.eventOrdersColRef.ref)}
-          {this.eventOrdersColRef.docs.map(orderRefDoc => {
-            console.log(orderRefDoc);
-            const {data} = orderRefDoc;
-            const {order_ref} = data; //inventory / item /order collection / document reference path
-            const ItemOrderDoc = new Document(order_ref); //item sub collection reference
-            const { item_name, pulled_by, loaded_by, returned_by } = ItemOrderDoc.data
-            return ( ItemOrderDoc.data.category === category
-              ?<TableRow key={ItemOrderDoc.id}>
-                <TableCell> {item_name}</TableCell>
-                <TableCell>{pulled_by}</TableCell>
-                <TableCell>{loaded_by}</TableCell>
-                <TableCell>{returned_by}</TableCell>
+            <TableHead>
+            {
+              this.state.hasOrders
+              ?<TableRow>
+                <TableCell>Item</TableCell>
+                <TableCell>Qty</TableCell>
+                <TableCell>Pulled</TableCell>
+                <TableCell>Loaded</TableCell>
+                <TableCell>Returned</TableCell>
               </TableRow>
-              : null
-            );
+              :<TableRow>
+                <TableCell align='center'>No {category} equipment has been reserved for this event</TableCell>
+              </TableRow>
+            }
+
+
+            </TableHead>
+          <TableBody>
+          {this.eventOrdersColRef.docs.map(orderRefDoc => {
+            const {order_ref} = orderRefDoc.data; //inventory / item /order collection / document reference path
+            return (<EventInventoryTableRow order_ref={order_ref} category={category} onHasOrders={this.handleHasOrders} />)
           })}
           </TableBody>
         </Table>
       </Paper>
     );
   }
-}
+});
 
 EventInventoryTable.propTypes = {
   eventDoc: PropTypes.any.isRequired,
   category: PropTypes.string
 }
 
-export default observer(withStyles(styles)(EventInventoryTable));
+export default withStyles(styles)(EventInventoryTable);
