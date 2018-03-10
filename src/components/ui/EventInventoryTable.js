@@ -6,7 +6,6 @@ import Table, { TableBody, TableCell, TableHead, TableRow } from 'material-ui/Ta
 import Paper from 'material-ui/Paper';
 
 import { Collection } from 'firestorter';
-import firebase from 'firebase';
 
 import EventInventoryTableRow from './EventInventoryTableRow'
 
@@ -16,6 +15,7 @@ const styles = theme => ({
     width: '100%',
     overflowX: 'auto',
     background: '#333942',
+    marginBottom: 24
   },
   table: {
     minWidth: 700,
@@ -29,11 +29,11 @@ const EventInventoryTable = observer(class EventInventoryTable extends Component
     hasOrders: false
   }
 
-  // componentWillReceiveProps(newProps) {
-  //   if (newProps.eventDoc !== this.props.eventDoc) {
-  //     this.eventOrdersColRef.path = `${newProps.eventDoc.path}/orders`;
-  //   }
-  // }
+  componentWillReceiveProps(newProps) {
+    if (newProps.eventDoc !== this.props.eventDoc) {
+      this.eventOrdersColRef.path = `${newProps.eventDoc.path}/orders`;
+    }
+  }
 
   handleHasOrders = () => {
     this.setState({hasOrders: true})
@@ -64,10 +64,13 @@ const EventInventoryTable = observer(class EventInventoryTable extends Component
 
             </TableHead>
           <TableBody>
-          {this.eventOrdersColRef.docs.map(orderRefDoc => {
-            const {order_ref} = orderRefDoc.data; //inventory / item /order collection / document reference path
-            return (<EventInventoryTableRow order_ref={order_ref} category={category} onHasOrders={this.handleHasOrders} />)
-          })}
+          {this.eventOrdersColRef.docs.map(orderRefDoc =>
+            <EventInventoryTableRow
+              order_ref={orderRefDoc.data.order_ref}
+              category={category}
+              onHasOrders={this.handleHasOrders}
+              />
+          )}
           </TableBody>
         </Table>
       </Paper>

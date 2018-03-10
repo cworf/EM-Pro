@@ -41,7 +41,8 @@ const styles = theme => ({
   paper: {
     padding: theme.spacing.unit * 2,
     color: theme.palette.text.secondary,
-    marginBottom: 15
+    marginBottom: 15,
+    background: '#2b3038',
   },
   appBar: {
     position: 'relative',
@@ -105,6 +106,8 @@ class EventDetail extends React.Component {
             defaultValue={eventDoc[section][field]}
             className={classes.textField}
             margin="normal"
+            multiline
+            rowsMax="4"
             onChange={this.handleInputChange}
           />
         <button className='save-btn' type="button" onClick={this.handleSaveClick.bind(null, section, field)}>
@@ -162,10 +165,10 @@ class EventDetail extends React.Component {
 
         <Grid container spacing={24} className={classes.typeContainer}>
           <Grid item xs={12} sm={4}>
+            <Typography variant="subheading" align="center" gutterBottom>
+              Details
+            </Typography>
             <Paper className={classes.paper}>
-              <Typography variant="subheading" align="center" gutterBottom>
-                Details
-              </Typography>
               <Grid container spacing={16}>
                 {Object.keys(eventDoc.data.schedule).map((fieldName, i) =>
                 <Grid key={i} item xs={12} sm={6}>
@@ -174,19 +177,19 @@ class EventDetail extends React.Component {
               </Grid>
             </Paper>
 
+            <Typography variant="subheading" align="center" gutterBottom>
+              Venue Info
+            </Typography>
             <Paper className={classes.paper}>
-              <Typography variant="subheading" align="center" gutterBottom>
-                Venue Info
-              </Typography>
               {eventDoc.data.venue.venue
                 ? <SelectedVenue venue={eventDoc.data.venue} />
                 : 'no venue selected, insert venue select box here'}
             </Paper>
 
+            <Typography variant="subheading" align="center" gutterBottom>
+              Client Info
+            </Typography>
             <Paper className={classes.paper}>
-              <Typography variant="subheading" align="center" gutterBottom>
-                Client Info
-              </Typography>
               {eventDoc.data.client
                 ? <SelectedClient client={eventDoc.data.client} />
               : 'no client selected, insert client select box here'}
@@ -202,6 +205,9 @@ class EventDetail extends React.Component {
             {['production','audio','lighting','video','backline','crew','other']
               .map((key, i) =>
               <TabContainer key={i} dir={theme.direction}>
+                <Typography variant="display1" style={{textTransform:'capitalize', float: 'left'}} gutterBottom>
+                  {key}
+                </Typography>
                 <DetailBox onRenderOrEdit={this.renderOrEdit} eventDoc={eventDoc} sectionName={key} section={eventDoc.data[key]} />
               </TabContainer>
             )}

@@ -19,6 +19,7 @@ const styles = theme => ({
   paper: {
     padding: theme.spacing.unit * 2,
     color: theme.palette.text.secondary,
+    background: '#2b3038'
   },
   paper2: {
     position: 'absolute',
@@ -53,7 +54,7 @@ class DetailBox extends React.Component{
         {
           inventoryCategories[sectionName]
           ? <div>
-              <Button variant='raised' color='secondary' className={classes.button} onClick={this.handleOpen}>Pull {sectionName} equipment</Button>
+              <Button variant='raised' color='secondary' className={classes.button} onClick={this.handleOpen}>Reserve {sectionName} equipment</Button>
               <EventInventoryTable eventDoc={eventDoc} category={sectionName}/>
             </div>
           : null
@@ -72,6 +73,9 @@ class DetailBox extends React.Component{
             <Category picker eventDoc={eventDoc} category={sectionName} types={inventoryCategories[sectionName]}/>
           </div>
         </Modal>
+        <Typography variant="headline" gutterBottom>
+          Notes
+        </Typography>
         <Paper className={classes.paper}>
           <Grid container spacing={16}>
             {Object.keys(section).map((fieldName, i) =>
