@@ -33,7 +33,7 @@ const styles = theme => ({
   },
 });
 
-class DetailBox extends React.Component{
+class EventDetailBox extends React.Component{
 
   state = {
     open: false,
@@ -90,11 +90,11 @@ class DetailBox extends React.Component{
 }
 
 
-DetailBox.propTypes = {
+EventDetailBox.propTypes = {
   section: PropTypes.object,
   eventDoc: PropTypes.any,
   onRenderOrEdit: PropTypes.func.isRequired,
   sectionName: PropTypes.string.isRequired,
 }
 
-export default withStyles(styles, { withTheme: true })(DetailBox);
+export default withStyles(styles, { withTheme: true })(EventDetailBox);

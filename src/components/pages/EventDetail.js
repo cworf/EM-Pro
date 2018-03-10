@@ -17,7 +17,7 @@ import TextField from 'material-ui/TextField';
 import EditIcon from 'material-ui-icons/ModeEdit';
 import SaveIcon from 'material-ui-icons/Done';
 
-import DetailBox from '../ui/DetailBox';
+import EventDetailBox from '../ui/EventDetailBox';
 import SelectedVenue from '../ui/SelectedVenue';
 import SelectedClient from '../ui/SelectedClient';
 
@@ -80,15 +80,17 @@ class EventDetail extends React.Component {
   };
 
   handleEditClick = (field, value) => {
-    this.setState({...this.state, editingField: field, newValue: value })
+    this.setState({...this.state, editingField: field, newValue: value, currentValue:value })
   }
 
   handleSaveClick = async(section, field) => {
-    await this.props.eventDoc.set({
-      [section] : {
-        [field] : this.state.newValue
-      }
-    }, {merge: true});
+    if (this.state.newValue !== this.state.currentValue) {
+      await this.props.eventDoc.set({
+        [section] : {
+          [field] : this.state.newValue
+        }
+      }, {merge: true});
+    }
     this.setState({...this.state, editingField: null})
   }
 
@@ -208,7 +210,7 @@ class EventDetail extends React.Component {
                 <Typography variant="display1" style={{textTransform:'capitalize', float: 'left'}} gutterBottom>
                   {key}
                 </Typography>
-                <DetailBox onRenderOrEdit={this.renderOrEdit} eventDoc={eventDoc} sectionName={key} section={eventDoc.data[key]} />
+                <EventDetailBox onRenderOrEdit={this.renderOrEdit} eventDoc={eventDoc} sectionName={key} section={eventDoc.data[key]} />
               </TabContainer>
             )}
             </SwipeableViews>
