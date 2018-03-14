@@ -13,11 +13,6 @@ export default {
         'load in desc': 'all over the place',
         'Sound check/tech time': '???',
       },
-      venue : {
-        venue: '',
-        stage: '',
-      },
-      client : '',
       'production' : {
         'Band/production/performers contact': 'Bernie Sanders',
         'Traveling with Crew or Engineers?': 'no',

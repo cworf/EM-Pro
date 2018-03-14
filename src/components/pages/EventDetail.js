@@ -18,8 +18,9 @@ import EditIcon from 'material-ui-icons/ModeEdit';
 import SaveIcon from 'material-ui-icons/Done';
 
 import EventDetailBox from '../ui/EventDetailBox';
-import SelectedVenue from '../ui/SelectedVenue';
-import SelectedClient from '../ui/SelectedClient';
+import EventVenue from '../ui/EventVenue';
+import EventClient from '../ui/EventClient';
+import DocSelector from '../ui/DocSelector';
 
 function TabContainer({ children, dir }) {
   return (
@@ -66,6 +67,7 @@ class EventDetail extends React.Component {
     editingField: null,
     currentValue: null,
     newValue: null,
+    venuePath: null,
   };
 
   handleChange = (event, value) => {
@@ -92,6 +94,13 @@ class EventDetail extends React.Component {
       }, {merge: true});
     }
     this.setState({...this.state, editingField: null})
+  }
+
+  handleDocSelect = async(name, path) => {
+    await this.props.eventDoc.update({
+      [name]: path,
+    });
+    await this.setState({...this.state})
   }
 
   dateFormat = (date) =>
@@ -180,12 +189,15 @@ class EventDetail extends React.Component {
             </Paper>
 
             <Typography variant="subheading" align="center" gutterBottom>
-              Venue Info
+              Venue
             </Typography>
             <Paper className={classes.paper}>
-              {eventDoc.data.venue.venue
-                ? <SelectedVenue venue={eventDoc.data.venue} />
-                : 'no venue selected, insert venue select box here'}
+              {eventDoc.data.venue
+              ? <EventVenue
+                hasStage={eventDoc.data.stage ? true : false}
+                venue={eventDoc.data.venue}
+                onDocSelect={this.handleDocSelect}/>
+              : <DocSelector venue onDocSelect={this.handleDocSelect}/>}
             </Paper>
 
             <Typography variant="subheading" align="center" gutterBottom>
@@ -193,8 +205,8 @@ class EventDetail extends React.Component {
             </Typography>
             <Paper className={classes.paper}>
               {eventDoc.data.client
-                ? <SelectedClient client={eventDoc.data.client} />
-              : 'no client selected, insert client select box here'}
+                ? <EventClient client={eventDoc.data.client} />
+              : <DocSelector client onDocSelect={this.handleDocSelect}/>}
             </Paper>
           </Grid>
 

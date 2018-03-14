@@ -7,11 +7,6 @@ export default {
       'load in desc': '',
       'Sound check/tech time': '',
     },
-    venue : {
-      venue: '',
-      stage: '',
-    },
-    client : '',
     'production' : {
       'Band/production/performers contact': '',
       'Traveling with Crew or Engineers?': '',

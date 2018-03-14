@@ -21,3 +21,6 @@ export const clients = new Collection('clients');
 export const venues = new Collection('venues');
 export const inventory = new Collection('inventory');
 export const orders = new Collection('orders');
+
+export const wilmaStages = new Collection('venues/C4DbF1COxfoWlOeRjLR4/stages')
+export const carasStages = new Collection('venues/P9KN85g1jC0bKSs3A3H6/stages')

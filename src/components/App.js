@@ -20,7 +20,9 @@ import DummyEvents from '../assets/data/events';
 import DummyInventory from '../assets/data/inventory';
 import DummyClients from '../assets/data/clients';
 import DummyVenues from '../assets/data/venues';
-import {eventsCol, inventory, clients, venues} from './appStore';
+import DummyCarasStages from '../assets/data/carasStages';
+import DummyWilmaStages from '../assets/data/wilmaStages';
+import {eventsCol, inventory, clients, venues, wilmaStages, carasStages} from './appStore';
 
 import Calendar from './pages/Calendar';
 import Inventory from './pages/Inventory';
@@ -166,6 +168,24 @@ class App extends React.Component {
       console.log(err);
     }
   }
+  handleWilmaAdd = async() => {
+    try {
+      await Object.keys(DummyWilmaStages).map(id =>
+        wilmaStages.add(DummyWilmaStages[id]));
+    }
+    catch (err) {
+      console.log(err);
+    }
+  }
+  handleCarasAdd = async() => {
+    try {
+      await Object.keys(DummyCarasStages).map(id =>
+        carasStages.add(DummyCarasStages[id]));
+    }
+    catch (err) {
+      console.log(err);
+    }
+  }
 
   render() {
     const { classes, theme } = this.props;
@@ -213,10 +233,13 @@ class App extends React.Component {
             <Divider />
             <List>{otherMailFolderListItems}</List>
             <Divider />
-            {/*<div onClick={this.handleEventsAdd}>Add Event Data</div>
+            {/*
             <div onClick={this.handleVenuesAdd}>Add Venue Data</div>
             <div onClick={this.handleClientsAdd}>Add Clients Data</div>
             <div onClick={this.handleInventoryAdd}>Add Inventory Data</div>*/}
+            <div onClick={this.handleEventsAdd}>Add Event Data</div>
+            <div onClick={this.handleCarasAdd}>Add Caras Stage Data</div>
+          <div onClick={this.handleWilmaAdd}>Add Wilma Stage Data</div>
           </Drawer>
           <main
             className={classNames(classes.content, classes[`content-${anchor}`], {

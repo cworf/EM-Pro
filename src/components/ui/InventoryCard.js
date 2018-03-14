@@ -4,7 +4,6 @@ import { withStyles } from 'material-ui/styles';
 import Card, { CardActions, CardContent, CardMedia } from 'material-ui/Card';
 import Button from 'material-ui/Button';
 import Typography from 'material-ui/Typography';
-import {observer} from 'mobx-react';
 
 const styles = {
   card: {
