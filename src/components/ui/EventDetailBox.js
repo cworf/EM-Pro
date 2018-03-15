@@ -80,7 +80,7 @@ class EventDetailBox extends React.Component{
           <Grid container spacing={16}>
             {Object.keys(section).map((fieldName, i) =>
             <Grid key={i} item xs={12} sm={6}>
-              {this.props.onRenderOrEdit(eventDoc.data, sectionName, fieldName)}
+              {this.props.onRenderOrEdit(eventDoc.data, sectionName, fieldName, 'text')}
             </Grid>)}
           </Grid>
         </Paper>

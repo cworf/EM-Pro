@@ -8,6 +8,7 @@ import Typography from 'material-ui/Typography';
 import CloseIcon from 'material-ui-icons/Close';
 import Grid from 'material-ui/Grid';
 import moment from 'moment';
+import ft from 'format-time';
 import './EventDetail.css';
 import Tabs, { Tab } from 'material-ui/Tabs';
 import SwipeableViews from 'react-swipeable-views';
@@ -86,12 +87,20 @@ class EventDetail extends React.Component {
   }
 
   handleSaveClick = async(section, field) => {
-    if (this.state.newValue !== this.state.currentValue) {
-      await this.props.eventDoc.set({
-        [section] : {
-          [field] : this.state.newValue
-        }
-      }, {merge: true});
+    const {newValue, currentValue} = this.state
+    const {eventDoc} = this.props
+    if (section) {
+      if (newValue !== currentValue) {
+        await eventDoc.set({
+          [section] : {
+            [field] : newValue
+          }
+        }, {merge: true});
+      }
+    } else if (newValue !== currentValue) {
+      await eventDoc.update({
+        [field] : newValue
+      })
     }
     this.setState({...this.state, editingField: null})
   }
@@ -103,23 +112,15 @@ class EventDetail extends React.Component {
     await this.setState({...this.state})
   }
 
-  dateFormat = (date) =>
-    moment(date).format('MMMM Do YYYY, h:mm:ss a');
+  dateFormat = (date) => moment(date).format('MMMM Do, h:mm A');
 
-  renderOrEdit = (eventDoc, section, field) => {
+  renderOrEdit = (eventDoc, section, field, type) => {
     const {classes} = this.props;
+    const thisValue = section ? eventDoc[section][field] : eventDoc[field]
     if ( this.state.editingField === field ) {
       return (
         <form style={{display:'flex', position: 'relative', alignItems: 'center'}}>
-          <TextField
-            id={field}
-            label={field}
-            defaultValue={eventDoc[section][field]}
-            className={classes.textField}
-            margin="normal"
-            multiline
-            rowsMax="4"
-            onChange={this.handleInputChange}
+          <TextField id={field} label={field} defaultValue={thisValue} className={classes.textField} type={type} margin="normal" rowsMax="4" onChange={this.handleInputChange}
           />
         <button className='save-btn' type="button" onClick={this.handleSaveClick.bind(null, section, field)}>
           <SaveIcon color='secondary'/>
@@ -127,12 +128,11 @@ class EventDetail extends React.Component {
       </form>
       )
     } else {
-      let thisValue = eventDoc[section][field]
       return (<div><Typography variant="body1" gutterBottom>
         {field}
       </Typography>
       <div className='light-box'>
-        {eventDoc[section][field]}
+        {type === 'time' && thisValue ? ft.getFormattedTime(thisValue) : thisValue}
         <button className='edit-btn' onClick={this.handleEditClick.bind(null, field, thisValue)}>
           <EditIcon color='primary' />
         </button>
@@ -148,7 +148,7 @@ class EventDetail extends React.Component {
         <AppBar className={classes.appBar}>
           <Toolbar>
             <Typography variant="title" color="inherit" className={classes.flex}>
-              {eventDoc.data.title} | {this.dateFormat(eventDoc.data.start)} - {this.dateFormat(eventDoc.data.end)}
+              {eventDoc.data.title} <span style={{fontWeight: 200, paddingLeft: 20}}> {this.dateFormat(eventDoc.data.start)}   -   {this.dateFormat(eventDoc.data.end)} </span>
             </Typography>
             <IconButton color="inherit" onClick={this.props.onClickClose} aria-label="Close">
               <CloseIcon />
@@ -168,6 +168,7 @@ class EventDetail extends React.Component {
             <Tab label="Audio" />
             <Tab label="Lighting" />
             <Tab label="Video" />
+            <Tab label="Cables" />
             <Tab label="Backline" />
             <Tab label="Crew" />
             <Tab label="Other" />
@@ -176,14 +177,14 @@ class EventDetail extends React.Component {
 
         <Grid container spacing={24} className={classes.typeContainer}>
           <Grid item xs={12} sm={4}>
-            <Typography variant="subheading" align="center" gutterBottom>
+            <Typography variant="display1" align="center" gutterBottom>
               Details
             </Typography>
             <Paper className={classes.paper}>
               <Grid container spacing={16}>
-                {Object.keys(eventDoc.data.schedule).map((fieldName, i) =>
+                {['Doors Open','Doors Close','Load In','Sound Check'].map((fieldName, i) =>
                 <Grid key={i} item xs={12} sm={6}>
-                  {this.renderOrEdit(eventDoc.data, 'schedule', fieldName)}
+                  {this.renderOrEdit(eventDoc.data, '', fieldName, 'time')}
                 </Grid>)}
               </Grid>
             </Paper>
@@ -216,7 +217,7 @@ class EventDetail extends React.Component {
               index={this.state.value}
               onChangeIndex={this.handleChangeIndex}
             >
-            {['production','audio','lighting','video','backline','crew','other']
+            {['production','audio','lighting','video','cables','backline','crew','other']
               .map((key, i) =>
               <TabContainer key={i} dir={theme.direction}>
                 <Typography variant="display1" style={{textTransform:'capitalize', float: 'left'}} gutterBottom>

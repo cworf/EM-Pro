@@ -5,6 +5,7 @@
   "dependencies": {
     "firebase": "^4.10.1",
     "firestorter": "^0.9.3",
+    "format-time": "^1.0.0",
     "google-maps-react": "^1.1.2",
     "material-ui": "^1.0.0-beta.34",
     "material-ui-icons": "^1.0.0-beta.17",
