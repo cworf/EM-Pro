@@ -120,7 +120,19 @@ class EventDetail extends React.Component {
     if ( this.state.editingField === field ) {
       return (
         <form style={{display:'flex', position: 'relative', alignItems: 'center'}}>
-          <TextField id={field} label={field} defaultValue={thisValue} className={classes.textField} type={type} margin="normal" rowsMax="4" onChange={this.handleInputChange}
+          <TextField
+            id={field}
+            label={field}
+            defaultValue={thisValue}
+            className={classes.textField}
+            type={type}
+            margin="normal"
+            multiline={type === 'text' ? true : false}
+            rowsMax="4"
+            onChange={this.handleInputChange}
+            InputLabelProps={{
+            shrink: type === 'text' ? false : true,
+          }}
           />
         <button className='save-btn' type="button" onClick={this.handleSaveClick.bind(null, section, field)}>
           <SaveIcon color='secondary'/>
@@ -132,7 +144,7 @@ class EventDetail extends React.Component {
         {field}
       </Typography>
       <div className='light-box'>
-        {type === 'time' && thisValue ? ft.getFormattedTime(thisValue) : thisValue}
+        {type === 'time' && thisValue ? ft.getFormattedTime(thisValue) : type === 'datetime-local' ? this.dateFormat(thisValue) : thisValue}
         <button className='edit-btn' onClick={this.handleEditClick.bind(null, field, thisValue)}>
           <EditIcon color='primary' />
         </button>
@@ -182,7 +194,13 @@ class EventDetail extends React.Component {
             </Typography>
             <Paper className={classes.paper}>
               <Grid container spacing={16}>
-                {['Doors Open','Doors Close','Load In','Sound Check'].map((fieldName, i) =>
+                <Grid item xs={12}>
+                  {this.renderOrEdit(eventDoc.data, '', 'Load In', 'datetime-local')}
+                </Grid>
+                <Grid item xs={12}>
+                  {this.renderOrEdit(eventDoc.data, '', 'Load In Desc', 'text')}
+                </Grid>
+                {['Doors Open','Doors Close','Sound Check', 'Tech'].map((fieldName, i) =>
                 <Grid key={i} item xs={12} sm={6}>
                   {this.renderOrEdit(eventDoc.data, '', fieldName, 'time')}
                 </Grid>)}
@@ -220,9 +238,6 @@ class EventDetail extends React.Component {
             {['production','audio','lighting','video','cables','backline','crew','other']
               .map((key, i) =>
               <TabContainer key={i} dir={theme.direction}>
-                <Typography variant="display1" style={{textTransform:'capitalize', float: 'left'}} gutterBottom>
-                  {key}
-                </Typography>
                 <EventDetailBox onRenderOrEdit={this.renderOrEdit} eventDoc={eventDoc} sectionName={key} section={eventDoc.data[key]} />
               </TabContainer>
             )}

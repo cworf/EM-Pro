@@ -51,12 +51,17 @@ class EventDetailBox extends React.Component{
     const { classes, section, sectionName, eventDoc } = this.props;
     return (
       <div>
+        <Typography variant="display1" style={{textTransform:'capitalize', display: 'inline-block'}} gutterBottom>
+          {sectionName}
+        </Typography>
         {
           inventoryCategories[sectionName]
-          ? <div>
-              <Button variant='raised' color='secondary' className={classes.button} onClick={this.handleOpen}>Reserve {sectionName} equipment</Button>
-              <EventInventoryTable eventDoc={eventDoc} category={sectionName}/>
-            </div>
+          ? <Button variant='raised' color='secondary' className={classes.button} onClick={this.handleOpen}>Reserve {sectionName} equipment</Button>
+          : null
+        }
+        {
+          inventoryCategories[sectionName]
+          ? <EventInventoryTable eventDoc={eventDoc} category={sectionName}/>
           : null
         }
 
@@ -73,9 +78,9 @@ class EventDetailBox extends React.Component{
             <Category picker eventDoc={eventDoc} category={sectionName} types={inventoryCategories[sectionName]}/>
           </div>
         </Modal>
-        <Typography variant="headline" gutterBottom>
-          Notes
-        </Typography>
+          {sectionName !== 'production'
+          ?<Typography variant="headline" gutterBottom>Notes</Typography>
+          : null}
         <Paper className={classes.paper}>
           <Grid container spacing={16}>
             {Object.keys(section).map((fieldName, i) =>
