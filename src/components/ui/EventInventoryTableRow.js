@@ -20,7 +20,7 @@ const styles = theme => ({
 const EventInventoryTableRow = observer(class EventInventoryTableRow extends Component {
   constructor(props){
     super(props);
-    this.ItemOrderDoc = new Document(props.order_ref);
+    this.ItemOrderDoc = new Document(props.order_ref); //this references the orders/{orderID} document
   }
 
   componentWillReceiveProps(newProps) {
@@ -32,7 +32,7 @@ const EventInventoryTableRow = observer(class EventInventoryTableRow extends Com
 
   render(){
     const { category } = this.props;
-    const { item_name, pulled_by, loaded_by, returned_by, qty } = this.ItemOrderDoc.data
+    const { item_name, pulled_by, loaded_by, returned_by, qty, } = this.ItemOrderDoc.data
     if (this.ItemOrderDoc.data.category === category) {
       this.props.onHasOrders()
     }
