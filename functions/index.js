@@ -62,7 +62,7 @@ exports.detectConflict = functions.firestore.document(`inventory/{inventoryId}/o
         conflicts.forEach(conflict => {
           const {affected, item_name} = conflict.data()
           if (item_name === itemName && affected.includes(eventRef)) {
-            console.log(conflict.id);
+            console.log('deleted conflict: ',conflictId, '=>', itemName, '... conflict was resolved' );
             db.collection('conflicts').doc(conflict.id).delete()
           }
         })
