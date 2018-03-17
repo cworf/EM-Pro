@@ -12,7 +12,7 @@ import IconButton from 'material-ui/IconButton';
 import MenuIcon from 'material-ui-icons/Menu';
 import ChevronLeftIcon from 'material-ui-icons/ChevronLeft';
 import ChevronRightIcon from 'material-ui-icons/ChevronRight';
-import { mailFolderListItems, otherMailFolderListItems } from '../assets/data/menuData';
+import { topMenuItems, bottomMenuItems } from '../assets/data/menuData';
 import Reboot from 'material-ui/Reboot';
 import { Switch, Route } from 'react-router-dom';
 import './App.css';
@@ -28,7 +28,7 @@ import Calendar from './pages/Calendar';
 import Inventory from './pages/Inventory';
 import Clients from './pages/Clients';
 import Venues from './pages/Venues';
-import Conflicts from './pages/Conflicts';
+import Conflicts from './ui/Conflicts';
 
 const drawerWidth = 240;
 
@@ -73,7 +73,7 @@ const styles = theme => ({
     position: 'fixed',
     width: drawerWidth,
     display: 'block',
-
+    overflowY: 'initial'
   },
   drawerHeader: {
     display: 'flex',
@@ -229,17 +229,20 @@ class App extends React.Component {
               </IconButton>
             </div>
             <Divider />
-            <List>{mailFolderListItems}</List>
+            <List>{topMenuItems}</List>
             <Divider />
-            <List>{otherMailFolderListItems}</List>
+            <List>
+              {bottomMenuItems}
+              <Conflicts />
+            </List>
             <Divider />
             {/*
             <div onClick={this.handleVenuesAdd}>Add Venue Data</div>
             <div onClick={this.handleClientsAdd}>Add Clients Data</div>
-            <div onClick={this.handleInventoryAdd}>Add Inventory Data</div>*/}
+            <div onClick={this.handleInventoryAdd}>Add Inventory Data</div>
             <div onClick={this.handleEventsAdd}>Add Event Data</div>
             <div onClick={this.handleCarasAdd}>Add Caras Stage Data</div>
-          <div onClick={this.handleWilmaAdd}>Add Wilma Stage Data</div>
+          <div onClick={this.handleWilmaAdd}>Add Wilma Stage Data</div>*/}
           </Drawer>
           <main
             className={classNames(classes.content, classes[`content-${anchor}`], {

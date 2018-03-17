@@ -57,6 +57,8 @@ exports.detectConflict = functions.firestore.document(`inventory/{inventoryId}/o
           affected: overlappingEvents,
           qty_request: totalRequestedQty,
           total_stock: totalInStock,
+          from: triggerStart,
+          to: triggerEnd,
         })
       } else {
         conflicts.forEach(conflict => {

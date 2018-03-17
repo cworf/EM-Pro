@@ -4,11 +4,10 @@ import CalendarIcon from 'material-ui-icons/DateRange';
 import EqualizerIcon from 'material-ui-icons/Equalizer';
 import MailIcon from 'material-ui-icons/Mail';
 import DeleteIcon from 'material-ui-icons/Delete';
-import ErrorIcon from 'material-ui-icons/Error';
 import { Link } from 'react-router-dom';
 
 
-export const mailFolderListItems = (
+export const topMenuItems = (
   <div>
     <ListItem button component={Link} to="/">
       <ListItemIcon>
@@ -25,7 +24,7 @@ export const mailFolderListItems = (
   </div>
 );
 
-export const otherMailFolderListItems = (
+export const bottomMenuItems = (
   <div>
 
       <ListItem button  component={Link} to="/Venues">
@@ -39,12 +38,6 @@ export const otherMailFolderListItems = (
           <DeleteIcon color="primary" />
         </ListItemIcon>
         <ListItemText primary="Clients" />
-      </ListItem>
-      <ListItem button  component={Link} to="/Conflicts">
-        <ListItemIcon>
-          <ErrorIcon color="primary" />
-        </ListItemIcon>
-        <ListItemText primary="Conflicts" />
       </ListItem>
 
   </div>
