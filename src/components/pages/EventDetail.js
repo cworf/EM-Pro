@@ -68,7 +68,12 @@ class EventDetail extends React.Component {
     await this.setState({...this.state})
   }
 
+  handleChange = (event, value) => {
+    this.setState({...this.state, value });
+  };
+
   handleChangeIndex = index => {
+    console.log('clicked');
     this.setState({...this.state, value: index });
   };
 

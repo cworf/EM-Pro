@@ -86,7 +86,7 @@ class EventDetailBox extends React.Component{
           <Grid container spacing={16}>
             {Object.keys(section).map((fieldName, i) =>
             <Grid key={i} item xs={12} sm={6}>
-              <RenderOrEdit eventDoc={eventDoc} section={sectionName} field='Load In Desc' type='text'/>
+              <RenderOrEdit eventDoc={eventDoc} section={sectionName} field={fieldName} type='text'/>
             </Grid>)}
           </Grid>
         </Paper>

@@ -46,9 +46,6 @@ const RenderOrEdit = observer(class RenderOrEdit extends Component {
     this.setState({...this.state, editingField: false})
   }
 
-  handleChange = (event, value) => {
-    this.setState({...this.state, value });
-  };
   handleInputChange = (event) => {
     this.setState({ ...this.state, newValue: event.target.value });
   };
