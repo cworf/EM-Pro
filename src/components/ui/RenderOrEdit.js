@@ -29,7 +29,7 @@ const RenderOrEdit = observer(class RenderOrEdit extends Component {
 
   handleSaveClick = async(section, field) => {
     const {newValue, currentValue} = this.state
-    const {eventDoc} = this.props
+    const {eventDoc, type} = this.props
     if (section) {
       if (newValue !== currentValue) {
         await eventDoc.set({
@@ -40,7 +40,7 @@ const RenderOrEdit = observer(class RenderOrEdit extends Component {
       }
     } else if (newValue !== currentValue) {
       await eventDoc.update({
-        [field] : newValue
+        [field] : type === 'number' ? parseInt(newValue, 10) : newValue
       })
     }
     this.setState({...this.state, editingField: false})
@@ -53,14 +53,14 @@ const RenderOrEdit = observer(class RenderOrEdit extends Component {
   dateFormat = (date) => moment(date).format('MMMM Do, h:mm A');
 
   render(){
-    const {classes, section, type, eventDoc, field} = this.props;
+    const {classes, section, type, eventDoc, field, noLabel, small} = this.props;
     const thisValue = section ? eventDoc.data[section][field] : eventDoc.data[field]
     if ( this.state.editingField) {
       return (
         <form style={{display:'flex', position: 'relative', alignItems: 'center'}}>
           <TextField
             id={field}
-            label={field}
+            label={!noLabel ? field : null}
             defaultValue={thisValue}
             className={classes.textField}
             type={type}
@@ -79,9 +79,9 @@ const RenderOrEdit = observer(class RenderOrEdit extends Component {
       )
     } else {
       return (<div><Typography variant="body1" gutterBottom>
-        {field}
+        {noLabel ? '' : field}
       </Typography>
-      <div className='light-box'>
+      <div className='light-box' style={small ? {padding:'7px 10px'} : null}>
         {type === 'time' && thisValue ? ft.getFormattedTime(thisValue) : type === 'datetime-local' ? this.dateFormat(thisValue) : thisValue}
         <button
           className='edit-btn'
@@ -100,6 +100,8 @@ RenderOrEdit.propTypes = {
   section: PropTypes.string,
   field: PropTypes.string.isRequired,
   type: PropTypes.string.isRequired,
+  small: PropTypes.bool,
+  noLabel: PropTypes.bool,
 }
 
 export default withStyles(styles)(RenderOrEdit);

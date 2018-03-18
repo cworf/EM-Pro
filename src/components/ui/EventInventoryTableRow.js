@@ -5,23 +5,30 @@ import { withStyles } from 'material-ui/styles';
 import { TableCell, TableRow } from 'material-ui/Table';
 import { Document } from 'firestorter';
 import Button from 'material-ui/Button';
+import DeleteIcon from 'material-ui-icons/Delete';
+import IconButton from 'material-ui/IconButton';
+import red from 'material-ui/colors/red';
+import './EventInventoryTableRow.css'
+
+import RenderOrEdit from './RenderOrEdit'
 
 const styles = theme => ({
-  root: {
-    width: '100%',
-    overflowX: 'auto',
-    background: '#333942',
+  button: {
+    position: 'absolute',
+    right: 0,
+    top: 0,
+    color: red[500],
+    opacity: 0,
+    transition: '.2s ease'
   },
-  table: {
-    minWidth: 700,
-  },
+  relative: {
+    position: 'relative',
+  }
 });
 
 const EventInventoryTableRow = observer(class EventInventoryTableRow extends Component {
-  constructor(props){
-    super(props);
-    this.ItemOrderDoc = new Document(props.order_ref); //this references the orders/{orderID} document
-  }
+
+  ItemOrderDoc = new Document(this.props.order_ref); //this references the orders/{orderID} document
 
   componentWillReceiveProps(newProps) {
     if (newProps.order_ref !== this.props.order_ref) {
@@ -29,18 +36,28 @@ const EventInventoryTableRow = observer(class EventInventoryTableRow extends Com
     }
   }
 
+  handleDelete = () => {
+    this.ItemOrderDoc.delete()
+    this.props.document.delete()
+  }
+
 
   render(){
-    const { category } = this.props;
-    const { item_name, pulled_by, loaded_by, returned_by, qty, } = this.ItemOrderDoc.data
+    if (!this.ItemOrderDoc.data) return null
+    const { category, classes } = this.props;
+    const { item_name, pulled_by, loaded_by, returned_by} = this.ItemOrderDoc.data
     if (this.ItemOrderDoc.data.category === category) {
       this.props.onHasOrders()
     }
-
     return ( this.ItemOrderDoc.data.category === category
-      ?<TableRow key={this.ItemOrderDoc.id}>
-        <TableCell> {item_name}</TableCell>
-        <TableCell> {qty}</TableCell>
+      ?<TableRow className='show-del' key={this.ItemOrderDoc.id}>
+        <TableCell>
+          {item_name}
+        </TableCell>
+        <TableCell className={classes.relative}> <RenderOrEdit small noLabel eventDoc={this.ItemOrderDoc} field='qty' type='number'/>
+        <IconButton onClick={this.handleDelete} color='inherit' className={classes.button} aria-label="Delete">
+          <DeleteIcon />
+        </IconButton></TableCell>
         <TableCell padding='checkbox'>{pulled_by ? pulled_by : <Button color='primary' size='small'>Pull</Button>}</TableCell>
         <TableCell padding='checkbox'>{loaded_by ? loaded_by : <Button color='primary' size='small'>Load</Button>}</TableCell>
         <TableCell padding='checkbox'>{returned_by ? returned_by : <Button color='primary' size='small'>Return</Button>}</TableCell>
@@ -52,6 +69,8 @@ const EventInventoryTableRow = observer(class EventInventoryTableRow extends Com
 });
 
 EventInventoryTableRow.propTypes = {
+  classes: PropTypes.object.isRequired,
+  document: PropTypes.any.isRequired,
   category: PropTypes.string,
   order_ref: PropTypes.string,
   onHasOrders: PropTypes.func,
