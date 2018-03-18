@@ -236,11 +236,11 @@ class EventDetail extends React.Component {
               onChangeIndex={this.handleChangeIndex}
             >
             {['production','audio','lighting','video','cables','backline','crew','other']
-              .map((key, i) =>
-              <TabContainer key={i} dir={theme.direction}>
+              .map((key, i) =>{
+              return <TabContainer key={i} dir={theme.direction}>
                 <EventDetailBox onRenderOrEdit={this.renderOrEdit} eventDoc={eventDoc} sectionName={key} section={eventDoc.data[key]} />
               </TabContainer>
-            )}
+            })}
             </SwipeableViews>
           </Grid>
         </Grid>

@@ -64,7 +64,7 @@ const EventInventoryTable = observer(class EventInventoryTable extends Component
             </TableHead>
           <TableBody>
           {this.eventOrdersColRef.docs.map(orderRefDoc =>
-            <EventInventoryTableRow
+            <EventInventoryTableRow key={orderRefDoc.id}
               order_ref={orderRefDoc.data.order_ref}
               category={category}
               onHasOrders={this.handleHasOrders}
