@@ -8,20 +8,17 @@ import Typography from 'material-ui/Typography';
 import CloseIcon from 'material-ui-icons/Close';
 import Grid from 'material-ui/Grid';
 import moment from 'moment';
-import ft from 'format-time';
 import './EventDetail.css';
 import Tabs, { Tab } from 'material-ui/Tabs';
 import SwipeableViews from 'react-swipeable-views';
 import Paper from 'material-ui/Paper';
 import {observer} from 'mobx-react';
-import TextField from 'material-ui/TextField';
-import EditIcon from 'material-ui-icons/ModeEdit';
-import SaveIcon from 'material-ui-icons/Done';
 
 import EventDetailBox from '../ui/EventDetailBox';
 import EventVenue from '../ui/EventVenue';
 import EventClient from '../ui/EventClient';
 import DocSelector from '../ui/DocSelector';
+import RenderOrEdit from '../ui/RenderOrEdit'
 
 function TabContainer({ children, dir }) {
   return (
@@ -56,54 +53,13 @@ const styles = theme => ({
     width: '90%',
     margin: 'auto'
   },
-  textField: {
-    flex: 1,
-  },
 });
 
 class EventDetail extends React.Component {
 
   state = {
     value: 0,
-    editingField: null,
-    currentValue: null,
-    newValue: null,
-    venuePath: null,
   };
-
-  handleChange = (event, value) => {
-    this.setState({...this.state, value });
-  };
-  handleInputChange = (event) => {
-    this.setState({ ...this.state, newValue: event.target.value });
-  };
-
-  handleChangeIndex = index => {
-    this.setState({...this.state, value: index });
-  };
-
-  handleEditClick = (field, value) => {
-    this.setState({...this.state, editingField: field, newValue: value, currentValue:value })
-  }
-
-  handleSaveClick = async(section, field) => {
-    const {newValue, currentValue} = this.state
-    const {eventDoc} = this.props
-    if (section) {
-      if (newValue !== currentValue) {
-        await eventDoc.set({
-          [section] : {
-            [field] : newValue
-          }
-        }, {merge: true});
-      }
-    } else if (newValue !== currentValue) {
-      await eventDoc.update({
-        [field] : newValue
-      })
-    }
-    this.setState({...this.state, editingField: null})
-  }
 
   handleDocSelect = async(name, path) => {
     await this.props.eventDoc.update({
@@ -112,46 +68,11 @@ class EventDetail extends React.Component {
     await this.setState({...this.state})
   }
 
-  dateFormat = (date) => moment(date).format('MMMM Do, h:mm A');
+  handleChangeIndex = index => {
+    this.setState({...this.state, value: index });
+  };
 
-  renderOrEdit = (eventDoc, section, field, type) => {
-    const {classes} = this.props;
-    const thisValue = section ? eventDoc[section][field] : eventDoc[field]
-    if ( this.state.editingField === field ) {
-      return (
-        <form style={{display:'flex', position: 'relative', alignItems: 'center'}}>
-          <TextField
-            id={field}
-            label={field}
-            defaultValue={thisValue}
-            className={classes.textField}
-            type={type}
-            margin="normal"
-            multiline={type === 'text' ? true : false}
-            rowsMax="4"
-            onChange={this.handleInputChange}
-            InputLabelProps={{
-            shrink: type === 'text' ? false : true,
-          }}
-          />
-        <button className='save-btn' type="button" onClick={this.handleSaveClick.bind(null, section, field)}>
-          <SaveIcon color='secondary'/>
-        </button>
-      </form>
-      )
-    } else {
-      return (<div><Typography variant="body1" gutterBottom>
-        {field}
-      </Typography>
-      <div className='light-box'>
-        {type === 'time' && thisValue ? ft.getFormattedTime(thisValue) : type === 'datetime-local' ? this.dateFormat(thisValue) : thisValue}
-        <button className='edit-btn' onClick={this.handleEditClick.bind(null, field, thisValue)}>
-          <EditIcon color='primary' />
-        </button>
-      </div>
-      </div>)
-    }
-  }
+  dateFormat = (date) => moment(date).format('MMMM Do, h:mm A');
 
   render() {
     const { classes, eventDoc, theme } = this.props;
@@ -195,14 +116,14 @@ class EventDetail extends React.Component {
             <Paper className={classes.paper}>
               <Grid container spacing={16}>
                 <Grid item xs={12}>
-                  {this.renderOrEdit(eventDoc.data, '', 'Load In', 'datetime-local')}
+                  <RenderOrEdit eventDoc={eventDoc} field='Load In' type='datetime-local'/>
                 </Grid>
                 <Grid item xs={12}>
-                  {this.renderOrEdit(eventDoc.data, '', 'Load In Desc', 'text')}
+                  <RenderOrEdit eventDoc={eventDoc} field='Load In Desc' type='text'/>
                 </Grid>
                 {['Doors Open','Doors Close','Sound Check', 'Tech'].map((fieldName, i) =>
                 <Grid key={i} item xs={12} sm={6}>
-                  {this.renderOrEdit(eventDoc.data, '', fieldName, 'time')}
+                  <RenderOrEdit eventDoc={eventDoc} field={fieldName} type='time'/>
                 </Grid>)}
               </Grid>
             </Paper>

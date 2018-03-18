@@ -10,6 +10,7 @@ import Paper from 'material-ui/Paper';
 import Category from './Category';
 import EventInventoryTable from './EventInventoryTable';
 import {inventoryCategories} from '../../assets/data/taxonomies';
+import RenderOrEdit from '../ui/RenderOrEdit'
 
 const styles = theme => ({
   root: {
@@ -85,7 +86,7 @@ class EventDetailBox extends React.Component{
           <Grid container spacing={16}>
             {Object.keys(section).map((fieldName, i) =>
             <Grid key={i} item xs={12} sm={6}>
-              {this.props.onRenderOrEdit(eventDoc.data, sectionName, fieldName, 'text')}
+              <RenderOrEdit eventDoc={eventDoc} section={sectionName} field='Load In Desc' type='text'/>
             </Grid>)}
           </Grid>
         </Paper>
@@ -98,7 +99,6 @@ class EventDetailBox extends React.Component{
 EventDetailBox.propTypes = {
   section: PropTypes.object,
   eventDoc: PropTypes.any,
-  onRenderOrEdit: PropTypes.func.isRequired,
   sectionName: PropTypes.string.isRequired,
 }
 

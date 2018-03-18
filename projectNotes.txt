@@ -1,9 +1,8 @@
-display conflicts in modal with red number bubble
+
 fix calendar issue with showing week / day / agenda
 add inventory
 add venues      } these must be done such that the forms can be rendered on event pages
 add clients     }
-limit the events display to month in view
 
 event venue and client details and modal
 
