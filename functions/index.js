@@ -78,3 +78,18 @@ exports.detectConflict = functions.firestore.document(`inventory/{inventoryId}/o
 
   // admin.firestore().collection
 })
+
+
+exports.cleanOrdersOnDelete = functions.firestore.document(`events/{eventsId}`).onDelete(event => {
+  const eventData = event.data.previous.data()
+  const eventPath = 'events/' + event.data.previous.id
+  console.log(eventPath);
+  return db.collection(`${eventPath}/orders`).get()
+    .then(eventOrders => {
+      return eventOrders.forEach(order => {
+        const {order_ref} = order.data()
+        console.log('deleting: ', order_ref);
+        db.doc(order_ref).delete()
+      })
+    })
+})
