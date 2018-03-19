@@ -86,7 +86,10 @@ class EventDetail extends React.Component {
         <AppBar className={classes.appBar}>
           <Toolbar>
             <Typography variant="title" color="inherit" className={classes.flex}>
-              {eventDoc.data.title} <span style={{fontWeight: 200, paddingLeft: 20}}> {this.dateFormat(eventDoc.data.start)}   -   {this.dateFormat(eventDoc.data.end)} </span>
+              <RenderOrEdit span color="dark" eventDoc={eventDoc} field='title' type='text'/>
+
+              <span style={{fontWeight: 200, paddingLeft: 20}}>
+                <RenderOrEdit span color="dark" eventDoc={eventDoc} field='start' type='datetime-local'/></span>   -    <span style={{fontWeight: 200, paddingLeft: 20}}><RenderOrEdit span color="dark" eventDoc={eventDoc} field='end' type='datetime-local'/> </span>
             </Typography>
             <IconButton color="inherit" onClick={this.props.onClickClose} aria-label="Close">
               <CloseIcon />

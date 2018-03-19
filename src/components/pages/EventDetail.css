@@ -7,11 +7,15 @@
   display: flex;
   justify-content: space-between;
 }
-.light-box:hover .edit-btn {
+
+.light-box:hover button {
+  opacity: 1;
+}
+.no-box:hover button {
   opacity: 1;
 }
 
-button.edit-btn {
+/* button.edit-btn {
     background: transparent;
     border: none;
     position: relative;
@@ -29,7 +33,7 @@ button.edit-btn svg {
 
 button.edit-btn:hover svg {
     color: #fff;
-}
+} */
 
 
 button {
