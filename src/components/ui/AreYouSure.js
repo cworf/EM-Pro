@@ -97,10 +97,10 @@ class AreYouSure extends Component {
           }}
         >
           <Typography className={classes.typography}>{question ? question : 'Are you sure?'}</Typography>
-          <Button variant="raised" color="secondary" className={classes.button}>
+          <Button variant="raised" color="secondary" className={classes.button} onClick={this.handleClose}>
             {cancelBtn ? cancelBtn : 'No'}
           </Button>
-          <Button variant="raised" style={{backgroundColor: red[500]}} className={classes.button}>
+          <Button variant="raised" style={{backgroundColor: red[500]}} className={classes.button} onClick={onAccept}>
             {acceptBtn ? acceptBtn : 'Yes'}
           </Button>
         </Popover>

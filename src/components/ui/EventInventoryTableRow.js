@@ -11,6 +11,7 @@ import red from 'material-ui/colors/red';
 import './EventInventoryTableRow.css'
 
 import RenderOrEdit from './RenderOrEdit'
+import AreYouSure from './AreYouSure'
 
 const styles = theme => ({
   button: {
@@ -45,7 +46,10 @@ const EventInventoryTableRow = observer(class EventInventoryTableRow extends Com
   render(){
     if (!this.ItemOrderDoc.data) return null
     const { category, classes } = this.props;
-    const { item_name, pulled_by, loaded_by, returned_by} = this.ItemOrderDoc.data
+    const { item_name, pulled_by, loaded_by, returned_by, qty} = this.ItemOrderDoc.data
+    if (qty ===0) {
+      this.handleDelete()
+    }
     if (this.ItemOrderDoc.data.category === category) {
       this.props.onHasOrders()
     }
@@ -54,10 +58,21 @@ const EventInventoryTableRow = observer(class EventInventoryTableRow extends Com
         <TableCell>
           {item_name}
         </TableCell>
-        <TableCell className={classes.relative}> <RenderOrEdit small noLabel eventDoc={this.ItemOrderDoc} field='qty' type='number'/>
-        <IconButton onClick={this.handleDelete} color='inherit' className={classes.button} aria-label="Delete">
-          <DeleteIcon />
-        </IconButton></TableCell>
+        <TableCell className={classes.relative}>
+          <RenderOrEdit small noLabel eventDoc={this.ItemOrderDoc} field='qty' type='number'/>
+          <AreYouSure question='Are you sure you want to delete this order?'
+            acceptBtn='Take it away'
+            cancelBtn='No! take me back.'
+            onAccept={this.handleDelete} styles={{
+            position: 'absolute',
+            right: 0,
+            top: 0,
+            opacity: 0,
+            transition: '.2s ease'
+          }}>
+            <DeleteIcon />
+          </AreYouSure>
+        </TableCell>
         <TableCell padding='checkbox'>{pulled_by ? pulled_by : <Button color='primary' size='small'>Pull</Button>}</TableCell>
         <TableCell padding='checkbox'>{loaded_by ? loaded_by : <Button color='primary' size='small'>Load</Button>}</TableCell>
         <TableCell padding='checkbox'>{returned_by ? returned_by : <Button color='primary' size='small'>Return</Button>}</TableCell>

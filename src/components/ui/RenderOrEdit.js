@@ -8,12 +8,34 @@ import SaveIcon from 'material-ui-icons/Done';
 import Typography from 'material-ui/Typography';
 import {observer} from 'mobx-react';
 import moment from 'moment';
+import IconButton from 'material-ui/IconButton';
 
 const styles = theme => ({
   textField: {
     flex: 1,
+    color: 'black',
   },
+  button: {
+    marginLeft: 'auto',
+    opacity: 0,
+    transition: '.2s ease',
+    height: 'initial',
+    width: 'initial',
+  },
+  dark: {
+    marginLeft: 'auto',
+    opacity: 0,
+    transition: '.2s ease',
+    height: 'initial',
+    width: 'initial',
+    background: '#615a2f',
+  },
+  darkInput: {
+    color:'black'
+  }
 });
+
+
 
 const RenderOrEdit = observer(class RenderOrEdit extends Component {
 
@@ -53,43 +75,60 @@ const RenderOrEdit = observer(class RenderOrEdit extends Component {
   dateFormat = (date) => moment(date).format('MMMM Do, h:mm A');
 
   render(){
-    const {classes, section, type, eventDoc, field, noLabel, small} = this.props;
+    const {classes, section, type, eventDoc, field, noLabel, small, span, color} = this.props;
     const thisValue = section ? eventDoc.data[section][field] : eventDoc.data[field]
     if ( this.state.editingField) {
       return (
-        <form style={{display:'flex', position: 'relative', alignItems: 'center'}}>
+        <form style={{
+          display: span ? 'inline-flex' : 'flex',
+          position: 'relative',
+          alignItems: 'center',
+        }}>
           <TextField
             id={field}
             label={!noLabel ? field : null}
+            type={type}
             defaultValue={thisValue}
             className={classes.textField}
-            type={type}
             margin="normal"
             multiline={type === 'text' ? true : false}
             rowsMax="4"
             onChange={this.handleInputChange}
             InputLabelProps={{
             shrink: type === 'text' ? false : true,
-          }}
+            className: color==='dark'? classes.darkInput :null,
+            }}
+            InputProps={{
+            className: color==='dark'? classes.darkInput :null,
+            }}
           />
-        <button className='save-btn' type="button" onClick={this.handleSaveClick.bind(null, section, field)}>
+        <button className='save-btn' color='default' type="button" onClick={this.handleSaveClick.bind(null, section, field)}>
           <SaveIcon color='secondary'/>
         </button>
       </form>
       )
     } else {
-      return (<div><Typography variant="body1" gutterBottom>
-        {noLabel ? '' : field}
-      </Typography>
-      <div className='light-box' style={small ? {padding:'7px 10px'} : null}>
-        {type === 'time' && thisValue ? ft.getFormattedTime(thisValue) : type === 'datetime-local' ? this.dateFormat(thisValue) : thisValue}
-        <button
-          className='edit-btn'
-          onClick={this.handleEditClick.bind(null, field, thisValue)}>
+      return (!span
+        ?<div>
+          <Typography variant="body1" gutterBottom>
+            {noLabel ? '' : field}
+          </Typography>
+
+          <div className='light-box' style={small ? {padding:'7px 10px'} : null}>
+            {type === 'time' && thisValue ? ft.getFormattedTime(thisValue) : type === 'datetime-local' ? this.dateFormat(thisValue) : thisValue}
+
+            <IconButton className={classes.button} size='small' aria-label="Delete" onClick={this.handleEditClick.bind(null, field, thisValue)}>
+              <EditIcon color='primary' />
+            </IconButton>
+          </div>
+        </div>
+        :<span className='no-box'>
+          {type === 'time' && thisValue ? ft.getFormattedTime(thisValue) : type === 'datetime-local' ? this.dateFormat(thisValue) : thisValue}
+          <IconButton variant='raised' className={classes[color]} aria-label="Delete" onClick={this.handleEditClick.bind(null, field, thisValue)}>
             <EditIcon color='primary' />
-        </button>
-      </div>
-      </div>)
+          </IconButton>
+        </span>
+      )
     }
   }
 })
@@ -98,10 +137,12 @@ RenderOrEdit.propTypes = {
   classes: PropTypes.object.isRequired,
   eventDoc: PropTypes.any.isRequired,
   section: PropTypes.string,
+  color: PropTypes.string,
   field: PropTypes.string.isRequired,
   type: PropTypes.string.isRequired,
   small: PropTypes.bool,
   noLabel: PropTypes.bool,
+  span: PropTypes.bool,
 }
 
 export default withStyles(styles)(RenderOrEdit);
