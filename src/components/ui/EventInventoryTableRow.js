@@ -6,7 +6,6 @@ import { TableCell, TableRow } from 'material-ui/Table';
 import { Document } from 'firestorter';
 import Button from 'material-ui/Button';
 import DeleteIcon from 'material-ui-icons/Delete';
-import IconButton from 'material-ui/IconButton';
 import red from 'material-ui/colors/red';
 import './EventInventoryTableRow.css'
 

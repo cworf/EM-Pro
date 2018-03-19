@@ -13,16 +13,19 @@ import Tabs, { Tab } from 'material-ui/Tabs';
 import SwipeableViews from 'react-swipeable-views';
 import Paper from 'material-ui/Paper';
 import {observer} from 'mobx-react';
+import DeleteIcon from 'material-ui-icons/Delete';
+import { Collection, Document } from 'firestorter';
 
 import EventDetailBox from '../ui/EventDetailBox';
 import EventVenue from '../ui/EventVenue';
 import EventClient from '../ui/EventClient';
 import DocSelector from '../ui/DocSelector';
 import RenderOrEdit from '../ui/RenderOrEdit'
+import AreYouSure from '../ui/AreYouSure'
 
 function TabContainer({ children, dir }) {
   return (
-    <Typography component="div" dir={dir} style={{ padding: 8 * 3 }}>
+    <Typography component="div" dir={dir} style={{ padding: 24 }}>
       {children}
     </Typography>
   );
@@ -77,6 +80,11 @@ class EventDetail extends React.Component {
     this.setState({...this.state, value: index });
   };
 
+  handleDelete = () => {
+    this.props.eventDoc.delete()
+    this.props.onClickClose()
+  }
+
   dateFormat = (date) => moment(date).format('MMMM Do, h:mm A');
 
   render() {
@@ -91,6 +99,15 @@ class EventDetail extends React.Component {
               <span style={{fontWeight: 200, paddingLeft: 20}}>
                 <RenderOrEdit span color="dark" eventDoc={eventDoc} field='start' type='datetime-local'/></span>   -    <span style={{fontWeight: 200, paddingLeft: 20}}><RenderOrEdit span color="dark" eventDoc={eventDoc} field='end' type='datetime-local'/> </span>
             </Typography>
+            <AreYouSure
+              question='Deleting an event is irreversable, all associated orders will be removed from the system permanently, are you sure you want to do this?'
+              doubleCheck
+              acceptBtn='Delete Forever'
+              cancelBtn='No! take me back.'
+              onAccept={this.handleDelete}
+            >
+              <DeleteIcon />
+            </AreYouSure>
             <IconButton color="inherit" onClick={this.props.onClickClose} aria-label="Close">
               <CloseIcon />
             </IconButton>
@@ -117,7 +134,7 @@ class EventDetail extends React.Component {
         </AppBar>
 
         <Grid container spacing={24} className={classes.typeContainer}>
-          <Grid item xs={12} sm={4}>
+          <Grid item xs={12} sm={4} style={{padding: '36px 12px'}}>
             <Typography variant="display1" align="center" gutterBottom>
               Details
             </Typography>

@@ -7,6 +7,8 @@ import IconButton from 'material-ui/IconButton';
 import Popover from 'material-ui/Popover';
 import red from 'material-ui/colors/red';
 import Button from 'material-ui/Button';
+import { FormGroup, FormControlLabel } from 'material-ui/Form';
+import Checkbox from 'material-ui/Checkbox';
 
 
 const styles = theme => ({
@@ -15,14 +17,6 @@ const styles = theme => ({
   },
   red: {
     color: red[500],
-  },
-  right: {
-    position: 'absolute',
-    right: 0,
-    top: 0,
-    color: red[500],
-    opacity: 0,
-    transition: '.2s ease'
   },
   button: {
     margin: theme.spacing.unit,
@@ -34,11 +28,8 @@ class AreYouSure extends Component {
   state = {
     open: false,
     anchorEl: null,
-    anchorOriginVertical: 'center',
-    anchorOriginHorizontal: 'center',
-    transformOriginVertical: 'center',
-    transformOriginHorizontal: 'center',
     anchorReference: 'anchorEl',
+    checked: false,
   };
 
   handleClickButton = () => {
@@ -54,19 +45,16 @@ class AreYouSure extends Component {
     });
   };
 
+  handleChange = event => {
+    this.setState({ checked: event.target.checked });
+  };
+
+
   button = null;
 
   render(){
-    const { classes, onAccept, children, styles, question, acceptBtn, cancelBtn } = this.props;
-    const {
-      open,
-      anchorEl,
-      anchorOriginVertical,
-      anchorOriginHorizontal,
-      transformOriginVertical,
-      transformOriginHorizontal,
-      anchorReference,
-    } = this.state;
+    const { classes, onAccept, children, styles, question, acceptBtn, cancelBtn, doubleCheck } = this.props;
+    const { open, anchorEl, anchorReference, checked } = this.state;
     return (
       <div style={styles} className='hover-show'>
 
@@ -88,21 +76,40 @@ class AreYouSure extends Component {
           anchorPosition={{ top: 200, left: 400 }}
           onClose={this.handleClose}
           anchorOrigin={{
-            vertical: anchorOriginVertical,
-            horizontal: anchorOriginHorizontal,
+            vertical: 'center',
+            horizontal: 'center',
           }}
           transformOrigin={{
-            vertical: transformOriginVertical,
-            horizontal: transformOriginHorizontal,
+            vertical: 'center',
+            horizontal: 'center',
           }}
         >
-          <Typography className={classes.typography}>{question ? question : 'Are you sure?'}</Typography>
-          <Button variant="raised" color="secondary" className={classes.button} onClick={this.handleClose}>
-            {cancelBtn ? cancelBtn : 'No'}
-          </Button>
-          <Button variant="raised" style={{backgroundColor: red[500]}} className={classes.button} onClick={onAccept}>
-            {acceptBtn ? acceptBtn : 'Yes'}
-          </Button>
+          <Typography align="center" className={classes.typography}>
+            {question ? question : 'Are you sure?'}
+          </Typography>
+          { doubleCheck ?
+            <Typography variant="body2" align='center' gutterBottom>
+              <FormControlLabel
+                control={
+                  <Checkbox
+                    checked={checked}
+                    onChange={this.handleChange}
+                    value="checked"
+                    color="primary"
+                  />
+                }
+                label='I accept responsibility for any fuckery...'
+              />
+            </Typography>
+           : null }
+           <Typography variant="body2" align='right'>
+             <Button variant="raised" color="secondary" className={classes.button} onClick={this.handleClose}>
+               {cancelBtn ? cancelBtn : 'No'}
+             </Button>
+             <Button variant="raised" disabled={doubleCheck ? checked ? false : true : false} style={{backgroundColor: red[500]}} className={classes.button} onClick={onAccept}>
+               {acceptBtn ? acceptBtn : 'Yes'}
+             </Button>
+          </Typography>
         </Popover>
       </div>
     );
@@ -112,7 +119,7 @@ class AreYouSure extends Component {
 AreYouSure.propTypes = {
   classes: PropTypes.object.isRequired,
   onAccept: PropTypes.func,
-  right: PropTypes.bool,
+  doubleCheck: PropTypes.bool,
   question: PropTypes.string,
   acceptBtn: PropTypes.string,
   cancelBtn: PropTypes.string,

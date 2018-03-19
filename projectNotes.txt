@@ -1,4 +1,4 @@
-
+create cloud function to delete orders of deleted events.
 fix calendar issue with showing week / day / agenda
 add inventory
 add venues      } these must be done such that the forms can be rendered on event pages
