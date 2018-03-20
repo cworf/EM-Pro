@@ -150,7 +150,6 @@ const CreatePullOrderPrompt = observer(class CreatePullOrderPrompt extends React
 
   handleCreateOrder = async(event) => {
     event.preventDefault();
-
     const {dateTimeEnd, dateTimeStart, pullQty} = this.state;
     const {eventDoc, item } = this.props;
     const qtyInt = parseInt(pullQty, 10);

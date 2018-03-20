@@ -1,13 +1,13 @@
 export default {
   vt4888 : {
     model: 'VT4888',
-    Series : 'Vertec',
+    series : 'Vertec',
     manufacturer : 'JBL',
     name : 'Midsize Tri-Amplified 3-Way High Directivity Line Array Element',
     category : 'audio',
     type : 'Speaker',
     inventory : 15,
-    inStock : 15,
+    in_stock : 15,
     weight : 113
   },
   'msl-4' : {
@@ -18,7 +18,7 @@ export default {
     category : 'audio',
     type : 'Speaker',
     inventory : 15,
-    inStock : 15,
+    in_stock : 15,
     weight : 180
   },
   '650-p' : {
@@ -29,7 +29,7 @@ export default {
     category : 'audio',
     type : 'Speaker',
     inventory : 15,
-    inStock : 15,
+    in_stock : 15,
     weight : 221
   },
   k10 : {
@@ -40,7 +40,7 @@ export default {
     category : 'audio',
     type : 'Speaker',
     inventory : 15,
-    inStock : 15,
+    in_stock : 15,
     weight : 32
   },
   '4886' : {
@@ -51,7 +51,7 @@ export default {
     category : 'audio',
     type : 'Amp Rack',
     inventory : 15,
-    inStock : 15,
+    in_stock : 15,
     weight : 80
   },
   '6508GU' : {
@@ -62,7 +62,7 @@ export default {
     category : 'audio',
     type : 'Distro',
     inventory : 2,
-    inStock : 2,
+    in_stock : 2,
     weight : 30
   },
   dl251 : {
@@ -73,7 +73,7 @@ export default {
     category : 'audio',
     type : 'Mixer',
     inventory : 2,
-    inStock : 2,
+    in_stock : 2,
     weight : 22
   },
   'sm58-lc' : {
@@ -84,7 +84,7 @@ export default {
     category : 'audio',
     type : 'Microphone',
     inventory : 12,
-    inStock : 12,
+    in_stock : 12,
     weight : 1
   },
 }

@@ -7,6 +7,7 @@ import Tabs, { Tab } from 'material-ui/Tabs';
 import Typography from 'material-ui/Typography';
 
 import {inventoryCategories} from '../../assets/data/taxonomies';
+import AddInventory from '../ui/AddInventory'
 
 import Category from '../ui/Category';
 
@@ -70,6 +71,7 @@ class Inventory extends React.Component {
             return <TabContainer key={i} dir={theme.direction}><Category category={key} types={inventoryCategories[key]} /></TabContainer>
           })}
         </SwipeableViews>
+        <AddInventory />
       </div>
     );
   }
