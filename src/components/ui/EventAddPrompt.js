@@ -36,7 +36,8 @@ const EventAddPrompt = observer(class EventAddPrompt extends React.Component {
     this.setState({...this.state, isAllDay: event.target.checked})
   }
 
-  handleEventAdd = async() => {
+  handleEventAdd = async(e) => {
+    e.preventDefault()
     const {eventName, eventTimeStart, eventTimeEnd, isAllDay} = this.state
     this.props.onClickClose('new');
     try {
@@ -46,7 +47,9 @@ const EventAddPrompt = observer(class EventAddPrompt extends React.Component {
         start: eventTimeStart,
         title: eventName,
         allDay: isAllDay
-      });
+      }).then( eventDoc =>
+        this.props.onEventAdd(eventDoc)
+      )
     }
     catch (err) {
       console.log(err);
@@ -70,10 +73,11 @@ const EventAddPrompt = observer(class EventAddPrompt extends React.Component {
             <DialogTitle id="alert-dialog-slide-title">
               {"Create Event"}
             </DialogTitle>
+            <form noValidate onSubmit={this.handleEventAdd}>
             <DialogContent>
-              <form noValidate>
                 <FormGroup style={{marginBottom:'20px'}} row>
                   <TextField
+                    autoFocus
                     required
                     fullWidth
                     id="event-name"
@@ -111,16 +115,16 @@ const EventAddPrompt = observer(class EventAddPrompt extends React.Component {
                     label="All Day Event"
                   />
                 </FormGroup>
-              </form>
             </DialogContent>
             <DialogActions>
               <Button onClick={this.props.onClickClose} color="primary">
                 Cancel
               </Button>
-              <Button onClick={this.handleEventAdd} color="primary">
+              <Button type='submit' color="primary">
                 Create Event
               </Button>
             </DialogActions>
+          </form>
           </Dialog>
         </div>
       );
@@ -134,6 +138,7 @@ EventAddPrompt.propTypes = {
   slotInfo : PropTypes.object,
   open : PropTypes.bool,
   onClickClose : PropTypes.func,
+  onEventAdd : PropTypes.func
 }
 
 export default EventAddPrompt;

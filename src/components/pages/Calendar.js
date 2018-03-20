@@ -94,7 +94,9 @@ const Calendar = observer(class Calendar extends React.Component{
           ? <EventAddPrompt
             slotInfo={this.state.slotInfo}
             open={this.state.promptOpen}
-            onClickClose={this.handlePromptClose} />
+            onClickClose={this.handlePromptClose}
+            onEventAdd={this.handleClickOpen}
+           />
           : null
         }
 
