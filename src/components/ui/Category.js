@@ -44,15 +44,9 @@ const Category = observer(function Category(props) {
               </ExpansionPanelSummary>
               <ExpansionPanelDetails className={picker ? classes.details : classes.notDetails}>
                 { picker //render picker table
-                  ? <InventoryTable type={type} eventDoc={eventDoc} />
-                  : /* else render cards */ <Grid container spacing={24}>
-                    {inventory.docs.map((item) =>
-                      item.data.type === type
-                      ? <Grid key={item.id} item xs={6} sm={3}>
-                      <InventoryCard item={item.data} />
-                    </Grid>
-                    : null
-                  )}
+                  ? <InventoryTable picker type={type} eventDoc={eventDoc} />
+                  : <Grid container spacing={24}>
+                    <InventoryTable type={type} eventDoc={eventDoc} />
                 </Grid>
                 }
               </ExpansionPanelDetails>

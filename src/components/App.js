@@ -13,7 +13,6 @@ import MenuIcon from 'material-ui-icons/Menu';
 import ChevronLeftIcon from 'material-ui-icons/ChevronLeft';
 import ChevronRightIcon from 'material-ui-icons/ChevronRight';
 import { topMenuItems, bottomMenuItems } from '../assets/data/menuData';
-import Reboot from 'material-ui/Reboot';
 import { Switch, Route } from 'react-router-dom';
 import './App.css';
 import DummyEvents from '../assets/data/events';
@@ -192,8 +191,6 @@ class App extends React.Component {
     const { anchor, open } = this.state;
 
     return (
-        <div className={classes.root}>
-          <Reboot />
         <div className={classes.appFrame}>
           <AppBar
             className={classNames(classes.appBar, {
@@ -259,7 +256,6 @@ class App extends React.Component {
             </Switch>
           </main>
         </div>
-      </div>
     );
   }
 }

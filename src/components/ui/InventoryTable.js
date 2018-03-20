@@ -23,7 +23,7 @@ const InventoryTable = observer(class InventoryTable extends React.Component{
 
 
   render(){
-    const {type, classes, eventDoc} = this.props
+    const {type, classes, eventDoc, picker} = this.props
     return (
       <Paper className={classes.root}>
         <Table className={classes.table}>
@@ -32,7 +32,7 @@ const InventoryTable = observer(class InventoryTable extends React.Component{
               <TableCell>Item</TableCell>
               <TableCell>Name</TableCell>
               <TableCell numeric>Total in Stock</TableCell>
-              <TableCell>Pull</TableCell>
+              {picker ? <TableCell>Pull</TableCell> : null}
             </TableRow>
           </TableHead>
           <TableBody>
@@ -44,7 +44,7 @@ const InventoryTable = observer(class InventoryTable extends React.Component{
                     <TableCell>{manufacturer} {series} {model}</TableCell>
                     <TableCell>{name}</TableCell>
                     <TableCell numeric>{inStock}</TableCell>
-                    <TableCell padding='checkbox'><CreatePullOrderPrompt item={item} eventDoc={eventDoc} /></TableCell>
+                    {picker ? <TableCell padding='checkbox'><CreatePullOrderPrompt item={item} eventDoc={eventDoc} /></TableCell> : null}
                   </TableRow>
                 : null
               );
@@ -60,6 +60,7 @@ InventoryTable.propTypes = {
   type: PropTypes.string,
   classes: PropTypes.object.isRequired,
   eventDoc: PropTypes.any,
+  picker: PropTypes.bool,
 }
 
 export default withStyles(styles)(InventoryTable);
