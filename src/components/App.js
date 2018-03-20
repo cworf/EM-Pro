@@ -92,7 +92,6 @@ const styles = theme => ({
   },
   'content-left': {
     marginLeft: 0,
-    marginTop: 64,
   },
   'content-right': {
     marginRight: -drawerWidth,
@@ -247,6 +246,7 @@ class App extends React.Component {
               [classes[`contentShift-${anchor}`]]: open,
             })}
           >
+            <div className={classes.drawerHeader} />
             <Switch>
               <Route exact path='/' component={Calendar} />
               <Route path='/inventory' component={Inventory} />

@@ -12,22 +12,26 @@ import AddInventory from '../ui/AddInventory'
 import Category from '../ui/Category';
 
 
-function TabContainer({ children, dir }) {
+function TabContainer(props) {
   return (
-    <Typography component="div" dir={dir} style={{ padding: 8 * 3 }}>
-      {children}
+    <Typography component="div" style={{ padding: 8 * 3 }}>
+      {props.children}
     </Typography>
   );
 }
 
 TabContainer.propTypes = {
   children: PropTypes.node.isRequired,
-  dir: PropTypes.string.isRequired,
 };
 
 const styles = theme => ({
   root: {
-    backgroundColor: theme.palette.background.paper
+    flexGrow: 1,
+    backgroundColor: theme.palette.background.paper,
+  },
+  appBar: {
+    backgroundColor: '#1b1d23',
+    color: '#eef5ff',
   },
 });
 
@@ -40,37 +44,25 @@ class Inventory extends React.Component {
     this.setState({ value });
   };
 
-  handleChangeIndex = index => {
-    this.setState({ value: index });
-  };
-
   render() {
-    const { classes, theme } = this.props;
+    const { classes } = this.props;
+    const { value } = this.state;
 
     return (
       <div className={classes.root}>
-        <AppBar position="static" color='default' style={{backgroundColor: '#1b1d23'}}>
-          <Tabs
-            value={this.state.value}
-            onChange={this.handleChange}
-            indicatorColor="secondary"
-            textColor="secondary"
-            centered
-          >
-          {Object.keys(inventoryCategories).map(function(key, i) {
+        <AppBar position="static" className={classes.appBar}>
+          <Tabs value={value} onChange={this.handleChange}>
+            {Object.keys(inventoryCategories).map(function(key, i) {
             return <Tab key={i} label={key} />
           })}
           </Tabs>
         </AppBar>
-        <SwipeableViews
-          axis={theme.direction === 'rtl' ? 'x-reverse' : 'x'}
-          index={this.state.value}
-          onChangeIndex={this.handleChangeIndex}
-        >
-          {Object.keys(inventoryCategories).map(function(key, i) {
-            return <TabContainer key={i} dir={theme.direction}><Category category={key} types={inventoryCategories[key]} /></TabContainer>
+
+        <AddInventory />
+        {Object.keys(inventoryCategories).map(function(key, i) {
+            return value === i && <TabContainer key={i}><Category category={key} types={inventoryCategories[key]} /></TabContainer>
           })}
-        </SwipeableViews>
+
         <AddInventory />
       </div>
     );
@@ -79,7 +71,6 @@ class Inventory extends React.Component {
 
 Inventory.propTypes = {
   classes: PropTypes.object.isRequired,
-  theme: PropTypes.object.isRequired,
 };
 
-export default withStyles(styles, { withTheme: true })(Inventory);
+export default withStyles(styles)(Inventory);
