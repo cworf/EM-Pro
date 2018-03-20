@@ -61,9 +61,19 @@ const RenderOrEdit = observer(class RenderOrEdit extends Component {
         }, {merge: true});
       }
     } else if (newValue !== currentValue) {
-      await eventDoc.update({
-        [field] : type === 'number' ? parseInt(newValue, 10) : newValue
-      })
+      if (field === 'inventory') {
+        const diff = newValue - currentValue
+        let {in_stock} = await eventDoc.data
+        in_stock += diff
+        await eventDoc.update({
+          inventory: parseInt(newValue, 10),
+          in_stock
+        })
+      } else{
+        await eventDoc.update({
+          [field] : type === 'number' ? parseInt(newValue, 10) : newValue
+        })
+      }
     }
     this.setState({...this.state, editingField: false})
   }
