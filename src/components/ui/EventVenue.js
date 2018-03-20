@@ -10,9 +10,9 @@ const EventVenue = observer(class EventVenue extends Component {
   eventVenueDoc = new Document(this.props.venue);
 
   render(){
-    const {data, id, path, snapshot} = this.eventVenueDoc
+    const {data, path, snapshot} = this.eventVenueDoc
     if (!snapshot) return null
-    const { name, contact_info } = data
+    const { name } = data
 
     return (
       <div>

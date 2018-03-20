@@ -1,7 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { withStyles } from 'material-ui/styles';
-import SwipeableViews from 'react-swipeable-views';
 import AppBar from 'material-ui/AppBar';
 import Tabs, { Tab } from 'material-ui/Tabs';
 import Typography from 'material-ui/Typography';
@@ -51,7 +50,7 @@ class Inventory extends React.Component {
     return (
       <div className={classes.root}>
         <AppBar position="static" className={classes.appBar}>
-          <Tabs value={value} onChange={this.handleChange}>
+          <Tabs centered value={value} onChange={this.handleChange}>
             {Object.keys(inventoryCategories).map(function(key, i) {
             return <Tab key={i} label={key} />
           })}

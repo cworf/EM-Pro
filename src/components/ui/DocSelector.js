@@ -5,7 +5,7 @@ import {observer} from 'mobx-react';
 import { venues } from '../appStore'
 import { clients } from '../appStore'
 import { InputLabel } from 'material-ui/Input';
-import { FormControl, FormHelperText } from 'material-ui/Form';
+import { FormControl } from 'material-ui/Form';
 import Select from 'material-ui/Select';
 import { MenuItem } from 'material-ui/Menu';
 import { Collection } from 'firestorter';

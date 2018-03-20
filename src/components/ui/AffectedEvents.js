@@ -2,9 +2,7 @@ import React from 'react';
 import Button from 'material-ui/Button';
 import PropTypes from 'prop-types';
 import Dialog, {
-  DialogActions,
   DialogContent,
-  DialogContentText,
   DialogTitle,
 } from 'material-ui/Dialog';
 import List from 'material-ui/List';
@@ -24,7 +22,7 @@ class AffectedEvents extends React.Component {
     clickedEvent: null,
   };
 
-  handleClickOpen = () => 
+  handleClickOpen = () =>
     this.setState({ ...this.state, listOpen: true });
 
   handleClose = () =>

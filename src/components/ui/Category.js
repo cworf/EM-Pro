@@ -10,9 +10,7 @@ import ExpandMoreIcon from 'material-ui-icons/ExpandMore';
 // import inventory from '../../assets/data/inventory';
 import Grid from 'material-ui/Grid';
 import {observer} from 'mobx-react';
-import {inventory} from '../appStore';
 
-import InventoryCard from './InventoryCard';
 import InventoryTable from './InventoryTable';
 
 const styles = theme => ({
@@ -46,7 +44,7 @@ const Category = observer(function Category(props) {
                 { picker //render picker table
                   ? <InventoryTable picker type={type} eventDoc={eventDoc} />
                   : <Grid container spacing={24}>
-                    <InventoryTable type={type} eventDoc={eventDoc} />
+                    <InventoryTable stock type={type} eventDoc={eventDoc} />
                 </Grid>
                 }
               </ExpansionPanelDetails>

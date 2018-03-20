@@ -14,9 +14,9 @@ const EventClient = observer(class EventClient extends Component {
   }
 
   render(){
-    const {data, id, snapshot} = this.eventClientDoc
+    const {data, snapshot} = this.eventClientDoc
     if (!snapshot) return null;
-    const {name, company, phone} = data
+    const {name, phone} = data
     return (
       <div>
         {phone}

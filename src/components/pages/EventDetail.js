@@ -14,7 +14,6 @@ import SwipeableViews from 'react-swipeable-views';
 import Paper from 'material-ui/Paper';
 import {observer} from 'mobx-react';
 import DeleteIcon from 'material-ui-icons/Delete';
-import { Collection, Document } from 'firestorter';
 
 import EventDetailBox from '../ui/EventDetailBox';
 import EventVenue from '../ui/EventVenue';

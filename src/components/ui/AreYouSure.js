@@ -7,7 +7,7 @@ import IconButton from 'material-ui/IconButton';
 import Popover from 'material-ui/Popover';
 import red from 'material-ui/colors/red';
 import Button from 'material-ui/Button';
-import { FormGroup, FormControlLabel } from 'material-ui/Form';
+import { FormControlLabel } from 'material-ui/Form';
 import Checkbox from 'material-ui/Checkbox';
 
 
