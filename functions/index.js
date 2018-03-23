@@ -2,6 +2,13 @@ const admin = require('firebase-admin');
 const functions = require('firebase-functions');
 const Moment = require('moment');
 const MomentRange = require('moment-range');
+const algoliasearch = require('algoliasearch');
+const ALGOLIA_ID = functions.config().algolia.app_id;
+const ALGOLIA_ADMIN_KEY = functions.config().algolia.api_key;
+const ALGOLIA_SEARCH_KEY = functions.config().algolia.search_key;
+
+const ALGOLIA_INDEX_NAME = 'inventory';
+const client = algoliasearch(ALGOLIA_ID, ALGOLIA_ADMIN_KEY);
 
 const moment = MomentRange.extendMoment(Moment);
 
@@ -9,11 +16,20 @@ admin.initializeApp(functions.config().firebase);
 
 const db = admin.firestore()
 // // Create and Deploy Your First Cloud Functions
-// // https://firebase.google.com/docs/functions/write-firebase-functions
-//
-// exports.helloWorld = functions.https.onRequest((request, response) => {
-//  response.send("Hello from Firebase!");
-// });
+
+
+// Update the search index every time an inventory item is written.
+exports.onInventoryItemCreated = functions.firestore.document('notes/{noteId}').onCreate(event => {
+    // Get the inventory document
+    const item = event.data.data();
+
+    // Add an 'objectID' field which Algolia requires
+    item.objectID = event.params.itemId;
+
+    // Write to the algolia index
+    const index = client.initIndex(ALGOLIA_INDEX_NAME);
+    return index.saveObject(item);
+});
 
 exports.detectConflict = functions.firestore.document(`inventory/{inventoryId}/orders/{orderId}`).onWrite(event => {
   const eventStatus = event.data.exists ? event.data.data() : event.data.previous.data()
