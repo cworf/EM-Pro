@@ -48,7 +48,7 @@ exports.detectConflict = functions.firestore.document(`inventory/{inventoryId}/o
         }
       })
 
-      const totalInStock = item.data().inStock
+      const totalInStock = item.data().in_stock
       let conflictToResolve
 
       if (totalRequestedQty > totalInStock) {
