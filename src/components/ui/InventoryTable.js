@@ -23,9 +23,13 @@ const styles = theme => ({
 
 const InventoryTable = observer(class InventoryTable extends React.Component{
 
+  componentWillMount() {
+    inventory.query = inventory.ref.orderBy('manufacturer', 'asc')
+  }
 
   render(){
     const {type, classes, eventDoc, picker, stock} = this.props
+
     return (
       <Paper className={classes.root}>
         <Table className={classes.table}>
