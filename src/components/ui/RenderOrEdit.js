@@ -49,7 +49,8 @@ const RenderOrEdit = observer(class RenderOrEdit extends Component {
     this.setState({...this.state, editingField: true, newValue: value, currentValue:value })
   }
 
-  handleSaveClick = async(section, field) => {
+  handleSaveClick = (section, field) => async(event) => {
+    event.preventDefault()
     const {newValue, currentValue} = this.state
     const {eventDoc, type} = this.props
     if (section) {
@@ -89,14 +90,15 @@ const RenderOrEdit = observer(class RenderOrEdit extends Component {
     const thisValue = section ? eventDoc.data[section][field] : eventDoc.data[field]
     if ( this.state.editingField) {
       return (
-        <form style={{
+        <form onSubmit={this.handleSaveClick(section, field)} style={{
           display: span ? 'inline-flex' : 'flex',
           position: 'relative',
           alignItems: 'center',
         }}>
           <TextField
+            autoFocus
             id={field}
-            label={!noLabel ? field : null}
+            label={noLabel ? null : field}
             type={type}
             defaultValue={thisValue}
             className={classes.textField}
@@ -105,14 +107,14 @@ const RenderOrEdit = observer(class RenderOrEdit extends Component {
             rowsMax="4"
             onChange={this.handleInputChange}
             InputLabelProps={{
-            shrink: type === 'text' ? false : true,
-            className: color==='dark'? classes.darkInput :null,
+              shrink: type === 'text' ? false : true,
+              className: color==='dark'? classes.darkInput :null,
             }}
             InputProps={{
-            className: color==='dark'? classes.darkInput :null,
+              className: color==='dark'? classes.darkInput :null,
             }}
           />
-        <button className='save-btn' color='default' type="button" onClick={this.handleSaveClick.bind(null, section, field)}>
+        <button type="submit" className='save-btn' color='default'>
           <SaveIcon color='secondary'/>
         </button>
       </form>
