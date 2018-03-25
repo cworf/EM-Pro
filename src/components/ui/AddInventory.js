@@ -70,8 +70,8 @@ class AddInventory extends React.Component {
   }
 
   handleChange = event => {
-    event.target.name === 'inventory'
-    ?this.setState({inventory: event.target.value, in_stock: event.target.value})
+    event.target.name === 'inventoryCount'
+    ?this.setState({inventoryCount: event.target.value, in_stock: event.target.value})
     :this.setState({ [event.target.name]: event.target.value });
   };
 
@@ -81,7 +81,7 @@ class AddInventory extends React.Component {
     inventoryCount = parseInt(inventoryCount, 10)
     in_stock = parseInt(in_stock, 10)
     weight = parseInt(weight, 10)
-    inventory.add({...data, weight, in_stock, inventoryCount})
+    inventory.add({...data, weight, in_stock, inventory: inventoryCount})
     this.handleReset()
   }
 
@@ -157,6 +157,7 @@ class AddInventory extends React.Component {
                 value={model}
                 onChange={this.handleChange}
                 margin="normal"
+                helperText="VT4888"
                 name='model'
               />
             </FormControl>
@@ -169,6 +170,7 @@ class AddInventory extends React.Component {
                 value={series}
                 onChange={this.handleChange}
                 margin="normal"
+                helperText="Vertec"
                 name='series'
               />
             </FormControl>
@@ -181,6 +183,7 @@ class AddInventory extends React.Component {
                 value={manufacturer}
                 onChange={this.handleChange}
                 margin="normal"
+                helperText="JBL"
                 name='manufacturer'
               />
             </FormControl>
@@ -193,6 +196,7 @@ class AddInventory extends React.Component {
                 value={name}
                 onChange={this.handleChange}
                 margin="normal"
+                helperText="Midsize Tri-Amplified 3-Way High Directivity Line Array Element"
                 name='name'
               />
             </FormControl>
@@ -206,6 +210,7 @@ class AddInventory extends React.Component {
                 onChange={this.handleChange}
                 margin="normal"
                 name='inventoryCount'
+                helperText="Total including inventory in repair"
                 type='number'
               />
             </FormControl>
