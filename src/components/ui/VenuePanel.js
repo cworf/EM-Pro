@@ -13,6 +13,8 @@ import Chip from 'material-ui/Chip';
 import Button from 'material-ui/Button';
 import Divider from 'material-ui/Divider';
 
+import VenueMapContainer from './VenueMapContainer';
+
 const styles = theme => ({
   root: {
     flexGrow: 1,
@@ -45,6 +47,7 @@ const styles = theme => ({
   helper: {
     borderLeft: `2px solid ${theme.palette.divider}`,
     padding: `0px ${theme.spacing.unit * 2}px`,
+    display: 'block'
   },
   link: {
     color: theme.palette.primary.main,
@@ -88,31 +91,31 @@ function Venues(props) {
             </Typography>
             <Typography variant="body1">
               <strong>Liaison:</strong>
-              <div className={classes.helper}>
+              <span className={classes.helper}>
                 {contact_info.liaison}
-              </div>
+              </span>
               <strong>Phone Numbers:</strong>
-              {Object.keys(contact_info.phoneNumbers).map(type =>
-                <Typography className={classes.helper} variant="caption">
+              {Object.keys(contact_info.phoneNumbers).map((type, i) =>
+                <span key={i} className={classes.helper} variant="caption">
                   <strong>{type}:</strong> {contact_info.phoneNumbers[type]}
-                </Typography>
+                </span>
               )}
               <strong>Emails:</strong>
-                {contact_info.emails.map(email =>
-                  <div className={classes.helper}>
+                {contact_info.emails.map((email, i) =>
+                  <span key={i} className={classes.helper}>
                     {email}
-                  </div>
+                  </span>
                 )}
               <strong>Mailing Address:</strong>
-                <div className={classes.helper}>
+                <span className={classes.helper}>
                   {street } <br />
                 {street2 ? street2 : null}{street2 ? <br /> : null }
                   {city}, {state} {zip}
-                </div>
+                </span>
             </Typography>
           </div>
           <div className={classes.column}>
-            map goes here
+            <VenueMapContainer />
           </div>
           <div className={classNames(classes.column, classes.helper)}>
             <Typography variant="subheading">
@@ -120,7 +123,7 @@ function Venues(props) {
             </Typography>
 
             {Object.keys(stages).map(stageId =>
-              <Chip
+              <Chip key={stageId}
                 label={stages[stageId].name}
                 onClick={handleClick}
                 className={classes.chip}
