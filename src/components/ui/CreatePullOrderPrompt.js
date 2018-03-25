@@ -24,14 +24,8 @@ const CreatePullOrderPrompt = observer(class CreatePullOrderPrompt extends React
   state = {
     open: false,
     anchorEl: null,
-    anchorOriginVertical: 'center',
-    anchorOriginHorizontal: 'center',
-    transformOriginVertical: 'center',
-    transformOriginHorizontal: 'center',
-    positionTop: 200, // Just so the popover can be spotted more easily
-    positionLeft: 400, // Same as above
     anchorReference: 'anchorEl',
-    pullQty: 0,
+    pullQty: '',
     dateTimeStart: this.props.eventDoc.data.start,
     dateTimeEnd: this.props.eventDoc.data.end,
   };
@@ -65,12 +59,6 @@ const CreatePullOrderPrompt = observer(class CreatePullOrderPrompt extends React
     const {
       open,
       anchorEl,
-      anchorOriginVertical,
-      anchorOriginHorizontal,
-      transformOriginVertical,
-      transformOriginHorizontal,
-      positionTop,
-      positionLeft,
       anchorReference,
       dateTimeStart,
       dateTimeEnd,
@@ -93,19 +81,20 @@ const CreatePullOrderPrompt = observer(class CreatePullOrderPrompt extends React
           open={open}
           anchorEl={anchorEl}
           anchorReference={anchorReference}
-          anchorPosition={{ top: positionTop, left: positionLeft }}
+          anchorPosition={{ top: 200, left: 400 }}
           onClose={this.handleClose}
           anchorOrigin={{
-            vertical: anchorOriginVertical,
-            horizontal: anchorOriginHorizontal,
+            vertical: 'center',
+            horizontal: 'center',
           }}
           transformOrigin={{
-            vertical: transformOriginVertical,
-            horizontal: transformOriginHorizontal,
+            vertical: 'center',
+            horizontal: 'center',
           }}
         >
           <form className={classes.container} onSubmit={this.handleCreateOrder}>
             <TextField
+              autoFocus
               id="number"
               label="Enter Quantity"
               value={this.state.pullQty}
@@ -156,7 +145,7 @@ const CreatePullOrderPrompt = observer(class CreatePullOrderPrompt extends React
     // const newOrderDoc = new Document('orders')
     const itemOrdersCol = new Collection(() => `${item.path}/orders`); //item sub collection
     const eventOrdersCol = new Collection(() => `${eventDoc.path}/orders`); //item sub collection
-    if (pullQty > 0 && qtyInt <= item.data.inStock) {
+    if (pullQty > 0 && qtyInt <= item.data.in_stock) {
       this.handleClose()
       try {
         await itemOrdersCol.add({
