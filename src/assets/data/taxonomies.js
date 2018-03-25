@@ -4,17 +4,9 @@ export const inventoryCategories = {
     'Amp Rack',
     'Distro',
     'Mixer',
-    'Microphone'
-  ],
-  cables : [
-    'Audio AC Cables',
-    'Audio Signal Cables',
-    'Speaker Cables',
-    'Lighting AC Cables',
-    'Lighting Signal Cables',
-    'Video AC Cables',
-    'Video Signal Cables',
-    'Rigging Cables',
+    'Microphone',
+    'Stands',
+    'Other'
   ],
   lighting : [
     'Dimmers',
@@ -42,5 +34,15 @@ export const inventoryCategories = {
     'Keyboards',
     'DJ',
     'Other'
+  ],
+  cables : [
+    'Audio AC Cables',
+    'Audio Signal Cables',
+    'Speaker Cables',
+    'Lighting AC Cables',
+    'Lighting Signal Cables',
+    'Video AC Cables',
+    'Video Signal Cables',
+    'Rigging Cables',
   ]
 }
