@@ -7,7 +7,7 @@ const ALGOLIA_ID = functions.config().algolia.app_id;
 const ALGOLIA_ADMIN_KEY = functions.config().algolia.api_key;
 const ALGOLIA_SEARCH_KEY = functions.config().algolia.search_key;
 
-const ALGOLIA_INDEX_NAME = 'inventory';
+const ALGOLIA_INVENTORY = 'inventory';
 const client = algoliasearch(ALGOLIA_ID, ALGOLIA_ADMIN_KEY);
 
 const moment = MomentRange.extendMoment(Moment);
@@ -19,16 +19,18 @@ const db = admin.firestore()
 
 
 // Update the search index every time an inventory item is written.
-exports.onInventoryItemCreated = functions.firestore.document('notes/{noteId}').onCreate(event => {
+exports.onInventoryItemCreated = functions.firestore.document('inventory/{inventoryId}').onWrite(event => {
     // Get the inventory document
-    const item = event.data.data();
-
+    const item = event.data.exists ? event.data.data() : event.data.previous.data()
+    const isDeleted = event.data.exists ? false : true
     // Add an 'objectID' field which Algolia requires
-    item.objectID = event.params.itemId;
+    item.objectID = event.data.id;
 
     // Write to the algolia index
-    const index = client.initIndex(ALGOLIA_INDEX_NAME);
-    return index.saveObject(item);
+    const index = client.initIndex(ALGOLIA_INVENTORY);
+    return isDeleted
+      ? index.deleteObject(item.objectID)
+      : index.saveObject(item)
 });
 
 exports.detectConflict = functions.firestore.document(`inventory/{inventoryId}/orders/{orderId}`).onWrite(event => {
