@@ -1,11 +1,30 @@
-create cloud function to delete orders of deleted events.
 fix calendar issue with showing week / day / agenda
-add inventory
+
 add venues      } these must be done such that the forms can be rendered on event pages
 add clients     }
 
-event venue and client details and modal
+event => venue and client details and modal
 
 client detail view including client/event history
 venue detail view including venue/event history
 inventory detail view including order/event history
+
+know which events are confirmed or not by color
+
+
+vendor list with vendors inventory
+artist list with file store
+search by name function
+search by event number
+search inventory by date
+
+
+add file store tab in a tab in each event
+offline or downloadable event data
+
+vehicle calendar
+crew calendar
+admin calendar
+
+
+add work
