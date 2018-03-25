@@ -76,7 +76,6 @@ const Calendar = observer(class Calendar extends React.Component{
           events={this.eventsParse(eventsCol)}
           defaultView="month"
           scrollToTime={new Date(1970, 1, 1, 6)}
-          defaultDate={new Date(2016, 4, 12)}
           onSelectEvent={event => this.handleClickOpen(event)}
           onSelectSlot={slotInfo => this.handlePromptOpen(slotInfo)
 

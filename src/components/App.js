@@ -148,15 +148,6 @@ class App extends React.Component {
       console.log(err);
     }
   }
-  handleInventoryAdd = async() => {
-    try {
-      await Object.keys(DummyInventory).map(id =>
-        inventory.add(DummyInventory[id]));
-      }
-    catch (err) {
-      console.log(err);
-    }
-  }
   handleVenuesAdd = async() => {
     try {
       await Object.keys(DummyVenues).map(id =>
@@ -236,7 +227,6 @@ class App extends React.Component {
             <div onClick={this.handleVenuesAdd}>Add Venue Data</div>
             <div onClick={this.handleClientsAdd}>Add Clients Data</div>
             <div onClick={this.handleEventsAdd}>Add Event Data</div>
-            <div onClick={this.handleInventoryAdd}>Add Inventory Data</div>
             <div onClick={this.handleCarasAdd}>Add Caras Stage Data</div>
           <div onClick={this.handleWilmaAdd}>Add Wilma Stage Data</div>*/}
           </Drawer>
