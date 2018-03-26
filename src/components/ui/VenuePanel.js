@@ -67,7 +67,7 @@ function handleClick() {
 
 function Venues(props) {
   const { classes } = props;
-  const { contact_info, stages, name } = props.venue;
+  const { contact_info, stages, name, physical_address } = props.venue;
   const { street, street2, city, state, zip } = contact_info.mailing_address;
   const br = document.createElement('br');
   return (
@@ -96,7 +96,7 @@ function Venues(props) {
               </span>
               <strong>Phone Numbers:</strong>
               {Object.keys(contact_info.phoneNumbers).map((type, i) =>
-                <span key={i} className={classes.helper} variant="caption">
+                <span key={i} className={classes.helper}>
                   <strong>{type}:</strong> {contact_info.phoneNumbers[type]}
                 </span>
               )}
@@ -115,7 +115,10 @@ function Venues(props) {
             </Typography>
           </div>
           <div className={classes.column}>
-            <VenueMapContainer />
+              <VenueMapContainer
+                address={`${physical_address.street} ${physical_address.zip}`}
+                name={name}
+              />
           </div>
           <div className={classNames(classes.column, classes.helper)}>
             <Typography variant="subheading">

@@ -9,7 +9,7 @@ const Venues = observer(function Venues(props){
   return (
     <div>
       {venues.docs.map(venue =>
-        <VenuePanel venue={venue.data} />)}
+        <VenuePanel key={venue.id} venue={venue.data} />)}
 
     </div>
   );
