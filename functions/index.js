@@ -70,6 +70,7 @@ exports.detectConflict = functions.firestore.document(`inventory/{inventoryId}/o
       let conflictToResolve
 
       if (totalRequestedQty > totalInStock) {
+        /*eslint-disable*/
         db.collection('conflicts').add({
           item_name: itemName,
           affected: overlappingEvents,
@@ -78,6 +79,10 @@ exports.detectConflict = functions.firestore.document(`inventory/{inventoryId}/o
           from: triggerStart,
           to: triggerEnd,
         })
+          .then((result) =>
+          console.log('Conflict found!', result))
+          .catch(e => console.log('error creating document'))
+          /*eslint-enable*/
       } else {
         conflicts.forEach(conflict => {
           const {affected, item_name} = conflict.data()
@@ -101,11 +106,21 @@ exports.detectConflict = functions.firestore.document(`inventory/{inventoryId}/o
 exports.cleanOrdersOnDelete = functions.firestore.document(`events/{eventsId}`).onDelete(event => {
   const eventData = event.data.previous.data()
   const eventPath = 'events/' + event.data.previous.id
+
   return db.collection(`${eventPath}/orders`).get()
     .then(eventOrders => {
       return eventOrders.forEach(order => {
         const {order_ref} = order.data()
+        /*eslint-disable*/
         db.doc(order_ref).delete()
+          .then(() => {
+            console.log(order_ref, "successfully deleted")
+            order.ref.delete()
+              .then(() => console.log('reference document successfully deleted, all done!'))
+          })
+          .catch(e => console.log((e) => 'error deleting order', e))
+          /*eslint-enable*/
+
       })
     })
 })
