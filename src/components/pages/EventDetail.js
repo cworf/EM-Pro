@@ -88,6 +88,7 @@ class EventDetail extends React.Component {
 
   render() {
     const { classes, eventDoc, theme } = this.props;
+    if (!eventDoc) return null
     return (
       <div>
         <AppBar className={classes.appBar}>
