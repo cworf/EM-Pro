@@ -1,18 +1,16 @@
 import React from 'react';
-import VenuePanel from '../ui/VenuePanel';
-// import venues from '../../assets/data/venues';
-import {venues} from '../appStore'
-import {observer} from 'mobx-react';
+import { Switch, Route } from 'react-router-dom'
+import AllVenues from './AllVenues'
+import VenueDetail from './VenueDetail'
 
-const Venues = observer(function Venues(props){
+const Venues = () => {
 
   return (
-    <div>
-      {venues.docs.map(venue =>
-        <VenuePanel key={venue.id} venue={venue.data} />)}
-
-    </div>
+    <Switch>
+      <Route exact path='/venues' component={AllVenues} />
+      <Route path='/venues/:id' component={VenueDetail} />
+    </Switch>
   );
-});
+};
 
 export default Venues;
