@@ -16,12 +16,12 @@ import { topMenuItems, bottomMenuItems } from '../assets/data/menuData';
 import { Switch, Route } from 'react-router-dom';
 import './App.css';
 import DummyEvents from '../assets/data/events';
-import DummyInventory from '../assets/data/inventory';
 import DummyClients from '../assets/data/clients';
 import DummyVenues from '../assets/data/venues';
 import DummyCarasStages from '../assets/data/carasStages';
 import DummyWilmaStages from '../assets/data/wilmaStages';
-import {eventsCol, inventory, clients, venues, wilmaStages, carasStages} from './appStore';
+
+import {eventsCol, clients, venues, wilmaStages, carasStages} from './appStore';
 
 import Calendar from './pages/Calendar';
 import Inventory from './pages/Inventory';
