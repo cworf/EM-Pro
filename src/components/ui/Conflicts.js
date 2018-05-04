@@ -10,7 +10,7 @@ import { withStyles } from 'material-ui/styles';
 import { ListItem, ListItemIcon, ListItemText } from 'material-ui/List';
 import ErrorIcon from 'material-ui-icons/Error';
 import Badge from 'material-ui/Badge';
-import {conflicts} from '../appStore';
+import {firebase} from '../../firebase';
 import {observer} from 'mobx-react';
 import Table, { TableBody, TableCell, TableHead, TableRow } from 'material-ui/Table';
 import moment from 'moment';
@@ -52,7 +52,7 @@ const Conflicts = observer(class Conflicts extends React.Component {
   formatDate = (date) => moment(date).format('l')
 
   render() {
-    const {length} = conflicts.docs
+    const {length} = firebase.conflicts.docs
     const {classes} = this.props
     return (
       <div>
@@ -90,7 +90,7 @@ const Conflicts = observer(class Conflicts extends React.Component {
                 </TableRow>
               </TableHead>
               <TableBody>
-                {conflicts.docs.map((n) => {
+                {firebase.conflicts.docs.map((n) => {
                   const {item_name, qty_request, total_stock, from, to, affected} = n.data
                   console.log(from, "=>", to);
                   return (

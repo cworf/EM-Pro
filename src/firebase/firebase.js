@@ -1,36 +1,41 @@
 import * as firebase from 'firebase';
 import 'firebase/firestore';
 
-const prodConfig = {
+import {initFirestorter, Collection} from 'firestorter';
+
+// Initialize firebase app
+firebase.initializeApp({
   apiKey: "AIzaSyDsoxi8jDn5Nh2-rJBxrOQPmZQQJkCzqeM",
-      authDomain: "em-pro-audio.firebaseapp.com",
-      databaseURL: "https://em-pro-audio.firebaseio.com",
-      projectId: "em-pro-audio",
-      storageBucket: "em-pro-audio.appspot.com",
-      messagingSenderId: "484148208454"
-};
+  authDomain: "em-pro-audio-88747.firebaseapp.com",
+  databaseURL: "https://em-pro-audio-88747.firebaseio.com",
+  projectId: "em-pro-audio",
+  storageBucket: "em-pro-audio.appspot.com",
+  messagingSenderId: "484148208454"
+});
 
-const devConfig = {
-  apiKey: "AIzaSyDsoxi8jDn5Nh2-rJBxrOQPmZQQJkCzqeM",
-      authDomain: "em-pro-audio.firebaseapp.com",
-      databaseURL: "https://em-pro-audio.firebaseio.com",
-      projectId: "em-pro-audio",
-      storageBucket: "em-pro-audio.appspot.com",
-      messagingSenderId: "484148208454"
-};
+// Initialize `firestorter`
+initFirestorter({firebase: firebase});
 
-const config = process.env.NODE_ENV === 'production'
-  ? prodConfig
-  : devConfig;
+// Define collection
+const eventsCol = new Collection('events');
+const clients = new Collection('clients');
+const venues = new Collection('venues');
+const inventory = new Collection('inventory');
+const orders = new Collection('orders');
+const conflicts = new Collection('conflicts');
+const users = new Collection('users');
 
-if (!firebase.apps.length) {
-  firebase.initializeApp(config);
-}
+const wilmaStages = new Collection('venues/C4DbF1COxfoWlOeRjLR4/stages')
+const carasStages = new Collection('venues/P9KN85g1jC0bKSs3A3H6/stages')
 
-const db = firebase.firestore();
 const auth = firebase.auth();
 
 export {
-  db,
   auth,
+  eventsCol,
+  clients,
+  venues,
+  inventory,
+  orders,
+  conflicts
 };

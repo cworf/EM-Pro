@@ -14,6 +14,7 @@ import ChevronLeftIcon from 'material-ui-icons/ChevronLeft';
 import ChevronRightIcon from 'material-ui-icons/ChevronRight';
 import { topMenuItems, bottomMenuItems } from '../assets/data/menuData';
 import { Switch, Route } from 'react-router-dom';
+import withAuthentication from './Session/withAuthentication';
 import './App.css';
 import DummyEvents from '../assets/data/events';
 import DummyClients from '../assets/data/clients';
@@ -28,6 +29,8 @@ import Inventory from './pages/Inventory';
 import Clients from './pages/Clients';
 import Venues from './pages/Venues';
 import Conflicts from './ui/Conflicts';
+import SignInPage from './SignIn';
+import SignOutButton from './SignOut'
 
 const drawerWidth = 240;
 
@@ -108,6 +111,9 @@ const styles = theme => ({
   'contentShift-right': {
     marginRight: 0,
   },
+  toolbar : {
+    justifyContent: 'space-between'
+  }
 });
 
 
@@ -188,7 +194,11 @@ class App extends React.Component {
               [classes[`appBarShift-${anchor}`]]: open,
             })}
           >
-            <Toolbar disableGutters={!open}>
+            <Toolbar disableGutters={!open}
+              classes={{
+                root: classes.toolbar
+              }}
+            >
               <IconButton
                 color="inherit"
                 aria-label="open drawer"
@@ -200,6 +210,7 @@ class App extends React.Component {
               <Typography variant="title" color="inherit" noWrap>
                 E.M. Pro
               </Typography>
+              <SignOutButton style={{float: 'right'}} />
             </Toolbar>
           </AppBar>
           <Drawer
@@ -239,6 +250,7 @@ class App extends React.Component {
             <div className={classes.drawerHeader} />
             <Switch>
               <Route exact path='/' component={Calendar} />
+              <Route path='/signin' component={SignInPage} />
               <Route path='/inventory' component={Inventory} />
               <Route path='/clients' component={Clients} />
               <Route path='/venues' component={Venues} />
@@ -255,4 +267,4 @@ App.propTypes = {
   theme: PropTypes.object.isRequired,
 };
 
-export default withStyles(styles, { withTheme: true })(App);
+export default withAuthentication(withStyles(styles, { withTheme: true })(App));

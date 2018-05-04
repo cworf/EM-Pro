@@ -8,8 +8,10 @@ import { withStyles } from 'material-ui/styles';
 import PropTypes from 'prop-types';
 import Dialog from 'material-ui/Dialog';
 import Slide from 'material-ui/transitions/Slide';
-import {eventsCol} from '../appStore';
-import {observer} from 'mobx-react';
+import {firebase} from '../../firebase';
+import { inject, observer } from 'mobx-react';
+import { compose } from 'recompose';
+import withAuthorization from '../Session/withAuthorization';
 
 import EventDetail from './EventDetail';
 import EventAddPrompt from '../ui/EventAddPrompt';
@@ -31,7 +33,7 @@ BigCalendar.setLocalizer(BigCalendar.momentLocalizer(moment))
 
 
 
-const Calendar = observer(class Calendar extends React.Component{
+class Calendar extends React.Component{
 
   state = {
     open: false,
@@ -41,7 +43,7 @@ const Calendar = observer(class Calendar extends React.Component{
   };
 
   handleClickOpen = (clickedEvent) => {
-    const eventDoc = eventsCol.docs.map(item =>
+    const eventDoc = firebase.eventsCol.docs.map(item =>
       item.id === clickedEvent.id
         ? item : null
     ).filter(item => item)
@@ -73,7 +75,7 @@ const Calendar = observer(class Calendar extends React.Component{
       <div style={{height: 'calc(100vh - 112px)'}}>
         <BigCalendar
           selectable
-          events={this.eventsParse(eventsCol)}
+          events={this.eventsParse(firebase.eventsCol)}
           defaultView="month"
           scrollToTime={new Date(1970, 1, 1, 6)}
           onSelectEvent={event => this.handleClickOpen(event)}
@@ -102,10 +104,17 @@ const Calendar = observer(class Calendar extends React.Component{
       </div>
     );
   }
-})
+}
 
 Calendar.propTypes = {
   classes: PropTypes.object.isRequired,
 };
 
-export default withStyles(styles)(Calendar);
+const authCondition = (authUser) => !!authUser;
+
+export default compose(
+   withAuthorization(authCondition),
+   inject('userStore'),
+   observer,
+   withStyles(styles)
+)(Calendar);

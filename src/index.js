@@ -1,11 +1,13 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
+import { Provider } from 'mobx-react';
 import App from './components/App';
 import registerServiceWorker from './registerServiceWorker';
 import 'typeface-roboto';
 import { HashRouter } from 'react-router-dom';
 import { MuiThemeProvider, createMuiTheme } from 'material-ui/styles';
+import store from './stores';
 
 const theme = createMuiTheme({
   palette: {
@@ -32,11 +34,12 @@ const theme = createMuiTheme({
 
 ReactDOM.render(
   <MuiThemeProvider theme={theme}>
-
-  <HashRouter>
-    <App />
-  </HashRouter>
-</MuiThemeProvider>
+    <Provider { ...store }>
+      <HashRouter>
+        <App />
+      </HashRouter>
+    </Provider>
+  </MuiThemeProvider>
     ,
   document.getElementById('root')
 );
