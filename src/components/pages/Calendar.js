@@ -3,15 +3,14 @@ import 'react-big-calendar/lib/css/react-big-calendar.css';
 import './Calendar.css'
 import BigCalendar from 'react-big-calendar';
 import moment from 'moment';
-// import events from '../../assets/data/events.js';
 import { withStyles } from 'material-ui/styles';
 import PropTypes from 'prop-types';
 import Dialog from 'material-ui/Dialog';
 import Slide from 'material-ui/transitions/Slide';
-import {firebase} from '../../firebase';
 import { inject, observer } from 'mobx-react';
 import { compose } from 'recompose';
 import withAuthorization from '../Session/withAuthorization';
+import withData from '../Session/withData';
 
 import EventDetail from './EventDetail';
 import EventAddPrompt from '../ui/EventAddPrompt';
@@ -43,7 +42,7 @@ class Calendar extends React.Component{
   };
 
   handleClickOpen = (clickedEvent) => {
-    const eventDoc = firebase.eventsCol.docs.map(item =>
+    const eventDoc = this.props.dataStore.eventsCol.docs.map(item =>
       item.id === clickedEvent.id
         ? item : null
     ).filter(item => item)
@@ -66,21 +65,25 @@ class Calendar extends React.Component{
 
   eventsParse = (events) =>
     events.docs.map(eventDoc =>{
-      return {...eventDoc.data, id:eventDoc.id}
+      console.log(eventDoc.id);
+      return {...eventDoc.data(), id:eventDoc.id}
     })
 
 
   render(){
+    const {dataStore: {companyData}} = this.props
+    const eventsCol = companyData.get('events')
+    console.log("this", this.props);
+    eventsCol.docs.map(eventDoc => console.log(eventDoc))
     return (
       <div style={{height: 'calc(100vh - 112px)'}}>
         <BigCalendar
           selectable
-          events={this.eventsParse(firebase.eventsCol)}
+          events={this.eventsParse(eventsCol)}
           defaultView="month"
           scrollToTime={new Date(1970, 1, 1, 6)}
-          onSelectEvent={event => this.handleClickOpen(event)}
+          onSelectEvent={event => alert(event.title, 'clicked')}
           onSelectSlot={slotInfo => this.handlePromptOpen(slotInfo)
-
           }
         />
         <Dialog
@@ -114,7 +117,8 @@ const authCondition = (authUser) => !!authUser;
 
 export default compose(
    withAuthorization(authCondition),
-   inject('userStore'),
+   withData('events'),
+   inject('dataStore'),
    observer,
    withStyles(styles)
 )(Calendar);
