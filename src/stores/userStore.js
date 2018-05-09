@@ -1,14 +1,14 @@
 import { observable, action } from 'mobx';
 
 class UserStore {
-  @observable users = {};
+  @observable user = {};
 
   constructor(rootStore) {
     this.rootStore = rootStore;
   }
 
-  @action setUsers = users => {
-    this.users = users;
+  @action setUser = user => {
+    this.user = user;
   }
 }
 

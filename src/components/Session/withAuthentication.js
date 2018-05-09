@@ -9,9 +9,12 @@ const withAuthentication = (Component) => {
       const { sessionStore } = this.props;
 
       firebase.auth.onAuthStateChanged(authUser => {
-        authUser
-          ? sessionStore.setAuthUser(authUser)
-          : sessionStore.setAuthUser(null);
+        if (authUser) {
+          // dataStore.setData(authUser)
+          sessionStore.setAuthUser(authUser);
+        } else {
+          sessionStore.setAuthUser(null);
+        }
       });
     }
 

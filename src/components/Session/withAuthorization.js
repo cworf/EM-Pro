@@ -22,7 +22,7 @@ const withAuthorization = (condition) => (Component) => {
 
   return compose(
     withRouter,
-    inject('sessionStore'),
+    inject('dataStore', 'sessionStore'),
     observer
   )(WithAuthorization);
 }
