@@ -11,18 +11,22 @@ import { inject, observer } from 'mobx-react';
 import { compose } from 'recompose';
 import withAuthorization from '../Session/withAuthorization';
 import withData from '../Session/withData';
+import { LinearProgress } from 'material-ui/Progress';
 
 import EventDetail from './EventDetail';
 import EventAddPrompt from '../ui/EventAddPrompt';
 
-const styles = {
+const styles = theme => ({
   appBar: {
     position: 'relative',
   },
   flex: {
     flex: 1,
   },
-};
+  progress: {
+    margin: theme.spacing.unit * 2,
+  },
+});
 
 function Transition(props) {
   return <Slide direction="up" {...props} />;
@@ -117,7 +121,12 @@ const authCondition = (authUser) => !!authUser;
 
 export default compose(
    withAuthorization(authCondition),
-   withData('events'),
+   withData(() =>
+    <LinearProgress
+       variant='query'
+       color='secondary'
+       className='calendar-loader'
+    />, 'events'),
    inject('dataStore'),
    observer,
    withStyles(styles)

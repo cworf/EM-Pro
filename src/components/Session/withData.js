@@ -2,16 +2,30 @@ import React from 'react';
 import { inject, observer } from 'mobx-react';
 import { compose } from 'recompose';
 import { db } from '../../firebase';
+// import { CircularProgress } from 'material-ui/Progress';
+import { withStyles } from 'material-ui/styles';
+
+// const styles = theme => ({
+//   progress: {
+//     margin: theme.spacing.unit * 2,
+//   },
+// });
 
 const withData = function() {
+  let Loader
   const storeAs = []
   const requests = []
   for (let i = 0; i < arguments.length; i++) {
-    const regex = /[^/]+$/gm; // match string after the last forward slash
-    storeAs[i] = arguments[i] === '/' ? 'company' : arguments[i].match(regex)[0]
-    requests[i] = arguments[i]
+    if (typeof arguments[i] === 'function') { //if a progress loader component is defined
+      Loader = arguments[i]
+    } else {
+      const regex = /[^/]+$/gm; // match string after the last forward slash
+      storeAs[i] = arguments[i] === '/' ? 'company' : arguments[i].match(regex)[0]
+      requests[i] = arguments[i]
+    }
   }
   return function(Component) {
+    console.log(Loader);
     class WithData extends React.Component {
       componentDidMount() {
 
@@ -33,7 +47,12 @@ const withData = function() {
 
       render() {
         const {dataStore : {companyData}} = this.props
-        return hasData(companyData) ? <Component /> : null;
+        console.log(Loader);
+        return hasData(companyData)
+          ? <Component />
+          : Loader //progress while loading
+            ? <Loader />
+            : null;
       }
     }
 
@@ -47,6 +66,7 @@ const withData = function() {
 
     return compose(
       inject('sessionStore', 'userStore', 'dataStore'),
+      // withStyles(styles),
       observer
     )(WithData);
   }

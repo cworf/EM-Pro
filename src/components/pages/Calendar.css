@@ -37,3 +37,7 @@ span.rbc-btn-group button {
 button.rbc-active {
     color: #000!important;
 }
+
+.calendar-loader{
+  background-color: transparent !important
+}
