@@ -1,4 +1,6 @@
 import React from 'react';
+import withAuthorization from '../Session/withAuthorization';
+import withData from '../Session/withData';
 import Button from 'material-ui/Button';
 import Dialog, {
   DialogActions,
@@ -10,8 +12,8 @@ import { withStyles } from 'material-ui/styles';
 import { ListItem, ListItemIcon, ListItemText } from 'material-ui/List';
 import ErrorIcon from 'material-ui-icons/Error';
 import Badge from 'material-ui/Badge';
-import {conflicts} from '../appStore';
-import {observer} from 'mobx-react';
+import { inject, observer } from 'mobx-react';
+import { compose } from 'recompose';
 import Table, { TableBody, TableCell, TableHead, TableRow } from 'material-ui/Table';
 import moment from 'moment';
 
@@ -36,7 +38,7 @@ function Transition(props) {
   return <Slide direction="up" {...props} />;
 }
 
-const Conflicts = observer(class Conflicts extends React.Component {
+class Conflicts extends React.Component {
   state = {
     open: false,
   };
@@ -52,8 +54,10 @@ const Conflicts = observer(class Conflicts extends React.Component {
   formatDate = (date) => moment(date).format('l')
 
   render() {
+    const {classes, dataStore:{companyData}} = this.props
+    const conflicts = companyData.get('conflicts')
     const {length} = conflicts.docs
-    const {classes} = this.props
+    console.log('length', length);
     return (
       <div>
         <ListItem button onClick={this.handleClickOpen}>
@@ -90,11 +94,11 @@ const Conflicts = observer(class Conflicts extends React.Component {
                 </TableRow>
               </TableHead>
               <TableBody>
-                {conflicts.docs.map((n) => {
-                  const {item_name, qty_request, total_stock, from, to, affected} = n.data
+                {conflicts.docs.map((conflict) => {
+                  const {item_name, qty_request, total_stock, from, to, affected} = conflict.data()
                   console.log(from, "=>", to);
                   return (
-                    <TableRow key={n.id}>
+                    <TableRow key={conflict.id}>
                       <TableCell>{item_name}</TableCell>
                       <TableCell numeric>{qty_request}</TableCell>
                       <TableCell numeric>{total_stock}</TableCell>
@@ -118,6 +122,12 @@ const Conflicts = observer(class Conflicts extends React.Component {
       </div>
     );
   }
-})
+}
+const authCondition = (authUser) => !!authUser;
 
-export default withStyles(styles)(Conflicts);
+export default compose(
+  withAuthorization(authCondition),
+  withData('conflicts'),
+  inject('dataStore'),
+  withStyles(styles)
+)(Conflicts);
