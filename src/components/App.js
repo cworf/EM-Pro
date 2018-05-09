@@ -12,8 +12,6 @@ import IconButton from 'material-ui/IconButton';
 import MenuIcon from 'material-ui-icons/Menu';
 import ChevronLeftIcon from 'material-ui-icons/ChevronLeft';
 import ChevronRightIcon from 'material-ui-icons/ChevronRight';
-import purple from 'material-ui/colors/purple';
-import { CircularProgress } from 'material-ui/Progress';
 import { topMenuItems, bottomMenuItems } from '../assets/data/menuData';
 import { Switch, Route } from 'react-router-dom';
 import withAuthentication from './Session/withAuthentication';
@@ -163,7 +161,10 @@ const App = observer(class App extends React.Component {
               <Typography variant="title" color="inherit" noWrap>
                 E.M. Pro
               </Typography>
-              <SignOutButton style={{float: 'right'}} />
+              {!!authUser && <SignOutButton style={{float: 'right'}}
+                variant='raised'
+                color='primary'
+                type="button" />}
             </Toolbar>
           </AppBar>
           <Drawer

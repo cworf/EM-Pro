@@ -39,6 +39,11 @@ class AreYouSure extends Component {
     });
   };
 
+  handleAccept = () => {
+    this.handleClose()
+    this.props.onAccept()
+  }
+
   handleClose = () => {
     this.setState({
       open: false,
@@ -53,12 +58,16 @@ class AreYouSure extends Component {
   button = null;
 
   render(){
-    const { classes, onAccept, children, styles, question, acceptBtn, cancelBtn, doubleCheck } = this.props;
+    const { classes, children, styles, question, acceptBtn, cancelBtn, doubleCheck } = this.props;
     const { open, anchorEl, anchorReference, checked } = this.state;
+    const childrenWithProps = React.Children.map(children, child =>
+      React.cloneElement(child, { onClick : this.handleClickButton, ref : (node) => {
+        this.button = node
+      } }));
     return (
       <div style={styles} className='hover-show'>
 
-        <IconButton
+        {/* <IconButton
           ref={node => {
             this.button = node;
           }}
@@ -66,9 +75,9 @@ class AreYouSure extends Component {
           className={classes.red}
           aria-label="Delete"
           onClick={this.handleClickButton}
-        >
-          {children}
-        </IconButton>
+        > */}
+          {childrenWithProps}
+        {/* </IconButton> */}
         <Popover
           open={open}
           anchorEl={anchorEl}
@@ -106,7 +115,11 @@ class AreYouSure extends Component {
              <Button variant="raised" color="secondary" className={classes.button} onClick={this.handleClose}>
                {cancelBtn ? cancelBtn : 'No'}
              </Button>
-             <Button variant="raised" disabled={doubleCheck ? checked ? false : true : false} style={{backgroundColor: red[500]}} className={classes.button} onClick={onAccept}>
+             <Button variant="raised" disabled={doubleCheck ? checked ? false : true : false}
+               style={{backgroundColor: red[500]}}
+               className={classes.button}
+               onClick={this.handleAccept}
+              >
                {acceptBtn ? acceptBtn : 'Yes'}
              </Button>
           </Typography>
