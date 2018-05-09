@@ -12,18 +12,13 @@ import IconButton from 'material-ui/IconButton';
 import MenuIcon from 'material-ui-icons/Menu';
 import ChevronLeftIcon from 'material-ui-icons/ChevronLeft';
 import ChevronRightIcon from 'material-ui-icons/ChevronRight';
+import purple from 'material-ui/colors/purple';
+import { CircularProgress } from 'material-ui/Progress';
 import { topMenuItems, bottomMenuItems } from '../assets/data/menuData';
 import { Switch, Route } from 'react-router-dom';
 import withAuthentication from './Session/withAuthentication';
 import { inject, observer } from 'mobx-react';
 import './App.css';
-import DummyEvents from '../assets/data/events';
-import DummyClients from '../assets/data/clients';
-import DummyVenues from '../assets/data/venues';
-import DummyCarasStages from '../assets/data/carasStages';
-import DummyWilmaStages from '../assets/data/wilmaStages';
-
-import {eventsCol, clients, venues, wilmaStages, carasStages} from './appStore';
 
 import Calendar from './pages/Calendar';
 import Inventory from './pages/Inventory';
@@ -114,7 +109,10 @@ const styles = theme => ({
   },
   toolbar : {
     justifyContent: 'space-between'
-  }
+  },
+  progress: {
+    margin: theme.spacing.unit * 2,
+  },
 });
 
 
@@ -137,51 +135,6 @@ const App = observer(class App extends React.Component {
       anchor: event.target.value,
     });
   };
-
-  handleClientsAdd = async() => {
-    try {
-      await Object.keys(DummyClients).map(id =>
-        clients.add(DummyClients[id]));
-    }
-    catch (err) {
-      console.log(err);
-    }
-  }
-  handleEventsAdd = async() => {
-    try {
-      await eventsCol.add({...DummyEvents.q});
-    }
-    catch (err) {
-      console.log(err);
-    }
-  }
-  handleVenuesAdd = async() => {
-    try {
-      await Object.keys(DummyVenues).map(id =>
-        venues.add(DummyVenues[id]));
-    }
-    catch (err) {
-      console.log(err);
-    }
-  }
-  handleWilmaAdd = async() => {
-    try {
-      await Object.keys(DummyWilmaStages).map(id =>
-        wilmaStages.add(DummyWilmaStages[id]));
-    }
-    catch (err) {
-      console.log(err);
-    }
-  }
-  handleCarasAdd = async() => {
-    try {
-      await Object.keys(DummyCarasStages).map(id =>
-        carasStages.add(DummyCarasStages[id]));
-    }
-    catch (err) {
-      console.log(err);
-    }
-  }
 
   render() {
     const { classes, theme, sessionStore: {authUser} } = this.props;
@@ -234,12 +187,6 @@ const App = observer(class App extends React.Component {
               <Conflicts />
             </List>
             <Divider />
-            {/*
-            <div onClick={this.handleVenuesAdd}>Add Venue Data</div>
-            <div onClick={this.handleClientsAdd}>Add Clients Data</div>
-            <div onClick={this.handleEventsAdd}>Add Event Data</div>
-            <div onClick={this.handleCarasAdd}>Add Caras Stage Data</div>
-          <div onClick={this.handleWilmaAdd}>Add Wilma Stage Data</div>*/}
           </Drawer>
           <main
             className={classNames(classes.content, classes[`content-${anchor}`], {
