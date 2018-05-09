@@ -15,6 +15,7 @@ import ChevronRightIcon from 'material-ui-icons/ChevronRight';
 import { topMenuItems, bottomMenuItems } from '../assets/data/menuData';
 import { Switch, Route } from 'react-router-dom';
 import withAuthentication from './Session/withAuthentication';
+import { inject, observer } from 'mobx-react';
 import './App.css';
 import DummyEvents from '../assets/data/events';
 import DummyClients from '../assets/data/clients';
@@ -117,7 +118,7 @@ const styles = theme => ({
 });
 
 
-class App extends React.Component {
+const App = observer(class App extends React.Component {
   state = {
     open: true,
     anchor: 'left',
@@ -183,18 +184,17 @@ class App extends React.Component {
   }
 
   render() {
-    const { classes, theme } = this.props;
+    const { classes, theme, sessionStore: {authUser} } = this.props;
     const { anchor, open } = this.state;
-
     return (
         <div className={classes.appFrame}>
           <AppBar
             className={classNames(classes.appBar, {
-              [classes.appBarShift]: open,
-              [classes[`appBarShift-${anchor}`]]: open,
+              [classes.appBarShift]: authUser ? open : false,
+              [classes[`appBarShift-${anchor}`]]: authUser ? open : false,
             })}
           >
-            <Toolbar disableGutters={!open}
+            <Toolbar disableGutters={authUser ? !open : true}
               classes={{
                 root: classes.toolbar
               }}
@@ -203,7 +203,7 @@ class App extends React.Component {
                 color="inherit"
                 aria-label="open drawer"
                 onClick={this.handleDrawerOpen}
-                className={classNames(classes.menuButton, open && classes.hide)}
+                className={classNames(classes.menuButton, authUser ? open && classes.hide : null)}
               >
                 <MenuIcon />
               </IconButton>
@@ -216,7 +216,7 @@ class App extends React.Component {
           <Drawer
             variant="persistent"
             anchor={anchor}
-            open={open}
+            open={authUser ? open : false}
             classes={{
               paper: classes.drawerPaper,
             }}
@@ -254,17 +254,16 @@ class App extends React.Component {
               <Route path='/inventory' component={Inventory} />
               <Route path='/clients' component={Clients} />
               <Route path='/venues' component={Venues} />
-              <Route path='/conflicts' component={Conflicts} />
             </Switch>
           </main>
         </div>
     );
   }
-}
+})
 
 App.propTypes = {
   classes: PropTypes.object.isRequired,
   theme: PropTypes.object.isRequired,
 };
 
-export default withAuthentication(withStyles(styles, { withTheme: true })(App));
+export default  withAuthentication(withStyles(styles, { withTheme: true })(inject('sessionStore')(App)));
