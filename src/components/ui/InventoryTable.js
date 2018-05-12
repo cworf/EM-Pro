@@ -1,10 +1,11 @@
 import React from 'react';
-import {observer} from 'mobx-react';
+import { inject, observer } from 'mobx-react';
+import { compose } from 'recompose';
+import withData from '../Session/withData';
 import PropTypes from 'prop-types';
 import { withStyles } from 'material-ui/styles';
 import Table, { TableBody, TableCell, TableHead, TableRow } from 'material-ui/Table';
 import Paper from 'material-ui/Paper';
-import {inventory} from '../appStore';
 import Button from 'material-ui/Button';
 
 import CreatePullOrderPrompt from './CreatePullOrderPrompt';
@@ -23,12 +24,11 @@ const styles = theme => ({
 
 const InventoryTable = observer(class InventoryTable extends React.Component{
 
-  componentWillMount() {
-    inventory.query = inventory.ref.orderBy('manufacturer', 'asc')
-  }
-
   render(){
-    const {type, classes, eventDoc, picker, stock} = this.props
+    const {
+      dataStore: {inventory},
+      type, classes, eventDoc, picker, stock
+    } = this.props
 
     return (
       <Paper className={classes.root}>
@@ -39,8 +39,8 @@ const InventoryTable = observer(class InventoryTable extends React.Component{
               <TableCell>Name</TableCell>
               <TableCell numeric>Inventory Total</TableCell>
               <TableCell numeric>Available</TableCell>
-              {picker ? <TableCell>Pull</TableCell> : null}
-              {stock ? <TableCell>Details</TableCell> : null}
+              {picker && <TableCell>Pull</TableCell>}
+              {stock && <TableCell>Details</TableCell>}
             </TableRow>
           </TableHead>
           <TableBody>
@@ -53,8 +53,16 @@ const InventoryTable = observer(class InventoryTable extends React.Component{
                     <TableCell>{name}</TableCell>
                     <TableCell numeric>{stock ? <RenderOrEdit noLabel small eventDoc={item} type='number' field='inventory' /> : inventory}</TableCell>
                     <TableCell numeric>{in_stock}</TableCell>
-                    {picker ? <TableCell padding='checkbox'><CreatePullOrderPrompt item={item} eventDoc={eventDoc} /></TableCell> : null}
-                    {stock ? <TableCell padding='checkbox'><Button size='small' variant='raised' color='secondary'>Details</Button></TableCell> : null}
+                    {picker &&
+                      <TableCell padding='checkbox'>
+                        <CreatePullOrderPrompt item={item} eventDoc={eventDoc} />
+                      </TableCell>
+                    }
+                    {stock &&
+                      <TableCell padding='checkbox'>
+                        <Button size='small' variant='raised' color='secondary'>Details</Button>
+                      </TableCell>
+                    }
                   </TableRow>
                 : null
               );
@@ -74,4 +82,13 @@ InventoryTable.propTypes = {
   stock: PropTypes.bool,
 }
 
-export default withStyles(styles)(InventoryTable);
+const sortInventory = (props, collection) => (
+  collection.ref.orderBy('manufacturer', 'asc')
+)
+
+export default compose(
+  withData(['/inventory'], [sortInventory]),
+  inject('dataStore'),
+  withStyles(styles),
+  observer
+)(InventoryTable);

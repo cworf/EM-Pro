@@ -1,4 +1,7 @@
 import React from 'react';
+import { observer } from 'mobx-react';
+import { compose } from 'recompose';
+import withAuthorization from '../Session/withAuthorization';
 import PropTypes from 'prop-types';
 import { withStyles } from 'material-ui/styles';
 import AppBar from 'material-ui/AppBar';
@@ -44,6 +47,7 @@ class Inventory extends React.Component {
   };
 
   render() {
+
     const { classes } = this.props;
     const { value } = this.state;
 
@@ -57,7 +61,6 @@ class Inventory extends React.Component {
           </Tabs>
         </AppBar>
 
-        <AddInventory />
         {Object.keys(inventoryCategories).map(function(key, i) {
             return value === i && <TabContainer key={i}><Category category={key} types={inventoryCategories[key]} /></TabContainer>
           })}
@@ -72,4 +75,10 @@ Inventory.propTypes = {
   classes: PropTypes.object.isRequired,
 };
 
-export default withStyles(styles)(Inventory);
+const authCondition = (authUser) => !!authUser;
+
+export default compose(
+  withAuthorization(authCondition),
+  withStyles(styles),
+  observer
+)(Inventory);

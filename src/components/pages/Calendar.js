@@ -112,8 +112,6 @@ Calendar.propTypes = {
 
 const authCondition = (authUser) => !!authUser;
 
-
-
 export default compose(
   withAuthorization(authCondition),
   withData(['/events']),
