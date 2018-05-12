@@ -16,26 +16,8 @@ firebase.initializeApp({
 // Initialize `firestorter`
 initFirestorter({firebase: firebase});
 
-// Define collection
-const eventsCol = new Collection('events');
-const clients = new Collection('clients');
-const venues = new Collection('venues');
-const inventory = new Collection('inventory');
-const orders = new Collection('orders');
-const conflicts = new Collection('conflicts');
-const users = new Collection('users');
-
-const wilmaStages = new Collection('venues/C4DbF1COxfoWlOeRjLR4/stages')
-const carasStages = new Collection('venues/P9KN85g1jC0bKSs3A3H6/stages')
-
 const auth = firebase.auth();
 
 export {
-  auth,
-  eventsCol,
-  clients,
-  venues,
-  inventory,
-  orders,
-  conflicts
+  auth
 };
