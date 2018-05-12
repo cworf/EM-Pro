@@ -71,6 +71,7 @@ class Calendar extends React.Component{
 
   render(){
     const {dataStore: {eventsCol}} = this.props
+    console.log(this.state.clickedEvent);
     return (
       <div style={{height: 'calc(100vh - 112px)'}}>
         <BigCalendar

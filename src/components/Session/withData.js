@@ -38,8 +38,9 @@ const withData = (requests, queries) => (Component) => {
     }
 
     render() {
+      const { dataStore, userStore, ...rest} = this.props
       // return this.props.sessionStore.authUser ? <Component /> : null;
-      return <Component />
+      return <Component {...rest} />
     }
   }
 
