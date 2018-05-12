@@ -8,7 +8,4 @@ export const doCreateUser = (id, username, email) =>
     email,
   });
 
-export const onceGetUsers = () =>
-  db.collection('users').get();
-
 // Other db APIs ...
