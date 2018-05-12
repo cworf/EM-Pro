@@ -15,6 +15,7 @@ import ChevronRightIcon from 'material-ui-icons/ChevronRight';
 import { topMenuItems, bottomMenuItems } from '../assets/data/menuData';
 import { Switch, Route } from 'react-router-dom';
 import withAuthentication from './Session/withAuthentication';
+import * as routes from '../constants/routes';
 import './App.css';
 import DummyEvents from '../assets/data/events';
 import DummyClients from '../assets/data/clients';
@@ -30,6 +31,9 @@ import Clients from './pages/Clients';
 import Venues from './pages/Venues';
 import Conflicts from './ui/Conflicts';
 import SignInPage from './SignIn';
+import SignUpPage from './SignUp';
+import AccountPage from './Account';
+import PasswordForgetPage from './PasswordForget';
 import SignOutButton from './SignOut'
 
 const drawerWidth = 240;
@@ -255,6 +259,9 @@ class App extends React.Component {
               <Route path='/clients' component={Clients} />
               <Route path='/venues' component={Venues} />
               <Route path='/conflicts' component={Conflicts} />
+              <Route exact path={routes.SIGN_UP} component={SignUpPage} />
+              <Route exact path={routes.PASSWORD_FORGET} component={PasswordForgetPage} />
+        <Route exact path={routes.ACCOUNT} component={AccountPage} />
             </Switch>
           </main>
         </div>

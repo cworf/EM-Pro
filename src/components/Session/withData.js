@@ -20,8 +20,8 @@ export default compose(
 const withData = (requests, queries) => (Component) => {
   class WithData extends React.Component {
     componentDidMount() {
-      const { dataStore: {setData, setQuery}, userStore: {user}} = this.props
-      user.ready()
+      const { sessionStore: {authUser}, dataStore: {setData, setQuery}, userStore: {user}} = this.props
+      !!authUser && user.ready()
         .then(() => {
 
           const getQuery = (query) => (collection) => query(this.props, collection)
@@ -46,7 +46,7 @@ const withData = (requests, queries) => (Component) => {
 
   return compose(
     withRouter,
-    inject('userStore', 'dataStore'),
+    inject('userStore', 'dataStore', 'sessionStore'),
     observer
   )(WithData);
 }
