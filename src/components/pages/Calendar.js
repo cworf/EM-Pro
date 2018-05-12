@@ -70,7 +70,7 @@ class Calendar extends React.Component{
 
 
   render(){
-    const {dataStore: {eventsCol, company}} = this.props
+    const {dataStore: {eventsCol}} = this.props
     return (
       <div style={{height: 'calc(100vh - 112px)'}}>
         <BigCalendar
@@ -116,7 +116,7 @@ const authCondition = (authUser) => !!authUser;
 export default compose(
   withAuthorization(authCondition),
   withData(['/events']),
-  inject('userStore', 'dataStore', 'sessionStore'),
+  inject('dataStore'),
   withStyles(styles),
   observer
 )(Calendar);

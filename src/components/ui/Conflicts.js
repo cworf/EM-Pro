@@ -1,4 +1,8 @@
 import React from 'react';
+import { inject, observer } from 'mobx-react';
+import { compose } from 'recompose';
+import withAuthorization from '../Session/withAuthorization';
+import withData from '../Session/withData';
 import Button from 'material-ui/Button';
 import Dialog, {
   DialogActions,
@@ -11,7 +15,6 @@ import { ListItem, ListItemIcon, ListItemText } from 'material-ui/List';
 import ErrorIcon from 'material-ui-icons/Error';
 import Badge from 'material-ui/Badge';
 import {firebase} from '../../firebase';
-import {observer} from 'mobx-react';
 import Table, { TableBody, TableCell, TableHead, TableRow } from 'material-ui/Table';
 import moment from 'moment';
 
@@ -52,7 +55,8 @@ const Conflicts = observer(class Conflicts extends React.Component {
   formatDate = (date) => moment(date).format('l')
 
   render() {
-    const {length} = firebase.conflicts.docs
+    const {dataStore: {conflicts}} = this.props
+    const {length} = conflicts.docs
     const {classes} = this.props
     return (
       <div>
@@ -90,7 +94,7 @@ const Conflicts = observer(class Conflicts extends React.Component {
                 </TableRow>
               </TableHead>
               <TableBody>
-                {firebase.conflicts.docs.map((n) => {
+                {conflicts.docs.map((n) => {
                   const {item_name, qty_request, total_stock, from, to, affected} = n.data
                   console.log(from, "=>", to);
                   return (
@@ -120,4 +124,12 @@ const Conflicts = observer(class Conflicts extends React.Component {
   }
 })
 
-export default withStyles(styles)(Conflicts);
+const authCondition = (authUser) => !!authUser;
+
+export default compose(
+  withAuthorization(authCondition),
+  withData(['/conflicts']),
+  inject('dataStore'),
+  withStyles(styles),
+  observer
+)(Conflicts);

@@ -23,13 +23,15 @@ const withData = (requests, queries) => (Component) => {
       const { dataStore: {setData, setQuery}, userStore: {user}} = this.props
       user.ready()
         .then(() => {
+
           const getQuery = (query) => (collection) => query(this.props, collection)
+
           for (var i = 0; i < requests.length; i++) {
             const parsed = requests[i].slice(1)
             const storeAs = parsed === 'events' ? 'eventsCol' : parsed || 'company'
             const path = `companies/${user.data.company}${requests[i]}`
             setData(storeAs, path)
-            !!queries && setQuery(storeAs, getQuery(queries[i]))
+            !!(queries && queries[i]) && setQuery(storeAs, getQuery(queries[i]))
           }
 
         })
