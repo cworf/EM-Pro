@@ -18,6 +18,8 @@ class DataStore {
     this[storeAs].path = path
     // this[storeAs].query = !!query && query(this[storeAs])
   }
+  @action setQuery = (storeAs, getQuery) => {
+    this[storeAs].query = !!getQuery && getQuery(this[storeAs])
   }
 }
 
