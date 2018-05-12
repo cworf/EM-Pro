@@ -16,9 +16,7 @@ const styles = theme => ({
   },
 });
 
-function ClientDetail(props) {
-  const { classes } = props;
-  const { company, name } = props.client;
+function ClientDetail({ classes, client: {company, name} }) {
   return (
     <div className={classes.outer}>
       <Paper className={classes.root} elevation={4}>
