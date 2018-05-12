@@ -81,8 +81,8 @@ class DocSelector extends Component {
               })
               :!!docs && docs.map(doc =>{
               const { id, data, path } = doc
-              const { name } = data
-              return <MenuItem key={id} value={path}>{client ? `${name.first} ${name.last}` : name}</MenuItem>
+              const { first_name, last_name, name } = data
+              return <MenuItem key={id} value={path}>{client ? `${first_name} ${last_name}` : name}</MenuItem>
             })}
           </Select>
         </FormControl>
