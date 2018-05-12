@@ -19,7 +19,7 @@ const db = admin.firestore()
 
 
 // Update the search index every time an inventory item is written.
-exports.onInventoryItemCreated = functions.firestore.document('inventory/{inventoryId}').onWrite(event => {
+exports.onInventoryItemCreated = functions.firestore.document('companies/{companiesId}/inventory/{inventoryId}').onWrite(event => {
     // Get the inventory document
     const item = event.data.exists ? event.data.data() : event.data.previous.data()
     const isDeleted = event.data.exists ? false : true
@@ -33,7 +33,7 @@ exports.onInventoryItemCreated = functions.firestore.document('inventory/{invent
       : index.saveObject(item)
 });
 
-exports.detectConflict = functions.firestore.document(`inventory/{inventoryId}/orders/{orderId}`).onWrite(event => {
+exports.detectConflict = functions.firestore.document(`companies/{companiesId}/inventory/{inventoryId}/orders/{orderId}`).onWrite(event => {
   const eventStatus = event.data.exists ? event.data.data() : event.data.previous.data()
   const isDeleted = event.data.exists ? false : true
   const triggerId = event.data.id
@@ -103,7 +103,7 @@ exports.detectConflict = functions.firestore.document(`inventory/{inventoryId}/o
 })
 
 
-exports.cleanOrdersOnDelete = functions.firestore.document(`events/{eventsId}`).onDelete(event => {
+exports.cleanOrdersOnDelete = functions.firestore.document(`companies/{companiesId}/events/{eventsId}`).onDelete(event => {
   const eventData = event.data.previous.data()
   const eventPath = 'events/' + event.data.previous.id
 
