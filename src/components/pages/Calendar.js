@@ -8,10 +8,10 @@ import { withStyles } from 'material-ui/styles';
 import PropTypes from 'prop-types';
 import Dialog from 'material-ui/Dialog';
 import Slide from 'material-ui/transitions/Slide';
-import {firebase} from '../../firebase';
 import { inject, observer } from 'mobx-react';
 import { compose } from 'recompose';
 import withAuthorization from '../Session/withAuthorization';
+import withData from '../Session/withData';
 
 import EventDetail from './EventDetail';
 import EventAddPrompt from '../ui/EventAddPrompt';
@@ -31,8 +31,6 @@ function Transition(props) {
 
 BigCalendar.setLocalizer(BigCalendar.momentLocalizer(moment))
 
-
-
 class Calendar extends React.Component{
 
   state = {
@@ -43,7 +41,8 @@ class Calendar extends React.Component{
   };
 
   handleClickOpen = (clickedEvent) => {
-    const eventDoc = firebase.eventsCol.docs.map(item =>
+    const {dataStore: {eventsCol}} = this.props
+    const eventDoc = eventsCol.docs.map(item =>
       item.id === clickedEvent.id
         ? item : null
     ).filter(item => item)
@@ -71,17 +70,16 @@ class Calendar extends React.Component{
 
 
   render(){
+    const {dataStore: {eventsCol, company}} = this.props
     return (
       <div style={{height: 'calc(100vh - 112px)'}}>
         <BigCalendar
           selectable
-          events={this.eventsParse(firebase.eventsCol)}
+          events={this.eventsParse(eventsCol)}
           defaultView="month"
           scrollToTime={new Date(1970, 1, 1, 6)}
           onSelectEvent={event => this.handleClickOpen(event)}
-          onSelectSlot={slotInfo => this.handlePromptOpen(slotInfo)
-
-          }
+          onSelectSlot={slotInfo => this.handlePromptOpen(slotInfo)}
         />
         <Dialog
           fullScreen
@@ -93,6 +91,7 @@ class Calendar extends React.Component{
         </Dialog>
         {this.state.promptOpen
           ? <EventAddPrompt
+            eventsCol={eventsCol}
             slotInfo={this.state.slotInfo}
             open={this.state.promptOpen}
             onClickClose={this.handlePromptClose}
@@ -112,9 +111,12 @@ Calendar.propTypes = {
 
 const authCondition = (authUser) => !!authUser;
 
+
+
 export default compose(
-   withAuthorization(authCondition),
-   inject('userStore'),
-   observer,
-   withStyles(styles)
+  withAuthorization(authCondition),
+  withData(['/events']),
+  inject('userStore', 'dataStore', 'sessionStore'),
+  withStyles(styles),
+  observer
 )(Calendar);
