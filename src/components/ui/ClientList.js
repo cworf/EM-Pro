@@ -20,11 +20,11 @@ function ClientList({classes, onClientClick, dataStore: {clients}}) {
     <div className={classes.root}>
       <List>
         {clients.docs.map((client, i) => {
-          const {name, company, picture} = client.data;
+          const {last_name, first_name, company, picture} = client.data;
           return (
             <ListItem key={i} button divider onClick={onClientClick(client.data)}>
               <Avatar  src={picture} />
-              <ListItemText primary={company} secondary={name.last + ', ' + name.first} />
+              <ListItemText primary={company} secondary={last_name + ', ' + first_name} />
             </ListItem>
           )
         })}
@@ -38,12 +38,12 @@ ClientList.propTypes = {
   onClientClick: PropTypes.func
 };
 
-// const clientSort = (props, collection) => (
-//   collection.ref.orderBy('last-name', 'asc')
-// )
+const clientSort = (props, collection) => (
+  collection.ref.orderBy('last_name', 'asc')
+)
 
 export default compose(
-  withData(['/clients']),
+  withData(['/clients'], [clientSort]),
   inject('dataStore'),
   withStyles(styles),
   observer
