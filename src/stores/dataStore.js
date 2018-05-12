@@ -14,8 +14,10 @@ class DataStore {
     this.company = new Document();
   }
 
-  @action setData = path => {
-    this.eventsCol.path = path
+  @action setData = (storeAs, path, query) => {
+    this[storeAs].path = path
+    // this[storeAs].query = !!query && query(this[storeAs])
+  }
   }
 }
 
