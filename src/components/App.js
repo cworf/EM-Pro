@@ -1,4 +1,9 @@
 import React from 'react';
+import { inject, observer } from 'mobx-react';
+import { withRouter } from 'react-router-dom';
+import { compose } from 'recompose';
+import withAuthentication from './Session/withAuthentication';
+import * as routes from '../constants/routes'
 import PropTypes from 'prop-types';
 import { withStyles } from 'material-ui/styles';
 import classNames from 'classnames';
@@ -14,8 +19,6 @@ import ChevronLeftIcon from 'material-ui-icons/ChevronLeft';
 import ChevronRightIcon from 'material-ui-icons/ChevronRight';
 import { topMenuItems, bottomMenuItems } from '../assets/data/menuData';
 import { Switch, Route } from 'react-router-dom';
-import withAuthentication from './Session/withAuthentication';
-import * as routes from '../constants/routes';
 import './App.css';
 import DummyEvents from '../assets/data/events';
 import DummyClients from '../assets/data/clients';
@@ -187,84 +190,80 @@ class App extends React.Component {
   }
 
   render() {
-    const { classes, theme } = this.props;
+    const { classes, theme, sessionStore: {authUser} } = this.props;
     const { anchor, open } = this.state;
-
     return (
-        <div className={classes.appFrame}>
-          <AppBar
-            className={classNames(classes.appBar, {
-              [classes.appBarShift]: open,
-              [classes[`appBarShift-${anchor}`]]: open,
-            })}
-          >
-            <Toolbar disableGutters={!open}
-              classes={{
-                root: classes.toolbar
-              }}
-            >
-              <IconButton
-                color="inherit"
-                aria-label="open drawer"
-                onClick={this.handleDrawerOpen}
-                className={classNames(classes.menuButton, open && classes.hide)}
-              >
-                <MenuIcon />
-              </IconButton>
-              <Typography variant="title" color="inherit" noWrap>
-                E.M. Pro
-              </Typography>
-              <SignOutButton style={{float: 'right'}} />
-            </Toolbar>
-          </AppBar>
-          <Drawer
-            variant="persistent"
-            anchor={anchor}
-            open={open}
+      <div className={classes.appFrame}>
+        <AppBar
+          className={classNames(classes.appBar, {
+            [classes.appBarShift]: !!authUser && open,
+            [classes[`appBarShift-${anchor}`]]: !!authUser && open,
+          })}
+        >
+          <Toolbar disableGutters={!!authUser && !open}
             classes={{
-              paper: classes.drawerPaper,
+              root: classes.toolbar
             }}
           >
-            <div className={classes.drawerHeader}>
-              <IconButton onClick={this.handleDrawerClose}>
-                {theme.direction === 'rtl' ? <ChevronRightIcon /> : <ChevronLeftIcon />}
-              </IconButton>
-            </div>
-            <Divider />
-            <List>{topMenuItems}</List>
-            <Divider />
-            <List>
-              {bottomMenuItems}
-              <Conflicts />
-            </List>
-            <Divider />
-            {/*
-            <div onClick={this.handleVenuesAdd}>Add Venue Data</div>
-            <div onClick={this.handleClientsAdd}>Add Clients Data</div>
-            <div onClick={this.handleEventsAdd}>Add Event Data</div>
-            <div onClick={this.handleCarasAdd}>Add Caras Stage Data</div>
-          <div onClick={this.handleWilmaAdd}>Add Wilma Stage Data</div>*/}
-          </Drawer>
-          <main
-            className={classNames(classes.content, classes[`content-${anchor}`], {
-              [classes.contentShift]: open,
-              [classes[`contentShift-${anchor}`]]: open,
-            })}
-          >
-            <div className={classes.drawerHeader} />
-            <Switch>
-              <Route exact path='/' component={Calendar} />
-              <Route path='/signin' component={SignInPage} />
-              <Route path='/inventory' component={Inventory} />
-              <Route path='/clients' component={Clients} />
-              <Route path='/venues' component={Venues} />
-              <Route path='/conflicts' component={Conflicts} />
-              <Route exact path={routes.SIGN_UP} component={SignUpPage} />
-              <Route exact path={routes.PASSWORD_FORGET} component={PasswordForgetPage} />
-        <Route exact path={routes.ACCOUNT} component={AccountPage} />
-            </Switch>
-          </main>
-        </div>
+            <IconButton
+              color="inherit"
+              aria-label="open drawer"
+              onClick={this.handleDrawerOpen}
+              className={classNames(classes.menuButton, (!!authUser && open) && classes.hide)}
+            >
+              <MenuIcon />
+            </IconButton>
+            <Typography variant="title" color="inherit" noWrap>
+              E.M. Pro
+            </Typography>
+            {!!authUser && <SignOutButton style={{float: 'right'}}
+              variant='raised'
+              color='primary'
+              type="button" />}
+          </Toolbar>
+        </AppBar>
+        <Drawer
+          variant="persistent"
+          anchor={anchor}
+          open={!!authUser && open}
+          classes={{
+            paper: classes.drawerPaper,
+          }}
+        >
+          <div className={classes.drawerHeader}>
+            <IconButton onClick={this.handleDrawerClose}>
+              {theme.direction === 'rtl' ? <ChevronRightIcon /> : <ChevronLeftIcon />}
+            </IconButton>
+          </div>
+          <Divider />
+          <List>{topMenuItems}</List>
+          <Divider />
+          <List>
+            {bottomMenuItems}
+            <Conflicts />
+          </List>
+          <Divider />
+        </Drawer>
+        <main
+          className={classNames(classes.content, classes[`content-${anchor}`], {
+            [classes.contentShift]: !!authUser && open,
+            [classes[`contentShift-${anchor}`]]: !!authUser && open,
+          })}
+        >
+          <div className={classes.drawerHeader} />
+          <Switch>
+            <Route exact path='/' component={Calendar} />
+            <Route path='/signin' component={SignInPage} />
+            <Route path='/inventory' component={Inventory} />
+            <Route path='/clients' component={Clients} />
+            <Route path='/venues' component={Venues} />
+            <Route path='/conflicts' component={Conflicts} />
+            <Route exact path={routes.SIGN_UP} component={SignUpPage} />
+            <Route exact path={routes.PASSWORD_FORGET} component={PasswordForgetPage} />
+      <Route exact path={routes.ACCOUNT} component={AccountPage} />
+          </Switch>
+        </main>
+      </div>
     );
   }
 }
@@ -274,4 +273,10 @@ App.propTypes = {
   theme: PropTypes.object.isRequired,
 };
 
-export default withAuthentication(withStyles(styles, { withTheme: true })(App));
+export default compose(
+  withRouter,
+  inject('sessionStore'),
+  withStyles(styles, { withTheme: true }),
+  withAuthentication,
+  observer,
+)(App);
