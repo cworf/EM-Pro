@@ -1,4 +1,3 @@
-import { db } from './firebase';
 import {Document} from 'firestorter'
 
 // User API
@@ -8,7 +7,7 @@ const user = new Document(`users/${id}`)
   return await user.set({
     username,
     email,
-    company: 'montanaproaudio'
+    company: 'somethingelse'
   });
 }
 // Other db APIs ...
