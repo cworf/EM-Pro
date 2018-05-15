@@ -5,25 +5,24 @@ import Typography from 'material-ui/Typography';
 import Divider from 'material-ui/Divider';
 import {compose} from 'recompose'
 import withAuthorization from '../Session/withAuthorization'
+import withData from '../Session/withData'
 
 
 class InventoryDetail extends React.Component {
 
-  item = new Document()
-
-  componentWillReceiveProps(newProps) {
-    this.item.path = `companies/${newProps.userStore.user.data.company}/inventory/${newProps.match.params.id}`;
-  }
-
   render(){
-    console.log(this.item);
-    console.log(this.props.userStore.user.data);
-    if (!this.item.data) return null
+    console.log(this.props.dataStore.dynamicDocs);
+    const {dynamicDocs} = this.props.dataStore
+
+    const item = dynamicDocs.get(`companies/${this.props.userStore.user.data.company}/inventory/${this.props.match.params.id}`)
+    console.log(`companies/${this.props.userStore.user.data.company}/inventory/${this.props.match.params.id}`);
+    console.log(item);
+    // if (!item) return null
     const {
       data: {
         model, manufacturer, series, in_stock, name, inventory
       }
-    } = this.item
+    } = item
 
     return (
       <div>
@@ -37,9 +36,11 @@ class InventoryDetail extends React.Component {
 }
 
 const authCondition = (authUser) => !!authUser;
-
 export default compose(
   withAuthorization(authCondition),
-  inject('userStore'),
+  withData((props, company) => (
+    [`companies/${company}/inventory/${props.match.params.id}`]
+  )),
+  inject('userStore', 'dataStore'),
   observer,
 )(InventoryDetail);

@@ -7,6 +7,7 @@ import { withStyles } from 'material-ui/styles';
 import Table, { TableBody, TableCell, TableHead, TableRow } from 'material-ui/Table';
 import Paper from 'material-ui/Paper';
 import Button from 'material-ui/Button';
+import { Link } from 'react-router-dom'
 
 import CreatePullOrderPrompt from './CreatePullOrderPrompt';
 import RenderOrEdit from './RenderOrEdit';
@@ -48,7 +49,7 @@ const InventoryTable = observer(class InventoryTable extends React.Component{
               const {id, data} = item,
               {model, manufacturer, series, in_stock, name, inventory} = data;
               return ( data.type === type
-                ?<TableRow key={id}>
+                && <TableRow key={id}>
                     <TableCell>{manufacturer} {series} {model}</TableCell>
                     <TableCell>{name}</TableCell>
                     <TableCell numeric>{stock ? <RenderOrEdit noLabel small eventDoc={item} type='number' field='inventory' /> : inventory}</TableCell>
@@ -60,11 +61,18 @@ const InventoryTable = observer(class InventoryTable extends React.Component{
                     }
                     {stock &&
                       <TableCell padding='checkbox'>
-                        <Button size='small' variant='raised' color='secondary'>Details</Button>
+                        <Button
+                          size='small'
+                          variant='raised'
+                          color='secondary'
+                          component={Link}
+                          to={`/inventory/${id}`}
+                        >
+                          Details
+                        </Button>
                       </TableCell>
                     }
                   </TableRow>
-                : null
               );
             })}
           </TableBody>
