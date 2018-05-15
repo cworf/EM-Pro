@@ -1,7 +1,8 @@
-import { action } from 'mobx';
+import { action, observable } from 'mobx';
 import { Collection, Document  } from 'firestorter'
 
 class DataStore {
+  @observable dynamicDocs = new Map()
   constructor(rootStore) {
     this.rootStore = rootStore;
     this.eventsCol = new Collection()
@@ -14,8 +15,12 @@ class DataStore {
     this.company = new Document();
   }
 
-  @action setData = (storeAs, path, query) => {
+  @action setData = (storeAs, path) => {
     this[storeAs].path = path
+  }
+  @action setDataMap = (path) => {
+    console.log('this', path);
+    this.dynamicDocs.set(path, new Document(path))
   }
   @action setQuery = (storeAs, getQuery) => {
     if (this[storeAs].query !== !!getQuery && getQuery(this[storeAs])) {

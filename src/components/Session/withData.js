@@ -20,18 +20,29 @@ export default compose(
 const withData = (requests, queries) => (Component) => {
   class WithData extends React.Component {
     componentDidMount() {
-      const { sessionStore: {authUser}, dataStore: {setData, setQuery}, userStore: {user}} = this.props
+      const {
+        sessionStore: {authUser},
+        dataStore: {setDataMap, setData, setQuery},
+        userStore: {user}
+      } = this.props
       !!authUser && user.ready()
         .then(() => {
-
           const getQuery = (query) => (collection) => query(this.props, collection)
-
-          for (var i = 0; i < requests.length; i++) {
-            const parsed = requests[i].slice(1)
-            const storeAs = parsed === 'events' ? 'eventsCol' : parsed || 'company'
-            const path = `companies/${user.data.company}${requests[i]}`
-            setData(storeAs, path)
-            !!(queries && queries[i]) && setQuery(storeAs, getQuery(queries[i]))
+          console.log( requests);
+          if (typeof requests === 'function') {
+            const dynamicRequests = requests(this.props, user.data.company)
+            for (var i = 0; i < dynamicRequests.length; i++) {
+              console.log('this');
+              setDataMap(dynamicRequests[i])
+            }
+          } else {
+            for (var i = 0; i < requests.length; i++) {
+              const parsed = requests[i].slice(1)
+              const storeAs = parsed === 'events' ? 'eventsCol' : parsed || 'company'
+              const path = `companies/${user.data.company}${requests[i]}`
+              setData(storeAs, path)
+              !!(queries && queries[i]) && setQuery(storeAs, getQuery(queries[i]))
+            }
           }
 
         })
