@@ -9,9 +9,16 @@ import withAuthorization from '../Session/withAuthorization'
 
 class InventoryDetail extends React.Component {
 
-  item = new Document(`inventory/${this.props.match.params.id}`)
+  item = new Document()
+
+  componentWillReceiveProps(newProps) {
+    this.item.path = `companies/${newProps.userStore.user.data.company}/inventory/${newProps.match.params.id}`;
+  }
 
   render(){
+    console.log(this.item);
+    console.log(this.props.userStore.user.data);
+    if (!this.item.data) return null
     const {
       data: {
         model, manufacturer, series, in_stock, name, inventory
@@ -29,7 +36,10 @@ class InventoryDetail extends React.Component {
   }
 }
 
+const authCondition = (authUser) => !!authUser;
+
 export default compose(
-  withAuthorization,
+  withAuthorization(authCondition),
+  inject('userStore'),
   observer,
 )(InventoryDetail);
