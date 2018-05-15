@@ -19,7 +19,6 @@ class DataStore {
     this[storeAs].path = path
   }
   @action setDataMap = (path) => {
-    console.log('this', path);
     this.dynamicDocs.set(path, new Document(path))
   }
   @action setQuery = (storeAs, getQuery) => {

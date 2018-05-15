@@ -28,11 +28,9 @@ const withData = (requests, queries) => (Component) => {
       !!authUser && user.ready()
         .then(() => {
           const getQuery = (query) => (collection) => query(this.props, collection)
-          console.log( requests);
           if (typeof requests === 'function') {
             const dynamicRequests = requests(this.props, user.data.company)
             for (var i = 0; i < dynamicRequests.length; i++) {
-              console.log('this');
               setDataMap(dynamicRequests[i])
             }
           } else {

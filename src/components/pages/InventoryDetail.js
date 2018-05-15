@@ -1,5 +1,4 @@
 import React from 'react';
-import {Document} from 'firestorter';
 import {observer, inject} from 'mobx-react';
 import Typography from 'material-ui/Typography';
 import Divider from 'material-ui/Divider';
@@ -11,13 +10,14 @@ import withData from '../Session/withData'
 class InventoryDetail extends React.Component {
 
   render(){
-    console.log(this.props.dataStore.dynamicDocs);
-    const {dynamicDocs} = this.props.dataStore
+    const {
+      dataStore : {dynamicDocs},
+      userStore: {user},
+      match
+    } = this.props
 
-    const item = dynamicDocs.get(`companies/${this.props.userStore.user.data.company}/inventory/${this.props.match.params.id}`)
-    console.log(`companies/${this.props.userStore.user.data.company}/inventory/${this.props.match.params.id}`);
-    console.log(item);
-    // if (!item) return null
+    const item = dynamicDocs.get(`companies/${user.data.company}/inventory/${match.params.id}`)
+    if (!item) return null
     const {
       data: {
         model, manufacturer, series, in_stock, name, inventory
