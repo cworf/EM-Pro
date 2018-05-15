@@ -9,7 +9,9 @@ class UserStore {
   }
 
   @action setUser = path => {
-    this.user.path = path;
+    if (this.user.path !== path){ 
+      this.user.path = path;
+    }
   }
 }
 
