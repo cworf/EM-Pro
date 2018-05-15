@@ -3,6 +3,7 @@ import 'react-big-calendar/lib/css/react-big-calendar.css';
 import './Calendar.css'
 import BigCalendar from 'react-big-calendar';
 import moment from 'moment';
+// import events from '../../assets/data/events.js';
 import { withStyles } from 'material-ui/styles';
 import PropTypes from 'prop-types';
 import Dialog from 'material-ui/Dialog';
@@ -11,30 +12,24 @@ import { inject, observer } from 'mobx-react';
 import { compose } from 'recompose';
 import withAuthorization from '../Session/withAuthorization';
 import withData from '../Session/withData';
-import { LinearProgress } from 'material-ui/Progress';
 
 import EventDetail from './EventDetail';
 import EventAddPrompt from '../ui/EventAddPrompt';
 
-const styles = theme => ({
+const styles = {
   appBar: {
     position: 'relative',
   },
   flex: {
     flex: 1,
   },
-  progress: {
-    margin: theme.spacing.unit * 2,
-  },
-});
+};
 
 function Transition(props) {
   return <Slide direction="up" {...props} />;
 }
 
 BigCalendar.setLocalizer(BigCalendar.momentLocalizer(moment))
-
-
 
 class Calendar extends React.Component{
 
@@ -46,7 +41,8 @@ class Calendar extends React.Component{
   };
 
   handleClickOpen = (clickedEvent) => {
-    const eventDoc = this.props.dataStore.eventsCol.docs.map(item =>
+    const {dataStore: {eventsCol}} = this.props
+    const eventDoc = eventsCol.docs.map(item =>
       item.id === clickedEvent.id
         ? item : null
     ).filter(item => item)
@@ -69,16 +65,13 @@ class Calendar extends React.Component{
 
   eventsParse = (events) =>
     events.docs.map(eventDoc =>{
-      console.log(eventDoc.id);
-      return {...eventDoc.data(), id:eventDoc.id}
+      return {...eventDoc.data, id:eventDoc.id}
     })
 
 
   render(){
-    const {dataStore: {companyData}} = this.props
-    const eventsCol = companyData.get('events')
-    console.log("this", this.props);
-    eventsCol.docs.map(eventDoc => console.log(eventDoc))
+    const {dataStore: {eventsCol}} = this.props
+    console.log(this.state.clickedEvent);
     return (
       <div style={{height: 'calc(100vh - 112px)'}}>
         <BigCalendar
@@ -86,9 +79,8 @@ class Calendar extends React.Component{
           events={this.eventsParse(eventsCol)}
           defaultView="month"
           scrollToTime={new Date(1970, 1, 1, 6)}
-          onSelectEvent={event => alert(event.title, 'clicked')}
-          onSelectSlot={slotInfo => this.handlePromptOpen(slotInfo)
-          }
+          onSelectEvent={event => this.handleClickOpen(event)}
+          onSelectSlot={slotInfo => this.handlePromptOpen(slotInfo)}
         />
         <Dialog
           fullScreen
@@ -100,6 +92,7 @@ class Calendar extends React.Component{
         </Dialog>
         {this.state.promptOpen
           ? <EventAddPrompt
+            eventsCol={eventsCol}
             slotInfo={this.state.slotInfo}
             open={this.state.promptOpen}
             onClickClose={this.handlePromptClose}
@@ -120,14 +113,9 @@ Calendar.propTypes = {
 const authCondition = (authUser) => !!authUser;
 
 export default compose(
-   withAuthorization(authCondition),
-   withData(() =>
-    <LinearProgress
-       variant='query'
-       color='secondary'
-       className='calendar-loader'
-    />, 'events'),
-   inject('dataStore'),
-   observer,
-   withStyles(styles)
+  withAuthorization(authCondition),
+  withData(['/events']),
+  inject('dataStore'),
+  withStyles(styles),
+  observer
 )(Calendar);

@@ -1,4 +1,6 @@
 import React from 'react';
+import { compose } from 'recompose';
+import withAuthorization from '../Session/withAuthorization';
 import Slide from 'material-ui/transitions/Slide';
 import Sticky from 'react-sticky-el';
 import './Clients.css'
@@ -26,7 +28,7 @@ class Clients extends React.Component {
         <ClientList onClientClick={this.setClickedClient} />
         <div className='scrollarea' style={{flexGrow:1}}>
           <Sticky topOffset={-88} stickyClassName='sticks'>
-            <Slide direction="up" in={this.state.selectedClient ? true : false} mountOnEnter unmountOnExit>
+            <Slide direction="up" in={!!this.state.selectedClient} mountOnEnter unmountOnExit>
               <ClientDetail client={this.state.selectedClient} />
             </Slide>
           </Sticky>
@@ -36,4 +38,8 @@ class Clients extends React.Component {
   }
 }
 
-export default Clients;
+const authCondition = (authUser) => !!authUser;
+
+export default compose(
+  withAuthorization(authCondition)
+)(Clients);

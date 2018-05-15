@@ -1,9 +1,10 @@
 import React, {Component} from 'react';
+import { inject, observer } from 'mobx-react';
+import { compose } from 'recompose';
+import withAuthorization from '../Session/withAuthorization';
+import withData from '../Session/withData';
 import PropTypes from 'prop-types';
 import { withStyles } from 'material-ui/styles';
-import {observer} from 'mobx-react';
-import { venues } from '../appStore'
-import { clients } from '../appStore'
 import { InputLabel } from 'material-ui/Input';
 import { FormControl } from 'material-ui/Form';
 import Select from 'material-ui/Select';
@@ -25,10 +26,10 @@ const styles = theme => ({
   },
 });
 
-const DocSelector = observer(class DocSelector extends Component {
+class DocSelector extends Component {
 
   whichDocs = () => {
-    const {client, venue} = this.props
+    const {dataStore: {clients, venues}, client, venue} = this.props
     if (client) {
       return clients.docs
     } else if (venue) {
@@ -78,17 +79,17 @@ const DocSelector = observer(class DocSelector extends Component {
                 const { name } = data
                 return <MenuItem key={id} value={path}>{name}</MenuItem>
               })
-              :docs.map(doc =>{
+              :!!docs && docs.map(doc =>{
               const { id, data, path } = doc
-              const { name } = data
-              return <MenuItem key={id} value={path}>{client ? `${name.first} ${name.last}` : name}</MenuItem>
+              const { first_name, last_name, name } = data
+              return <MenuItem key={id} value={path}>{client ? `${first_name} ${last_name}` : name}</MenuItem>
             })}
           </Select>
         </FormControl>
       </div>
     )
   }
-});
+};
 
 DocSelector.propTypes = {
   classes: PropTypes.object.isRequired,
@@ -99,4 +100,13 @@ DocSelector.propTypes = {
   onDocSelect: PropTypes.func.isRequired,
 };
 
-export default withStyles(styles)(DocSelector)
+// const clientsQuery = (props, collection) => (
+//   collection.ref.orderBy('name.last', 'asc')
+// )
+
+export default compose(
+  withData(['/clients', '/venues']),
+  inject('dataStore'),
+  withStyles(styles),
+  observer
+)(DocSelector)

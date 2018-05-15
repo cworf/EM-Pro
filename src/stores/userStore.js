@@ -1,14 +1,17 @@
 import { observable, action } from 'mobx';
+import { Document } from 'firestorter'
 
 class UserStore {
-  @observable user = {};
 
   constructor(rootStore) {
     this.rootStore = rootStore;
+    this.user = new Document()
   }
 
-  @action setUser = user => {
-    this.user = user;
+  @action setUser = path => {
+    if (this.user.path !== path){ 
+      this.user.path = path;
+    }
   }
 }
 

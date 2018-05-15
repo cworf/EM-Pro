@@ -1,30 +1,13 @@
-import { db } from './firebase';
+import {Document} from 'firestorter'
 
 // User API
 
-export const doCreateUser = (id, username, email) =>
-  db.doc(`users/${id}`).set({
+export const doCreateUser = async(id, username, email) =>{
+const user = new Document(`users/${id}`)
+  return await user.set({
     username,
     email,
+    company: 'somethingelse'
   });
-
-export const getUser = (user) =>
-  db.doc(`users/${user.uid}`).get();
-
-export const getData = (company, request) => {
-  const count = query => {
-    const regex = /\//g
-    return ((query || '').match(regex) || []).length
-  }
-  const promises = []
-  for (let i = 0; i < request.length; i++) {
-    if (request[i] === '/') {
-      promises[i] = db.doc(`companies/${company}`).get()
-    } else {
-      count(request[i]) % 2 === 0 //has even number of forward slashes
-        ? promises[i] = db.collection(`companies/${company}/${request[i]}`).get()
-        : promises[i] = db.doc(`companies/${company}/${request[i]}`).get()
-    }
-  }
-  return Promise.all(promises)
 }
+// Other db APIs ...

@@ -19,7 +19,7 @@ const db = admin.firestore()
 
 
 // Update the search index every time an inventory item is written.
-exports.onInventoryItemCreated = functions.firestore.document('inventory/{inventoryId}').onWrite(event => {
+exports.onInventoryItemCreated = functions.firestore.document('companies/{companiesId}/inventory/{inventoryId}').onWrite(event => {
     // Get the inventory document
     const item = event.data.exists ? event.data.data() : event.data.previous.data()
     const isDeleted = event.data.exists ? false : true
@@ -33,8 +33,9 @@ exports.onInventoryItemCreated = functions.firestore.document('inventory/{invent
       : index.saveObject(item)
 });
 
-exports.detectConflict = functions.firestore.document(`inventory/{inventoryId}/orders/{orderId}`).onWrite(event => {
+exports.detectConflict = functions.firestore.document(`companies/{companyId}/inventory/{inventoryId}/orders/{orderId}`).onWrite(event => {
   const eventStatus = event.data.exists ? event.data.data() : event.data.previous.data()
+    const {companyId} = event.params
   const isDeleted = event.data.exists ? false : true
   const triggerId = event.data.id
   const triggerStart = eventStatus.start
@@ -46,7 +47,7 @@ exports.detectConflict = functions.firestore.document(`inventory/{inventoryId}/o
   const itemPath = eventStatus.item_ref
   const getItemOrders = db.collection(`${itemPath}/orders`).get()
   const getItem = db.doc(itemPath).get()
-  const getConflicts = db.collection('conflicts').get()
+  const getConflicts = db.collection(`companies/${companyId}/conflicts`).get()
 
   return Promise.all([getItemOrders, getItem, getConflicts])
     .then(results => {
@@ -71,7 +72,7 @@ exports.detectConflict = functions.firestore.document(`inventory/{inventoryId}/o
 
       if (totalRequestedQty > totalInStock) {
         /*eslint-disable*/
-        db.collection('conflicts').add({
+        db.collection(`companies/${event.params.companyId}/conflicts`).add({
           item_name: itemName,
           affected: overlappingEvents,
           qty_request: totalRequestedQty,
@@ -88,7 +89,7 @@ exports.detectConflict = functions.firestore.document(`inventory/{inventoryId}/o
           const {affected, item_name} = conflict.data()
           if (item_name === itemName && affected.includes(eventRef)) {
             console.log('deleted conflict: ',conflict.id, '=>', itemName, '... conflict was resolved' );
-            db.collection('conflicts').doc(conflict.id).delete()
+            db.collection(`companies/${companyId}/conflicts`).doc(conflict.id).delete()
           }
         })
       }
@@ -103,11 +104,13 @@ exports.detectConflict = functions.firestore.document(`inventory/{inventoryId}/o
 })
 
 
-exports.cleanOrdersOnDelete = functions.firestore.document(`events/{eventsId}`).onDelete(event => {
+exports.cleanOrdersOnDelete = functions.firestore.document(`companies/{companyId}/events/{eventId}`).onDelete(event => {
   const eventData = event.data.previous.data()
-  const eventPath = 'events/' + event.data.previous.id
+  const {companyId, eventId} = event.params
+  console.log('eventstuff', event);
+  const orders = `companies/${companyId}/events/${eventId}/orders`
 
-  return db.collection(`${eventPath}/orders`).get()
+  return db.collection(orders).get()
     .then(eventOrders => {
       return eventOrders.forEach(order => {
         const {order_ref} = order.data()

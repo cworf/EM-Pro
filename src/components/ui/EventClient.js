@@ -16,11 +16,11 @@ const EventClient = observer(class EventClient extends Component {
   render(){
     const {data, snapshot} = this.eventClientDoc
     if (!snapshot) return null;
-    const {name, phone} = data
+    const {first_name, phone} = data
     return (
       <div>
         {phone}
-        {name.first}
+        {first_name}
       </div>
     );
   }

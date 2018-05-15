@@ -1,4 +1,6 @@
 import React from 'react';
+import { inject, observer } from 'mobx-react';
+import { compose } from 'recompose';
 import withAuthorization from '../Session/withAuthorization';
 import withData from '../Session/withData';
 import Button from 'material-ui/Button';
@@ -12,8 +14,7 @@ import { withStyles } from 'material-ui/styles';
 import { ListItem, ListItemIcon, ListItemText } from 'material-ui/List';
 import ErrorIcon from 'material-ui-icons/Error';
 import Badge from 'material-ui/Badge';
-import { inject, observer } from 'mobx-react';
-import { compose } from 'recompose';
+import {firebase} from '../../firebase';
 import Table, { TableBody, TableCell, TableHead, TableRow } from 'material-ui/Table';
 import moment from 'moment';
 
@@ -38,7 +39,7 @@ function Transition(props) {
   return <Slide direction="up" {...props} />;
 }
 
-class Conflicts extends React.Component {
+const Conflicts = observer(class Conflicts extends React.Component {
   state = {
     open: false,
   };
@@ -54,10 +55,9 @@ class Conflicts extends React.Component {
   formatDate = (date) => moment(date).format('l')
 
   render() {
-    const {classes, dataStore:{companyData}} = this.props
-    const conflicts = companyData.get('conflicts')
+    const {dataStore: {conflicts}} = this.props
     const {length} = conflicts.docs
-    console.log('length', length);
+    const {classes} = this.props
     return (
       <div>
         <ListItem button onClick={this.handleClickOpen}>
@@ -94,11 +94,11 @@ class Conflicts extends React.Component {
                 </TableRow>
               </TableHead>
               <TableBody>
-                {conflicts.docs.map((conflict) => {
-                  const {item_name, qty_request, total_stock, from, to, affected} = conflict.data()
+                {conflicts.docs.map((n) => {
+                  const {item_name, qty_request, total_stock, from, to, affected} = n.data
                   console.log(from, "=>", to);
                   return (
-                    <TableRow key={conflict.id}>
+                    <TableRow key={n.id}>
                       <TableCell>{item_name}</TableCell>
                       <TableCell numeric>{qty_request}</TableCell>
                       <TableCell numeric>{total_stock}</TableCell>
@@ -122,12 +122,14 @@ class Conflicts extends React.Component {
       </div>
     );
   }
-}
+})
+
 const authCondition = (authUser) => !!authUser;
 
 export default compose(
   withAuthorization(authCondition),
-  withData('conflicts'),
+  withData(['/conflicts']),
   inject('dataStore'),
-  withStyles(styles)
+  withStyles(styles),
+  observer
 )(Conflicts);

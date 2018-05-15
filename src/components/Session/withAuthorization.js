@@ -11,18 +11,24 @@ const withAuthorization = (condition) => (Component) => {
       firebase.auth.onAuthStateChanged(authUser => {
         if (!condition(authUser)) {
           this.props.history.push('/signin');
+        } else {
+          this.props.userStore.setUser(`users/${authUser.uid}`)
         }
       });
     }
 
+
     render() {
-      return this.props.sessionStore.authUser ? <Component /> : null;
+      const {sessionStore: {authUser}, userStore: {user}, ...other} = this.props
+      return authUser && user.data
+        ? <Component {...other} />
+        : null;
     }
   }
 
   return compose(
     withRouter,
-    inject('dataStore', 'sessionStore'),
+    inject('sessionStore', 'userStore'),
     observer
   )(WithAuthorization);
 }

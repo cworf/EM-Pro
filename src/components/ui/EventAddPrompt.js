@@ -11,7 +11,6 @@ import TextField from 'material-ui/TextField';
 import moment from 'moment';
 import { FormGroup, FormControlLabel } from 'material-ui/Form';
 import Checkbox from 'material-ui/Checkbox';
-import {eventsCol} from '../appStore';
 import {observer} from 'mobx-react';
 import defaultEvent from '../../assets/data/defaultEvent';
 import Typography from 'material-ui/Typography';
@@ -41,7 +40,7 @@ const EventAddPrompt = observer(class EventAddPrompt extends React.Component {
     const {eventName, eventTimeStart, eventTimeEnd, isAllDay} = this.state
     this.props.onClickClose('new');
     try {
-      await eventsCol.add({
+      await this.props.eventsCol.add({
         ...defaultEvent,
         end: eventTimeEnd,
         start: eventTimeStart,
