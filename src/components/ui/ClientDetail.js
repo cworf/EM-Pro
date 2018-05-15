@@ -16,7 +16,7 @@ const styles = theme => ({
   },
 });
 
-function ClientDetail({ classes, client: {company, name} }) {
+function ClientDetail({ classes, client: {company, first_name, last_name} }) {
   return (
     <div className={classes.outer}>
       <Paper className={classes.root} elevation={4}>
@@ -24,7 +24,7 @@ function ClientDetail({ classes, client: {company, name} }) {
           details about {company}
         </Typography>
         <Typography variant="caption">
-          {`${name.first} ${name.last}`}
+          {`${first_name} ${last_name}`}
         </Typography>
       </Paper>
     </div>

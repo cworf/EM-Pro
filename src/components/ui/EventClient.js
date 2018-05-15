@@ -1,9 +1,10 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import {observer} from 'mobx-react';
+import {compose} from 'recompose';
 import { Document } from 'firestorter';
 
-const EventClient = observer(class EventClient extends Component {
+class EventClient extends Component {
 
   eventClientDoc = new Document(this.props.client); //
 
@@ -24,10 +25,12 @@ const EventClient = observer(class EventClient extends Component {
       </div>
     );
   }
-})
+}
 
 EventClient.propTypes = {
   client: PropTypes.string.isRequired,
 }
 
-export default EventClient;
+export default compose(
+  observer,
+)(EventClient);

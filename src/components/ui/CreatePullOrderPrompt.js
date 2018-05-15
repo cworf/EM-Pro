@@ -142,7 +142,6 @@ const CreatePullOrderPrompt = observer(class CreatePullOrderPrompt extends React
     const {dateTimeEnd, dateTimeStart, pullQty} = this.state;
     const {eventDoc, item } = this.props;
     const qtyInt = parseInt(pullQty, 10);
-    // const newOrderDoc = new Document('orders')
     const itemOrdersCol = new Collection(() => `${item.path}/orders`); //item sub collection
     const eventOrdersCol = new Collection(() => `${eventDoc.path}/orders`); //item sub collection
     if (pullQty > 0 && qtyInt <= item.data.in_stock) {

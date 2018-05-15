@@ -1,26 +1,45 @@
 import React from 'react';
-import {Document, Collection} from 'firestorter';
-import {observer} from 'mobx-react';
+import {compose} from 'recompose'
+import withAuthorization from '../Session/withAuthorization'
+import withData from '../Session/withData'
+import {observer, inject} from 'mobx-react';
 import Typography from 'material-ui/Typography';
 import Divider from 'material-ui/Divider';
 
 
 
-const VenueDetail = observer(class VenueDetail extends React.Component {
-
-  venue = new Document(`venues/${this.props.match.params.id}`)
-  stages = new Collection(`venues/${this.props.match.params.id}/stages`)
+class VenueDetail extends React.Component {
 
   render(){
+    const {
+      dataStore : {dynamicDocs, dynamicCols},
+      userStore: {user: {data: {company}}},
+      match: {params: {id}}
+    } = this.props
+
+    const venue = dynamicDocs.get(`companies/${company}/venues/${id}`)
+    const stages = dynamicCols.get(`companies/${company}/venues/${id}/stages`)
+
+    if (!(venue && stages)) return null
+
     return (
       <div>
         <Typography variant="display1" gutterBottom>
-          {this.venue.data.name}
+          {venue.data.name}
         </Typography>
         <Divider />
       </div>
     );
   }
-})
+}
 
-export default VenueDetail;
+const authCondition = (authUser) => !!authUser;
+export default compose(
+  withAuthorization(authCondition),
+  withData((props, company) => ([
+    `companies/${company}/venues/${props.match.params.id}`,
+    `companies/${company}/venues/${props.match.params.id}/stages`
+  ])),
+  inject('userStore', 'dataStore'),
+  observer,
+)(VenueDetail);
