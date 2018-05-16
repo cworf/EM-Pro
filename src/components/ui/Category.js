@@ -17,6 +17,10 @@ const styles = theme => ({
   root: {
     flexGrow: 1,
   },
+  altRoot: {
+    maxHeight: '90vh',
+    overflow: 'auto',
+  },
   heading: {
     fontSize: theme.typography.pxToRem(15),
     fontWeight: theme.typography.fontWeightRegular,
@@ -33,7 +37,7 @@ const Category = observer(function Category(props) {
   const { classes, types, picker, eventDoc } = props;
   if (types) {
     return (
-      <div className={classes.root}>
+      <div className={picker ? classes.altRoot : classes.root}>
         {types.map(function(type, i){
           return (
             <ExpansionPanel key={i} className={classes.paper}>
