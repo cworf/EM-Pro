@@ -11,13 +11,14 @@ class InventoryDetail extends React.Component {
 
   render(){
     const {
-      dataStore : {dynamicDocs},
+      dataStore : {dynamicDocs, dynamicCols},
       userStore: {user},
       match
     } = this.props
 
     const item = dynamicDocs.get(`companies/${user.data.company}/inventory/${match.params.id}`)
-    if (!item) return null
+    const orders = dynamicCols.get(`companies/${user.data.company}/inventory/${match.params.id}/orders`)
+    if (!(item && orders)) return null
     const {
       data: {
         model, manufacturer, series, in_stock, name, inventory
@@ -29,7 +30,21 @@ class InventoryDetail extends React.Component {
         <Typography variant="display1" gutterBottom>
           {manufacturer} {series} {model}
         </Typography>
-        <Divider />
+        <Divider style={{marginTop: 10}} />
+        <Typography variant="title" gutterBottom>
+          {name}
+        </Typography>
+        <Typography variant="display2" gutterBottom>
+          Order History
+        </Typography>
+        {orders.docs.map(order =>
+          <div key={order.id}>
+            {order.data.start} --
+            {order.data.end}  --
+            {order.data.qty}
+          </div>
+        )}
+
       </div>
     );
   }
@@ -38,9 +53,10 @@ class InventoryDetail extends React.Component {
 const authCondition = (authUser) => !!authUser;
 export default compose(
   withAuthorization(authCondition),
-  withData((props, company) => (
-    [`companies/${company}/inventory/${props.match.params.id}`]
-  )),
+  withData((props, company) => ([
+    `companies/${company}/inventory/${props.match.params.id}`,
+    `companies/${company}/inventory/${props.match.params.id}/orders`
+  ])),
   inject('userStore', 'dataStore'),
   observer,
 )(InventoryDetail);

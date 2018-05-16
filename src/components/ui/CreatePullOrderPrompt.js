@@ -137,7 +137,7 @@ const CreatePullOrderPrompt = observer(class CreatePullOrderPrompt extends React
     );
   }
 
-  handleCreateOrder = async(event) => {
+  handleCreateOrder = (event) => {
     event.preventDefault();
     const {dateTimeEnd, dateTimeStart, pullQty} = this.state;
     const {eventDoc, item } = this.props;
@@ -147,7 +147,7 @@ const CreatePullOrderPrompt = observer(class CreatePullOrderPrompt extends React
     if (pullQty > 0 && qtyInt <= item.data.in_stock) {
       this.handleClose()
       try {
-        await itemOrdersCol.add({
+        itemOrdersCol.add({
           item_name: `${item.data.manufacturer} ${item.data.series} ${item.data.model}`,
           item_ref: item.path,
           event_ref: eventDoc.path,
@@ -160,8 +160,8 @@ const CreatePullOrderPrompt = observer(class CreatePullOrderPrompt extends React
           returned_by: '',
           category: item.data.category
         })
-        .then(async(response) => {
-          await eventOrdersCol.add({
+        .then((response) => {
+          eventOrdersCol.add({
             order_ref: response.path
           })
         });

@@ -87,8 +87,9 @@ const RenderOrEdit = observer(class RenderOrEdit extends Component {
 
   render(){
     const {classes, section, type, eventDoc, field, noLabel, small, span, color} = this.props;
-    const thisValue = section ? eventDoc.data[section][field] : eventDoc.data[field]
     if (!eventDoc) return null
+    if (!eventDoc.data) return null
+    const thisValue = section ? eventDoc.data[section][field] : eventDoc.data[field]
     if ( this.state.editingField) {
       return (
         <form onSubmit={this.handleSaveClick(section, field)} style={{

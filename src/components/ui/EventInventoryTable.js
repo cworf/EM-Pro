@@ -1,11 +1,11 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import {observer} from 'mobx-react';
+import {observer, inject} from 'mobx-react';
+import {compose} from 'recompose'
+import withData from '../Session/withData'
 import { withStyles } from 'material-ui/styles';
 import Table, { TableBody, TableCell, TableHead, TableRow } from 'material-ui/Table';
 import Paper from 'material-ui/Paper';
-
-import { Collection } from 'firestorter';
 
 import EventInventoryTableRow from './EventInventoryTableRow'
 
@@ -22,17 +22,10 @@ const styles = theme => ({
   },
 });
 
-const EventInventoryTable = observer(class EventInventoryTable extends Component {
+class EventInventoryTable extends Component {
 
-  eventOrdersColRef = new Collection(`${this.props.eventDoc.path}/orders`);
   state = {
     hasOrders: false
-  }
-
-  componentWillReceiveProps(newProps) {
-    if (newProps.eventDoc !== this.props.eventDoc) {
-      this.eventOrdersColRef.path = `${newProps.eventDoc.path}/orders`;
-    }
   }
 
   handleHasOrders = () => {
@@ -41,7 +34,14 @@ const EventInventoryTable = observer(class EventInventoryTable extends Component
 
 
   render(){
-    const { classes, category } = this.props;
+    const {
+      dataStore: {dynamicCols},
+      classes,
+      category
+    } = this.props,
+    eventOrdersColRef = dynamicCols.get(`${this.props.eventDoc.path}/orders`)
+    if (!eventOrdersColRef) return null
+
     return (
       <Paper className={classes.root}>
         <Table className={classes.table}>
@@ -63,7 +63,7 @@ const EventInventoryTable = observer(class EventInventoryTable extends Component
 
             </TableHead>
           <TableBody>
-          {this.eventOrdersColRef.docs.map(orderRefDoc =>
+          {eventOrdersColRef.docs.map(orderRefDoc =>
             <EventInventoryTableRow key={orderRefDoc.id}
               document={orderRefDoc}
               order_ref={orderRefDoc.data.order_ref}
@@ -76,11 +76,16 @@ const EventInventoryTable = observer(class EventInventoryTable extends Component
       </Paper>
     );
   }
-});
+};
 
 EventInventoryTable.propTypes = {
   eventDoc: PropTypes.any.isRequired,
   category: PropTypes.string
 }
 
-export default withStyles(styles)(EventInventoryTable);
+export default compose(
+  withData(({eventDoc}) => [`${eventDoc.path}/orders`]),
+  inject('dataStore'),
+  withStyles(styles),
+  observer,
+)(EventInventoryTable);
