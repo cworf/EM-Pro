@@ -11,6 +11,7 @@ import Slide from 'material-ui/transitions/Slide';
 
 import InventoryOrders from '../ui/InventoryOrders'
 import EventDetail from '../pages/EventDetail';
+import MaintenanceTicketList from '../ui/MaintenanceTicketList';
 
 function Transition(props) {
   return <Slide direction="up" {...props} />;
@@ -32,13 +33,14 @@ class InventoryDetail extends React.Component {
   render(){
     const {
       dataStore : {dynamicDocs, dynamicCols},
-      userStore: {user},
-      match,
+      userStore: {user: {data: {company}}},
+      match: {params: {id}},
     } = this.props
     console.log(dynamicCols);
-    const item = dynamicDocs.get(`companies/${user.data.company}/inventory/${match.params.id}`)
-    const orders = dynamicCols.get(`companies/${user.data.company}/inventory/${match.params.id}/orders`)
-    if (!(item && orders)) return null
+    const item = dynamicDocs.get(`companies/${company}/inventory/${id}`)
+    const orders = dynamicCols.get(`companies/${company}/inventory/${id}/orders`)
+    const tickets = dynamicCols.get(`companies/${company}/inventory/${id}/maintenance`)
+    if (!(item && orders && tickets)) return null
     const {
       data: {
         model, manufacturer, series, in_stock, name, inventory, weight, image, type
@@ -79,6 +81,7 @@ class InventoryDetail extends React.Component {
             </Grid>
           </Grid>
         </Grid>
+        <MaintenanceTicketList  />
         <InventoryOrders orders={orders} onRowClick={this.handleEventClick} />
         <Dialog
           fullScreen
@@ -96,9 +99,10 @@ class InventoryDetail extends React.Component {
 const authCondition = (authUser) => !!authUser;
 export default compose(
   withAuthorization(authCondition),
-  withData((props, company) => ([
-    `companies/${company}/inventory/${props.match.params.id}`,
-    `companies/${company}/inventory/${props.match.params.id}/orders`
+  withData(({match:{params:{id}}}, company) => ([
+    `companies/${company}/inventory/${id}`,
+    `companies/${company}/inventory/${id}/orders`,
+    `companies/${company}/inventory/${id}/maintenance`
   ]), ['', (props, collection) => (
     collection.ref.orderBy('start', 'desc')
   )]),
