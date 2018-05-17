@@ -12,7 +12,7 @@ function MaintenanceTicketList(props){
       </Typography>
       <Paper>
         <Typography variant="body" gutterBottom style={{padding:20}}>
-          No Maintenance Tickets have been created for this item
+          No Maintenance Tickets have beehn created for this item
         </Typography>
       </Paper>
     </div>

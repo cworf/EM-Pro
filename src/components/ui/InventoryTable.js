@@ -52,8 +52,8 @@ const InventoryTable = observer(class InventoryTable extends React.Component{
                 && <TableRow key={id}>
                     <TableCell>{manufacturer} {series} {model}</TableCell>
                     <TableCell>{name}</TableCell>
-                    <TableCell numeric>{stock ? <RenderOrEdit noLabel small eventDoc={item} type='number' field='inventory' /> : inventory}</TableCell>
-                    <TableCell numeric>{in_stock}</TableCell>
+                    <TableCell padding='dense' numeric>{stock ? <RenderOrEdit noLabel small eventDoc={item} type='number' field='inventory' /> : inventory}</TableCell>
+                    <TableCell padding='dense' numeric>{in_stock}</TableCell>
                     {picker &&
                       <TableCell padding='checkbox'>
                         <CreatePullOrderPrompt item={item} eventDoc={eventDoc} />
