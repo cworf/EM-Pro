@@ -23,7 +23,7 @@ const styles = theme => ({
   },
 });
 
-const InventoryTable = observer(class InventoryTable extends React.Component{
+class InventoryTable extends React.Component{
 
   render(){
     const {
@@ -80,7 +80,7 @@ const InventoryTable = observer(class InventoryTable extends React.Component{
       </Paper>
     );
   }
-})
+}
 
 InventoryTable.propTypes = {
   type: PropTypes.string,

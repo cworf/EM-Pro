@@ -1,4 +1,6 @@
 import React from 'react';
+import { inject} from 'mobx-react';
+import { compose } from 'recompose';
 import PropTypes from 'prop-types';
 import Button from 'material-ui/Button';
 import TextField from 'material-ui/TextField';
@@ -14,7 +16,6 @@ import { MenuItem } from 'material-ui/Menu';
 import { FormControl } from 'material-ui/Form';
 import Select from 'material-ui/Select';
 import {inventoryCategories} from '../../assets/data/taxonomies';
-import {inventory} from '../appStore'
 
 const styles = theme => ({
   button: {
@@ -76,6 +77,7 @@ class AddInventory extends React.Component {
   };
 
   handleSubmit = (event) => {
+    const {dataStore: {inventory}} = this.props
     event.preventDefault()
     let {open, inventoryCount, in_stock, weight, ...data} = this.state
     inventoryCount = parseInt(inventoryCount, 10)
@@ -247,4 +249,7 @@ AddInventory.propTypes = {
   classes: PropTypes.object.isRequired,
 };
 
-export default withStyles(styles)(AddInventory)
+export default compose(
+  inject('dataStore'),
+  withStyles(styles)
+)(AddInventory)
