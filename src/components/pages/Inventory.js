@@ -8,7 +8,7 @@ function Inventory(props){
 
   return (
     <Paper style={{maxWidth:1000,
-      padding: 20,
+      padding: 21,
       background: '#2d323a',
       margin: 'auto',}}>
       <Switch>
