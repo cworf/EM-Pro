@@ -17,7 +17,11 @@ import IconButton from 'material-ui/IconButton';
 import MenuIcon from 'material-ui-icons/Menu';
 import ChevronLeftIcon from 'material-ui-icons/ChevronLeft';
 import ChevronRightIcon from 'material-ui-icons/ChevronRight';
-import { topMenuItems, bottomMenuItems } from '../assets/data/menuData';
+import {
+  topMenuItems,
+  bottomMenuItems,
+  middleMenuItems
+} from '../assets/data/menuData';
 import { Switch, Route } from 'react-router-dom';
 import './App.css';
 import DummyEvents from '../assets/data/events';
@@ -239,9 +243,11 @@ class App extends React.Component {
           <List>{topMenuItems}</List>
           <Divider />
           <List>
-            {bottomMenuItems}
+            {middleMenuItems}
             <Conflicts />
           </List>
+          <Divider />
+          <List>{bottomMenuItems}</List>
           <Divider />
         </Drawer>
         <main
