@@ -35,13 +35,13 @@ class InventoryDetail extends React.Component {
       userStore: {user},
       match,
     } = this.props
-
+    console.log(dynamicCols);
     const item = dynamicDocs.get(`companies/${user.data.company}/inventory/${match.params.id}`)
     const orders = dynamicCols.get(`companies/${user.data.company}/inventory/${match.params.id}/orders`)
     if (!(item && orders)) return null
     const {
       data: {
-        model, manufacturer, series, in_stock, name, inventory, image
+        model, manufacturer, series, in_stock, name, inventory, weight, image, type
       }
     } = item
 
@@ -63,11 +63,22 @@ class InventoryDetail extends React.Component {
               Details
             </Typography>
             <Divider style={{marginTop: 10, marginBottom:15}} />
+            <Grid container>
+              <Grid item xs={6}>
+                <strong>Weight:</strong> {weight} lbs
+              </Grid>
+              <Grid item xs={6}>
+                <strong>Type:</strong> {type}
+              </Grid>
+              <Grid item xs={6}>
+                <strong>Currently Stocked:</strong> {inventory}
+              </Grid>
+              <Grid item xs={6}>
+                <strong>Available:</strong> {in_stock}
+              </Grid>
+            </Grid>
           </Grid>
         </Grid>
-        <Typography variant="display1" gutterBottom>
-          Order History
-        </Typography>
         <InventoryOrders orders={orders} onRowClick={this.handleEventClick} />
         <Dialog
           fullScreen
@@ -89,7 +100,7 @@ export default compose(
     `companies/${company}/inventory/${props.match.params.id}`,
     `companies/${company}/inventory/${props.match.params.id}/orders`
   ]), ['', (props, collection) => (
-    collection.ref.orderBy('start', 'asc')
+    collection.ref.orderBy('start', 'desc')
   )]),
   inject('userStore', 'dataStore'),
   observer,

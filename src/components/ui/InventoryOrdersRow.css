@@ -2,3 +2,12 @@
   background: #ffffff21;
   cursor: pointer
 }
+
+.row-now {
+  box-shadow: inset 8px -1px #f3bf75;
+  background: #f3bf7521;
+}
+.row-future {
+  box-shadow: inset 8px -1px #98c363;
+  background: #98c36321
+}

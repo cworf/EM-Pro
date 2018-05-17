@@ -17,7 +17,7 @@ class DataStore {
   }
 
   @action setData = (storeAs, path) => {
-    this[storeAs].path = path
+    if (this[storeAs].path !== path) this[storeAs].path = path
   }
   @action setDataMap = (path) => {
     const sections = path.split('/').length
@@ -26,7 +26,11 @@ class DataStore {
     } else {
       this.dynamicCols.set(path, new Collection(path))
     }
-
+  }
+  @action setQueryOnMap = (path, getQuery) => {
+    const collection = this.dynamicCols.get(path)
+    if (collection.query !== !!getQuery && getQuery(collection))
+    collection.query = !!getQuery && getQuery(collection)
   }
   @action setQuery = (storeAs, getQuery) => {
     if (this[storeAs].query !== !!getQuery && getQuery(this[storeAs])) {

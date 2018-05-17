@@ -22,7 +22,7 @@ const withData = (requests, queries) => (Component) => {
     componentDidMount() {
       const {
         sessionStore: {authUser},
-        dataStore: {setDataMap, setData, setQuery},
+        dataStore: {setDataMap, setData, setQuery, setQueryOnMap},
         userStore: {user}
       } = this.props
       !!authUser && user.ready()
@@ -32,6 +32,7 @@ const withData = (requests, queries) => (Component) => {
             const dynamicRequests = requests(this.props, user.data.company)
             for (var i = 0; i < dynamicRequests.length; i++) {
               setDataMap(dynamicRequests[i])
+              !!(queries && queries[i]) && setQueryOnMap(dynamicRequests[i], getQuery(queries[i]))
             }
           } else {
             for (var i = 0; i < requests.length; i++) {

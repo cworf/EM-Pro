@@ -1,0 +1,17 @@
+span.future-key {
+    align-self: stretch;
+    background: #98c36321;
+    padding: 17px;
+    border-left: 8px solid #98c363;
+    border-bottom: 1px solid #98c363;
+    color: #fff;
+}
+
+span.now-key {
+    align-self: stretch;
+    background: #f3bf7521;
+    padding: 17px;
+    border-left: 8px solid #f3bf75;
+    border-bottom: 1px solid #f3bf75;
+    color: #fff;
+}
