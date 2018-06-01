@@ -16,6 +16,8 @@ A full featured equipment management platform for multi-location Pro Audio compa
 
 ### Tools Used
 - React JavaScript framework
+- MobX state management
+- firestorter (enhanced mobx obserevable and firestore bindings)
 - FireBase user authentication
 - FireStore NoSQL database
 - Material-UI
